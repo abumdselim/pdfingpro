@@ -160,7 +160,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-6 py-12 grid sm:grid-cols-3 gap-8 text-center">
           {[
             { icon: "lock", titleKey: "home.private.title", bodyKey: "home.private.body" },
-            { icon: "code", titleKey: "home.openSource.title", bodyKey: "home.openSource.body" },
+            { icon: "wifi_off", titleKey: "home.offlineSupport.title", bodyKey: "home.offlineSupport.body" },
             { icon: "bolt", titleKey: "home.noLimits.title", bodyKey: "home.noLimits.body" },
           ].map(({ icon, titleKey, bodyKey }) => (
             <div key={titleKey} className="flex flex-col items-center gap-3">

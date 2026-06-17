@@ -53,8 +53,8 @@
   "home.importantNote.body": "Since everything runs on your device, very large files and OCR can take longer depending on your phone/computer.",
   "home.private.title": "100% Private",
   "home.private.body": "Files never leave your device. All processing happens in the browser.",
-  "home.openSource.title": "Open Source",
-  "home.openSource.body": "Full source code on GitHub. Inspect, contribute or self-host freely.",
+  "home.offlineSupport.title": "Offline Support",
+  "home.offlineSupport.body": "Works without internet. Process all files directly on your computer or phone.",
   "home.noLimits.title": "No Limits",
   "home.noLimits.body": "No file-size caps, no sign-up required, no watermarks added.",
 
