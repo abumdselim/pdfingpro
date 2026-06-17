@@ -1,0 +1,71 @@
+{
+  "name": "hellopdf",
+  "version": "1.0.0-beta.1",
+  "private": true,
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "next dev",
+    "build": "npm run build:web",
+    "build:web": "next build",
+    "build:desktop": "node scripts/build-desktop.mjs",
+    "start": "next start",
+    "desktop": "electron .",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@pdfsmaller/pdf-encrypt-lite": "^1.0.2",
+    "docx": "^8.5.0",
+    "jszip": "^3.10.1",
+    "modern-pdf-lib": "^0.26.0",
+    "next": "14.2.29",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "3.11.174",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-dropzone": "^14.3.5",
+    "tesseract.js": "^5.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.29",
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.8",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  },
+  "build": {
+    "appId": "com.hellopdf",
+    "productName": "HelloPDF",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      ".next/**/*",
+      "app/**/*",
+      "assets/**/*",
+      "components/**/*",
+      "lib/**/*",
+      "locales/**/*",
+      "public/**/*",
+      "node_modules/**/*",
+      "package.json",
+      "next.config.mjs"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}
