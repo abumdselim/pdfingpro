@@ -2,13 +2,12 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import en from "@/locales/en.json";
-import es from "@/locales/es.json";
 
 // ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
-export type Locale = "en" | "es";
+export type Locale = "en";
 
 export interface I18nContextValue {
   locale: Locale;
@@ -22,12 +21,10 @@ export interface I18nContextValue {
 
 const LOCALES: Record<Locale, Record<string, string>> = {
   en: en as Record<string, string>,
-  es: es as Record<string, string>,
 };
 
 export const SUPPORTED_LOCALES: { id: Locale; label: string; flag: string }[] = [
   { id: "en", label: "English", flag: "🇺🇸" },
-  { id: "es", label: "Español", flag: "🇪🇸" },
 ];
 
 const STORAGE_KEY = "hellopdf-lang";
@@ -38,15 +35,6 @@ const DEFAULT_LOCALE: Locale = "en";
 // ---------------------------------------------------------------------------
 
 function detectLocale(): Locale {
-  // 1. localStorage
-  if (typeof window !== "undefined") {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored && stored in LOCALES) return stored as Locale;
-
-    // 2. Browser language
-    const nav = navigator.language?.split("-")[0];
-    if (nav && nav in LOCALES) return nav as Locale;
-  }
   return DEFAULT_LOCALE;
 }
 
