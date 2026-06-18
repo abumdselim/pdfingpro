@@ -21,6 +21,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -29,8 +30,6 @@
     background-image: radial-gradient(#cbd5e1 0.8px, transparent 0.8px);
     background-size: 20px 20px;
     color: #0f172a;
-    /* Lock scrollbar to prevent layout shift */
-    overflow-y: scroll;
   }
 
   :focus-visible {

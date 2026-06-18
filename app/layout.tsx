@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ScrollToTop from "@/components/layout/ScrollToTop";
 import { I18nProvider } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head />
       <body className="flex flex-col min-h-screen">
         <I18nProvider>
+          <ScrollToTop />
           <Header />
           <div className="flex-1">{children}</div>
           <Footer />

@@ -1,33 +1,48 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useTranslation } from "@/lib/i18n";
 
 export default function Header() {
   const { t } = useTranslation();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const prevOverflow = document.body.style.overflow;
+    const prevPaddingRight = document.body.style.paddingRight;
+
+    document.body.style.overflow = "hidden";
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
     }
+
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = prevOverflow;
+      document.body.style.paddingRight = prevPaddingRight;
     };
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/75 backdrop-blur-xl border-b border-slate-200/60 transition-all duration-300">
+    <header className="sticky top-0 z-50 w-full h-16 bg-white/75 backdrop-blur-xl border-b border-slate-200/60">
       <div className="max-w-5xl mx-auto h-16 flex items-center justify-between px-6 relative">
-        <Link href="/" className="flex items-center group" onClick={closeMenu}>
+        <Link href="/" className="flex items-center group shrink-0" onClick={closeMenu}>
           <img
             src="https://res.cloudinary.com/dgcnhseqm/image/upload/q_auto/f_auto/v1781765282/bengaldesk_3_svpztz.png"
             alt="Pdfing Pro Logo"
+            width={160}
+            height={40}
             className="h-10 w-auto drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
           />
         </Link>
