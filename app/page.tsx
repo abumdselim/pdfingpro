@@ -23,9 +23,9 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-teal-50/40 to-transparent -z-10" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-teal-400/8 blur-[100px] rounded-full pointer-events-none -z-10" />
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="animate-fade-in-up" style={{ animationDelay: '0ms' }}>
-            <div className="inline-flex items-center gap-2 bg-white/70 border border-slate-200/80 shadow-sm text-slate-600 text-xs font-bold px-4 py-1.5 rounded-full mb-8 tracking-wide uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
+          <div className="animate-fade-in-up flex justify-center w-full" style={{ animationDelay: '0ms' }}>
+            <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-white/70 border border-slate-200/80 shadow-sm text-slate-600 text-[clamp(0.5625rem,2.6vw,0.75rem)] font-bold px-3 sm:px-4 py-1.5 rounded-full mb-8 tracking-wide uppercase whitespace-nowrap">
+              <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse shrink-0" />
               {t("home.hero.badge")}
             </div>
           </div>

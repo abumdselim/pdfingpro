@@ -1,12 +1,11 @@
 // Lazy-load pdfjs-dist so it only runs in the browser.
-// The worker is loaded from the same CDN version to avoid mismatches.
+// Worker is self-hosted from /public/pdfjs (copied on postinstall).
 let _pdfjs: typeof import("pdfjs-dist") | null = null;
 
 export async function getPdfJs() {
   if (_pdfjs) return _pdfjs;
   _pdfjs = await import("pdfjs-dist");
-  _pdfjs.GlobalWorkerOptions.workerSrc =
-    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  _pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.js";
   return _pdfjs;
 }
 

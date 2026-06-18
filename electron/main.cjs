@@ -49,7 +49,7 @@ async function startDesktopApp() {
     backgroundColor: "#f8fafc",
     show: false,
     autoHideMenuBar: true,
-    title: "HelloPDF",
+    title: "Pdfing Pro",
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
@@ -78,7 +78,7 @@ async function startDesktopApp() {
 }
 
 app.whenReady().then(startDesktopApp).catch((error) => {
-  console.error("Failed to start HelloPDF desktop app:", error);
+  console.error("Failed to start Pdfing Pro desktop app:", error);
   app.quit();
 });
 

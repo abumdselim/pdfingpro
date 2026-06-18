@@ -1,16 +1,25 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import ToolLayout, { PrimaryButton, SecondaryButton, ToolCard } from "@/components/shared/ToolLayout";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import ToolLayout, { PrimaryButton, SecondaryButton, ToolCard, DownloadSuccess } from "@/components/shared/ToolLayout";
 import FileDropzone from "@/components/shared/FileDropzone";
-import { cn } from "@/lib/utils";
+import type { UrlToPdfRequest } from "@/lib/pdf/url-to-pdf-types";
+import { cn, downloadBlob } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n";
 
 type SourceMode = "url" | "html";
-type PageSize = "Letter" | "A4" | "Legal";
-type Orientation = "portrait" | "landscape";
-type FitMode = "natural" | "fit-width" | "compact";
-type MarginPreset = "none" | "small" | "normal" | "wide";
+type PageSize = UrlToPdfRequest["pageSize"];
+type Orientation = UrlToPdfRequest["orientation"];
+type FitMode = UrlToPdfRequest["fitMode"];
+type MarginPreset = UrlToPdfRequest["margin"];
+type PreviewStatus = "idle" | "loading" | "ready" | "blocked";
+type NoticeType = "success" | "warning" | "error";
+
+type Notice = {
+  type: NoticeType;
+  title?: string;
+  body: string;
+};
 
 const MARGINS: Record<MarginPreset, string> = {
   none: "0in",
@@ -37,11 +46,30 @@ const FIT_MODES: { id: FitMode; label: string; description: string }[] = [
   },
 ];
 
+const BLOCKED_IFRAME_PREFIXES = [
+  "chrome-error://",
+  "about:blank",
+  "about:neterror",
+  "moz-nullprincipal:",
+];
+
 function normalizeWebsiteUrl(input: string) {
   const trimmed = input.trim();
   if (!trimmed) return "";
-  if (/^(https?:|file:|data:|blob:)/i.test(trimmed)) return trimmed;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
   return `https://${trimmed}`;
+}
+
+function isIframeEmbedBlocked(iframe: HTMLIFrameElement | null): boolean {
+  if (!iframe) return false;
+
+  try {
+    const href = iframe.contentWindow?.location.href ?? "";
+    if (!href) return true;
+    return BLOCKED_IFRAME_PREFIXES.some((prefix) => href.startsWith(prefix));
+  } catch {
+    return false;
+  }
 }
 
 function makePrintCss({
@@ -130,6 +158,31 @@ function buildPrintableHtml(rawHtml: string, css: string) {
 </html>`;
 }
 
+function StatusNotice({ notice }: { notice: Notice }) {
+  const styles: Record<NoticeType, string> = {
+    success: "border-emerald-200 bg-emerald-50 text-emerald-900",
+    warning: "border-amber-200 bg-amber-50 text-amber-950",
+    error: "border-red-200 bg-red-50 text-red-900",
+  };
+  const icons: Record<NoticeType, string> = {
+    success: "check_circle",
+    warning: "info",
+    error: "error",
+  };
+
+  return (
+    <div className={cn("rounded-xl border px-4 py-3", styles[notice.type])}>
+      <div className="flex items-start gap-3">
+        <span className="material-symbols-outlined text-[20px] shrink-0 mt-0.5">{icons[notice.type]}</span>
+        <div className="min-w-0">
+          {notice.title && <p className="text-sm font-semibold">{notice.title}</p>}
+          <p className={cn("text-sm leading-relaxed whitespace-pre-line", notice.title && "mt-1")}>{notice.body}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function WebsiteToPDFPage() {
   const { t } = useTranslation();
   const [mode, setMode] = useState<SourceMode>("url");
@@ -140,8 +193,10 @@ export default function WebsiteToPDFPage() {
   const [margin, setMargin] = useState<MarginPreset>("normal");
   const [scale, setScale] = useState(100);
   const [fitMode, setFitMode] = useState<FitMode>("fit-width");
-  const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [previewStatus, setPreviewStatus] = useState<PreviewStatus>("idle");
+  const [notice, setNotice] = useState<Notice | null>(null);
+  const [processing, setProcessing] = useState(false);
+  const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const normalizedUrl = useMemo(() => normalizeWebsiteUrl(url), [url]);
@@ -150,59 +205,110 @@ export default function WebsiteToPDFPage() {
     [pageSize, orientation, margin, scale, fitMode]
   );
   const printableHtml = useMemo(() => buildPrintableHtml(html, printCss), [html, printCss]);
+  const urlPreviewBlocked = mode === "url" && previewStatus === "blocked";
+
+  useEffect(() => {
+    if (mode !== "url") return;
+    if (!normalizedUrl) {
+      setPreviewStatus("idle");
+      return;
+    }
+    setPreviewStatus("loading");
+    setNotice(null);
+    setResult(null);
+  }, [mode, normalizedUrl]);
+
+  const handleUrlIframeLoad = useCallback(() => {
+    const blocked = isIframeEmbedBlocked(iframeRef.current);
+    setPreviewStatus(blocked ? "blocked" : "ready");
+  }, []);
+
+  const openUrlInNewTab = useCallback(() => {
+    if (!normalizedUrl) {
+      setNotice({ type: "error", body: t("webToPdf.enterUrl") });
+      return;
+    }
+    window.open(normalizedUrl, "_blank", "noopener,noreferrer");
+  }, [normalizedUrl, t]);
 
   const handleHtmlFile = async (files: File[]) => {
     const file = files[0];
     if (!file) return;
     try {
-      setError(null);
-      setMessage(null);
+      setNotice(null);
+      setResult(null);
       setHtml(await file.text());
       setMode("html");
     } catch (err: unknown) {
-      setError((err as Error)?.message ?? t("webToPdf.readFileError"));
+      setNotice({
+        type: "error",
+        body: (err as Error)?.message ?? t("webToPdf.readFileError"),
+      });
     }
   };
 
   const printHtml = () => {
-    setError(null);
-    setMessage(null);
+    setNotice(null);
+    setResult(null);
     const win = window.open("", "_blank", "noopener,noreferrer");
     if (!win) {
-      setError(t("webToPdf.popupBlocked"));
+      setNotice({ type: "error", body: t("webToPdf.popupBlocked") });
       return;
     }
     win.document.open();
     win.document.write(printableHtml);
     win.document.close();
     win.focus();
-    setTimeout(() => win.print(), 350);
+    setTimeout(() => {
+      win.print();
+      setNotice({ type: "success", body: t("webToPdf.printOpened") });
+    }, 350);
   };
 
-  const printUrl = () => {
-    setError(null);
-    setMessage(null);
+  const convertUrlToPdf = async () => {
     if (!normalizedUrl) {
-      setError(t("webToPdf.enterUrl"));
+      setNotice({ type: "error", body: t("webToPdf.enterUrl") });
       return;
     }
+
+    setProcessing(true);
+    setNotice(null);
+    setResult(null);
 
     try {
-      iframeRef.current?.contentWindow?.focus();
-      iframeRef.current?.contentWindow?.print();
-      setMessage(t("webToPdf.printBlocked"));
-    } catch {
-      window.open(normalizedUrl, "_blank", "noopener,noreferrer");
-      setMessage(t("webToPdf.openedInTab"));
-    }
-  };
+      const payload: UrlToPdfRequest = {
+        url: normalizedUrl,
+        pageSize,
+        orientation,
+        margin,
+        scale,
+        fitMode,
+      };
 
-  const openUrl = () => {
-    if (!normalizedUrl) {
-      setError("Enter a website URL first.");
-      return;
+      const response = await fetch("/api/url-to-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const data = (await response.json().catch(() => null)) as { error?: string } | null;
+        throw new Error(data?.error ?? t("webToPdf.convertError"));
+      }
+
+      const blob = await response.blob();
+      const filename =
+        response.headers.get("Content-Disposition")?.match(/filename="(.+?)"/)?.[1] ?? "website.pdf";
+      setResult({ blob, filename });
+      setNotice({ type: "success", body: t("webToPdf.downloadReady") });
+    } catch (err: unknown) {
+      setNotice({
+        type: "error",
+        body: (err as Error)?.message ?? t("webToPdf.convertError"),
+      });
+    } finally {
+      setProcessing(false);
     }
-    window.open(normalizedUrl, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -222,8 +328,9 @@ export default function WebsiteToPDFPage() {
                   type="button"
                   onClick={() => {
                     setMode(item);
-                    setMessage(null);
-                    setError(null);
+                    setNotice(null);
+                    setResult(null);
+                    setPreviewStatus(item === "url" ? (normalizedUrl ? "loading" : "idle") : "ready");
                   }}
                   className={cn(
                     "flex-1 rounded-full px-4 py-2 text-sm font-semibold transition-colors sm:flex-none",
@@ -249,14 +356,12 @@ export default function WebsiteToPDFPage() {
                     placeholder="https://example.com"
                     className="min-h-11 flex-1 rounded border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
                   />
-                  <SecondaryButton onClick={openUrl} disabled={!normalizedUrl}>
+                  <SecondaryButton onClick={openUrlInNewTab} disabled={!normalizedUrl}>
                     <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                     {t("webToPdf.open")}
                   </SecondaryButton>
                 </div>
-                <p className="text-xs leading-relaxed text-slate-500">
-                  {t("webToPdf.urlHint")}
-                </p>
+                <p className="text-xs leading-relaxed text-slate-500">{t("webToPdf.urlHint")}</p>
               </div>
             ) : (
               <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_260px]">
@@ -387,28 +492,60 @@ export default function WebsiteToPDFPage() {
             <div>
               <p className="text-sm font-semibold text-slate-700">{t("webToPdf.preview")}</p>
               <p className="text-xs text-slate-500 mt-0.5">
-                {mode === "url"
-                  ? t("webToPdf.previewHintUrl")
-                  : t("webToPdf.previewHintHtml")}
+                {mode === "url" ? t("webToPdf.previewHintUrl") : t("webToPdf.previewHintHtml")}
               </p>
             </div>
-            <PrimaryButton onClick={mode === "url" ? printUrl : printHtml} disabled={mode === "url" && !normalizedUrl}>
-              <span className="material-symbols-outlined text-[18px]">print</span>
-              {t("webToPdf.printButton")}
+            <PrimaryButton
+              onClick={mode === "url" ? convertUrlToPdf : printHtml}
+              disabled={(mode === "url" && !normalizedUrl) || processing}
+              loading={processing}
+            >
+              <span className="material-symbols-outlined text-[18px]">
+                {mode === "url" ? "download" : "print"}
+              </span>
+              {mode === "url" ? t("webToPdf.downloadButton") : t("webToPdf.printButton")}
             </PrimaryButton>
           </div>
 
-          <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+          <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
             {mode === "url" ? (
               normalizedUrl ? (
-                <iframe
-                  key={normalizedUrl}
-                  ref={iframeRef}
-                  src={normalizedUrl}
-                  title="Website preview"
-                  className="h-[70vh] min-h-[480px] w-full bg-white"
-                  referrerPolicy="no-referrer"
-                />
+                <>
+                  <iframe
+                    key={normalizedUrl}
+                    ref={iframeRef}
+                    src={normalizedUrl}
+                    title="Website preview"
+                    className="h-[70vh] min-h-[480px] w-full bg-white"
+                    referrerPolicy="no-referrer"
+                    onLoad={handleUrlIframeLoad}
+                  />
+                  {previewStatus === "loading" && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
+                      <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
+                        <span className="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
+                        {t("webToPdf.previewLoading")}
+                      </div>
+                    </div>
+                  )}
+                  {urlPreviewBlocked && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-slate-900/55 p-6 backdrop-blur-[1px]">
+                      <div className="max-w-md rounded-2xl border border-teal-200 bg-white p-6 text-center shadow-lg">
+                        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-teal-100 text-teal-700">
+                          <span className="material-symbols-outlined text-[24px]">public</span>
+                        </div>
+                        <h3 className="text-base font-bold text-slate-900">{t("webToPdf.embedBlockedTitle")}</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600">{t("webToPdf.embedBlockedBody")}</p>
+                        <div className="mt-5">
+                          <PrimaryButton onClick={convertUrlToPdf} loading={processing} disabled={processing}>
+                            <span className="material-symbols-outlined text-[18px]">download</span>
+                            {t("webToPdf.downloadButton")}
+                          </PrimaryButton>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </>
               ) : (
                 <div className="flex min-h-[360px] items-center justify-center p-6 text-center text-sm text-slate-500">
                   {t("webToPdf.enterUrlPreview")}
@@ -425,10 +562,20 @@ export default function WebsiteToPDFPage() {
           </div>
         </ToolCard>
 
-        {message && <p className="text-sm text-slate-600 bg-slate-100 px-3 py-2 rounded">{message}</p>}
-        {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+        {result && (
+          <DownloadSuccess
+            filename={result.filename}
+            sizeBytes={result.blob.size}
+            onDownload={() => downloadBlob(result.blob, result.filename)}
+            onReset={() => {
+              setResult(null);
+              setNotice(null);
+            }}
+          />
+        )}
+
+        {notice && <StatusNotice notice={notice} />}
       </div>
     </ToolLayout>
   );
 }
-

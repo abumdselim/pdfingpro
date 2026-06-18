@@ -76,6 +76,15 @@ export const TOOLS: Tool[] = [
     category: "convert",
     color: "bg-blue-50 text-blue-600",
   },
+  {
+    id: "website-to-pdf",
+    titleKey: "tools.websiteToPdf.title",
+    descriptionKey: "tools.websiteToPdf.description",
+    icon: "language",
+    href: "/website-to-pdf",
+    category: "convert",
+    color: "bg-stone-50 text-stone-600",
+  },
   // Edit
   {
     id: "compress-pdf",

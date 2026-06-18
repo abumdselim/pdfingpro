@@ -1,6 +1,6 @@
-# HelloPDF
+# Pdfing Pro
 
-> A powerful, privacy-first browser-based PDF toolkit. **100% client-side processing** - your PDFs never leave your device.
+> A privacy-first PDF toolkit for the browser and desktop. Most tools run **100% client-side** — your files stay on your device. Website URL to PDF uses local headless-browser rendering (same approach as major online converters).
 
 [![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-18.3-61dafb?style=flat-square&logo=react)](https://react.dev/)
@@ -11,9 +11,9 @@
 
 ## 🎯 Features
 
-- ✅ **100% Client-Side Processing** - No server uploads, no cloud dependency
-- ✅ **Privacy Guaranteed** - Your PDFs are processed entirely in your browser
-- ✅ **15+ PDF Tools** - Convert, merge, split, compress, watermark, and more
+- ✅ **Client-Side PDF Tools** - Merge, split, compress, OCR, and more run in your browser
+- ✅ **Website to PDF** - Public URLs rendered with headless Chrome (local server / desktop app)
+- ✅ **18+ PDF Tools** - Convert, merge, split, compress, watermark, and more
 - ✅ **Intuitive UI** - Modern, responsive design for desktop and mobile
 - ✅ **Real-Time Preview** - See changes instantly as you edit
 - ✅ **No Installation Required** - Works directly in your browser
@@ -39,6 +39,7 @@
 | **PDF to JPG** | Convert pages to high-quality images |
 | **JPG to PDF** | Create PDFs from image files |
 | **PDF to Word** | Extract content to Word documents |
+| **Website / HTML to PDF** | Convert public webpages or local HTML into a downloadable PDF |
 | **Organize PDF** | Reorder, delete, or duplicate pages |
 
 ---
@@ -65,15 +66,8 @@ All processing happens **locally in your browser**. Here's the complete data flo
 │         ▲                           │                           │
 │         │                           ▼                           │
 │         │                  ┌──────────────────┐                │
-│         │                  │  Fabric.js       │                │
-│         │                  │  (Interactive    │                │
-│         │                  │   editing layer) │                │
-│         │                  └──────────────────┘                │
-│         │                           │                           │
-│         │                           ▼                           │
-│         │                  ┌──────────────────┐                │
-│         │                  │  pdf-lib         │                │
-│         │                  │  (PDF mutations) │                │
+│         │                  │  pdf-lib          │                │
+│         │                  │  (PDF mutations)  │                │
 │         │                  └──────────────────┘                │
 │         │                           │                           │
 │         │◀──────────────────────────┘                           │
@@ -83,14 +77,16 @@ All processing happens **locally in your browser**. Here's the complete data flo
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 
-                        ❌ NO SERVER ❌
-                   ❌ NO CLOUD UPLOAD ❌
+                        ❌ NO CLOUD PDF UPLOAD ❌
+                  ❌ NO THIRD-PARTY CONVERTER ❌
                   ❌ NO DATA TRACKING ❌
+
+Website URL to PDF uses your **local app server** (headless Chrome), not a third-party cloud.
 ```
 
-### Why HelloPDF?
+### Why Pdfing Pro?
 
-| Aspect | HelloPDF | Traditional Cloud Tools |
+| Aspect | Pdfing Pro | Traditional Cloud Tools |
 |--------|----------|------------------------|
 | **Data Privacy** | 🔐 100% private | ⚠️ Uploaded to servers |
 | **Processing Speed** | ⚡ Instant | 🐢 Depends on network |
@@ -104,15 +100,23 @@ All processing happens **locally in your browser**. Here's the complete data flo
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+ and npm/yarn
+- **Node.js 18.18+** and **npm 9+** (required for Next.js build and CI)
+- **Node.js 25.7+** recommended if you use **Unlock PDF** (`modern-pdf-lib` declares this engine requirement)
 - Modern web browser with JavaScript enabled
+
+> **Note:** `npm install` may show an `EBADENGINE` warning for `modern-pdf-lib` on Node 18–25.6. The web app and most tools still work; only unlock/decrypt flows depend on that package.
+
+Website to PDF requires **headless Chrome**. It is installed automatically via `postinstall`, or run manually:
+
+```bash
+npx puppeteer browsers install chrome
+```
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/abumdselim/hellopdf.git
-cd hellopdf
+git clone https://github.com/inievolabs/pdfingpro.git
+cd pdfingpro
 
 # Install dependencies
 npm install
@@ -130,6 +134,14 @@ npm run build
 npm start
 ```
 
+### Run Tests
+
+```bash
+npm test
+```
+
+CI runs lint, tests, and production build on Node 20 and 22 (see `.github/workflows/ci.yml`).
+
 ### Build a Desktop Executable
 
 ```bash
@@ -143,7 +155,7 @@ This creates a Windows portable executable in the `release/` folder, similar to 
 ## 🏗️ Project Structure
 
 ```
-hellopdf/
+pdfingpro/
 ├── app/                      # Next.js app directory
 │   ├── (tools)/             # Dynamic tool routes
 │   ├── layout.tsx           # Root layout
@@ -171,7 +183,7 @@ hellopdf/
 - **PDF Processing:**
   - [PDF.js](https://mozilla.github.io/pdf.js/) - Rendering
   - [pdf-lib](https://pdf-lib.js.org/) - Manipulation
-  - [Fabric.js](http://fabricjs.com/) - Interactive editing
+  - [Puppeteer](https://pptr.dev/) - Website URL to PDF
 - **OCR:** [Tesseract.js](https://tesseract.projectnaptha.com/)
 - **Document Export:** [docx](https://github.com/dolanmiu/docx)
 - **Compression:** JSZip
@@ -227,7 +239,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Built with love using:
 - [Mozilla PDF.js](https://mozilla.github.io/pdf.js/)
 - [pdf-lib](https://pdf-lib.js.org/)
-- [Fabric.js](http://fabricjs.com/)
+- [Puppeteer](https://pptr.dev/)
 - [Next.js](https://nextjs.org/)
 - [React](https://react.dev/)
 
@@ -241,15 +253,16 @@ Built with love using:
 
 ## 🔐 Privacy Policy
 
-Your data is your own. HelloPDF operates with complete transparency:
+Your data is your own. Pdfing Pro operates with transparency:
 
 - ✅ No analytics tracking
 - ✅ No cookies
-- ✅ No third-party data sharing
-- ✅ No server-side processing
+- ✅ No third-party data sharing for PDF file uploads
+- ✅ PDF file tools run client-side (files stay in your browser)
+- ⚠️ **Website URL to PDF** sends the URL to your **local** app server for headless rendering — not to a third-party cloud converter
 - ✅ No user accounts required
 
-**Your PDFs are never sent to any server.**
+**Your uploaded PDF files are never sent to external servers.**
 
 ---
 
@@ -268,9 +281,9 @@ Your data is your own. HelloPDF operates with complete transparency:
 
 ## 📊 Stats
 
-- **14+ Tools** ready to use
-- **100% Client-Side** processing
-- **0% Data** sent to servers
+- **18+ Tools** ready to use
+- **Most tools client-side** — files stay in the browser
+- **Website URL rendering** runs on your own app server (local/desktop)
 - **∞ Free** forever
 
 ---

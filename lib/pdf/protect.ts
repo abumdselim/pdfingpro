@@ -1,6 +1,5 @@
 import { PDFDocument } from "pdf-lib";
 import { encryptPDF as encryptPdfBytes } from "@pdfsmaller/pdf-encrypt-lite";
-import { loadPdf } from "modern-pdf-lib";
 
 /**
  * Encrypt a PDF with a user password (and optional distinct owner password).
@@ -36,6 +35,7 @@ export async function unlockPDF(
   arrayBuffer: ArrayBuffer,
   password: string
 ): Promise<Uint8Array> {
+  const { loadPdf } = await import("modern-pdf-lib");
   const decrypted = await loadPdf(arrayBuffer, { password });
   if (decrypted.getPageCount() === 0) {
     throw new Error("PDF has no pages.");

@@ -1,6 +1,6 @@
-# Contributing to LocalPDF Engine
+# Contributing to Pdfing Pro
 
-Thank you for your interest in contributing to LocalPDF Engine! This document provides guidelines and instructions for getting involved.
+Thank you for your interest in contributing to Pdfing Pro! This document provides guidelines and instructions for getting involved.
 
 ## 📋 Table of Contents
 
@@ -46,8 +46,8 @@ Before you begin, ensure you have:
 1. Fork the repository on GitHub
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/inievolabs/hellopdf.git
-   cd hellopdf
+   git clone https://github.com/inievolabs/pdfingpro.git
+   cd pdfingpro
    ```
 ---
 
