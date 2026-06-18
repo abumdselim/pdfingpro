@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+@import "./card-tool-motions.css";
 
 @tailwind base;
 @tailwind components;
@@ -97,6 +98,11 @@
     to { transform: rotate(360deg); }
   }
 
+  @keyframes mobile-menu-item-in {
+    from { opacity: 0; transform: translateX(12px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
   /* Animation classes — all use GPU-composited properties only */
   .animate-fade-in    { animation: fade-in    0.30s var(--ease-smooth) both; }
   .animate-fade-in-up { animation: fade-in-up 0.45s var(--ease-smooth) both; }
@@ -110,6 +116,19 @@
   .animate-spin {
     animation: spin 0.9s linear infinite;
     display: inline-block;
+  }
+
+  .animate-mobile-menu-item {
+    animation: mobile-menu-item-in 0.35s var(--ease-smooth) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu-panel {
+      transition: none !important;
+    }
+    .animate-mobile-menu-item {
+      animation: none !important;
+    }
   }
 
   /* Touch scrolling */
@@ -189,4 +208,33 @@
   .ds-warning { @apply rounded-xl border border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-950/25 p-5; }
   .ds-preview-frame { @apply border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 rounded-xl overflow-hidden; }
   .ds-canvas-surface { @apply bg-white; }
+
+  /* Homepage tool cards — solid color bento */
+  .color-bento-card-interactive {
+    transition:
+      transform 0.3s var(--ease-smooth),
+      box-shadow 0.3s var(--ease-smooth),
+      filter 0.3s var(--ease-smooth);
+  }
+
+  .color-bento-card-interactive:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.06);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  }
+
+  .dark .color-bento-card-interactive:hover {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+  }
+
+  .color-bento-card-interactive:active {
+    transform: translateY(-2px) scale(1.005);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .color-bento-card-interactive:hover {
+      transform: none;
+      filter: none;
+    }
+  }
 }

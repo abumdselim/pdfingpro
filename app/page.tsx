@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { TOOLS, CATEGORIES, type ToolCategory } from "@/lib/tools";
-import { getBentoSize, getBentoSpan, QUICK_TOOLS } from "@/lib/home-bento";
+import { getBentoSize, getBentoSpan } from "@/lib/home-bento";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n";
 import ToolBentoCard from "@/components/home/ToolBentoCard";
@@ -20,10 +19,6 @@ export default function HomePage() {
       : TOOLS.filter((tool) => tool.category === activeCategory);
 
   const isBento = activeCategory === "all";
-  const activeLabel =
-    activeCategory === "all"
-      ? t("categories.all")
-      : t(CATEGORIES.find((c) => c.id === activeCategory)?.labelKey ?? "categories.all");
 
   return (
     <main>
@@ -46,31 +41,7 @@ export default function HomePage() {
             {t("home.hero.subtitle")}
           </p>
 
-          <div className="animate-fade-in-up mt-8 flex flex-wrap justify-center gap-2">
-            {QUICK_TOOLS.map((id) => {
-              const tool = TOOLS.find((x) => x.id === id);
-              if (!tool) return null;
-              return (
-                <Link
-                  key={id}
-                  href={tool.href}
-                  className={cn(
-                    "inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-semibold transition-all",
-                    "border-slate-200/80 dark:border-slate-700/80 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm",
-                    "text-slate-700 dark:text-slate-200 hover:border-[#1461bd]/40 dark:hover:border-teal-500/40",
-                    "hover:shadow-sm hover:-translate-y-px hover:text-[#1461bd] dark:hover:text-teal-400"
-                  )}
-                >
-                  <span className={cn("flex h-7 w-7 items-center justify-center rounded-lg", tool.color)}>
-                    <span className="material-symbols-outlined text-[16px]">{tool.icon}</span>
-                  </span>
-                  {t(tool.titleKey)}
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="animate-fade-in-up mt-6">
+          <div className="animate-fade-in-up mt-8">
             <a
               href="#tools"
               className={cn(
@@ -89,18 +60,7 @@ export default function HomePage() {
 
       {/* Tools bento */}
       <section id="tools" className="max-w-6xl mx-auto px-6 pb-20 scroll-mt-20">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
-              {t("home.bento.toolsTitle")}
-            </h2>
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-              {t("home.bento.toolsSubtitle", { count: filtered.length, category: activeLabel })}
-            </p>
-          </div>
-        </div>
-
-        <div className="mb-6">
+        <div className="mb-6 hidden md:block">
           <CategoryFilter active={activeCategory} onChange={setActiveCategory} label={t} />
         </div>
 
@@ -108,7 +68,7 @@ export default function HomePage() {
           className={cn(
             "grid gap-3 sm:gap-4",
             isBento
-              ? "grid-flow-dense grid-cols-2 md:grid-cols-4 lg:grid-cols-6 auto-rows-[minmax(7rem,auto)]"
+              ? "grid-flow-dense grid-cols-2 md:grid-cols-4 lg:grid-cols-6 auto-rows-[minmax(6.5rem,auto)]"
               : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
           )}
         >
@@ -117,8 +77,6 @@ export default function HomePage() {
               key={tool.id}
               tool={tool}
               title={t(tool.titleKey)}
-              description={t(tool.descriptionKey)}
-              openLabel={t("home.bento.openTool")}
               size={getBentoSize(tool.id, activeCategory)}
               className={getBentoSpan(tool.id, activeCategory)}
             />

@@ -27,11 +27,3 @@ export function getBentoSize(toolId: string, category: ToolCategory | "all"): Be
   if (span?.includes("row-span-2") || span?.includes("col-span-2")) return "md";
   return "sm";
 }
-
-/** Quick-launch chips under hero */
-export const QUICK_TOOLS = [
-  "merge-pdf",
-  "compress-pdf",
-  "sign-pdf",
-  "split-pdf",
-] as const;

@@ -1,101 +1,162 @@
 "use client";
 
+
+
 import Link from "next/link";
+
 import { cn } from "@/lib/utils";
-import { toolAccentClass } from "@/components/home/BentoPanel";
+
+import { getToolCardTheme } from "@/lib/home-card-themes";
+
+import CardToolMotion from "@/components/home/card-motions";
+
 import type { Tool } from "@/lib/tools";
+
 import type { BentoSize } from "@/lib/home-bento";
 
+
+
 interface ToolBentoCardProps {
+
   tool: Tool;
+
   title: string;
-  description: string;
-  openLabel?: string;
+
   size?: BentoSize;
+
   className?: string;
+
 }
+
+
 
 export default function ToolBentoCard({
+
   tool,
+
   title,
-  description,
-  openLabel = "Open tool",
+
   size = "sm",
+
   className,
+
 }: ToolBentoCardProps) {
+
   const isLarge = size === "lg";
+
   const isMedium = size === "md";
-  const showCta = isLarge || isMedium;
+
+  const theme = getToolCardTheme(tool.id);
+
+  const motionSize = isLarge ? "lg" : isMedium ? "md" : "sm";
+
+
 
   return (
-    <Link
-      href={tool.href}
-      className={cn(
-        "group relative flex flex-col overflow-hidden rounded-2xl border transition-all duration-300",
-        "border-slate-200/80 dark:border-slate-700/80",
-        "bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm",
-        "hover:shadow-bento hover:-translate-y-0.5 hover:border-[#1461bd]/30 dark:hover:border-teal-500/40",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1461bd]/40 dark:focus-visible:ring-teal-500/50",
-        isLarge ? "min-h-[12rem] p-6 sm:min-h-[14rem]" : isMedium ? "min-h-[8rem] p-5" : "min-h-[7rem] p-4",
-        className
-      )}
-    >
-      <div
-        className={cn(
-          "absolute -right-8 -top-8 h-28 w-28 rounded-full opacity-[0.08] blur-2xl transition-opacity group-hover:opacity-[0.14]",
-          toolAccentClass(tool.color)
-        )}
-        aria-hidden
-      />
 
-      <div className="relative flex flex-1 flex-col min-h-0">
+    <Link
+
+      href={tool.href}
+
+      className={cn(
+
+        "group color-bento-card color-bento-card-interactive relative flex flex-col overflow-hidden rounded-2xl border-2",
+
+        "shadow-md",
+
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-900 dark:focus-visible:ring-white",
+
+        theme.surface,
+
+        theme.border,
+
+        isLarge ? "min-h-[9.5rem] p-6 sm:min-h-[11rem]" : isMedium ? "min-h-[7.5rem] p-5" : "min-h-[6.5rem] p-4",
+
+        className
+
+      )}
+
+    >
+
+      <CardToolMotion toolId={tool.id} watermarkClass={theme.watermark} size={motionSize} />
+
+      <div className="relative z-[1] flex min-h-0 flex-1 flex-col">
+
         <div className="flex items-start justify-between gap-2">
+
           <div
+
             className={cn(
-              "flex shrink-0 items-center justify-center rounded-xl shadow-sm transition-transform duration-300 group-hover:scale-105",
-              tool.color,
-              isLarge ? "h-14 w-14" : isMedium ? "h-11 w-11" : "h-10 w-10"
+
+              "flex shrink-0 items-center justify-center transition-transform duration-300 group-hover:scale-105",
+
+              theme.icon,
+
+              isLarge
+
+                ? "h-14 w-14 rounded-2xl [&_.material-symbols-outlined]:!text-[28px]"
+
+                : isMedium
+
+                  ? "h-11 w-11 rounded-xl [&_.material-symbols-outlined]:!text-[22px]"
+
+                  : "h-10 w-10 rounded-xl [&_.material-symbols-outlined]:!text-[20px]"
+
             )}
+
           >
-            <span
-              className={cn(
-                "material-symbols-outlined",
-                isLarge ? "text-[28px]" : isMedium ? "text-[22px]" : "text-[20px]"
-              )}
-            >
-              {tool.icon}
-            </span>
+
+            <span className="material-symbols-outlined icon-filled">{tool.icon}</span>
+
           </div>
-          <span className="material-symbols-outlined text-[18px] text-slate-300 dark:text-slate-600 transition-all duration-300 group-hover:text-[#1461bd] dark:group-hover:text-teal-400 group-hover:translate-x-0.5 opacity-0 group-hover:opacity-100 shrink-0">
-            arrow_forward
+
+
+
+          <span
+
+            className={cn(
+
+              "flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-all duration-300",
+
+              "opacity-70 sm:opacity-0 sm:group-hover:opacity-100",
+
+              theme.arrow
+
+            )}
+
+          >
+
+            <span className="material-symbols-outlined !text-[16px]">arrow_forward</span>
+
           </span>
+
         </div>
 
+
+
         <h2
+
           className={cn(
-            "font-bold text-slate-800 dark:text-slate-100 group-hover:text-[#1461bd] dark:group-hover:text-teal-400 transition-colors leading-snug",
-            isLarge ? "mt-5 text-lg sm:text-xl" : isMedium ? "mt-4 text-[15px]" : "mt-3 text-[14px]"
+
+            "font-bold leading-snug tracking-tight mt-auto",
+
+            theme.title,
+
+            isLarge ? "mt-5 text-lg sm:text-xl" : isMedium ? "mt-4 text-[15px] sm:text-base" : "mt-3 text-[14px]"
+
           )}
+
         >
+
           {title}
+
         </h2>
 
-        <p
-          className={cn(
-            "mt-1.5 text-slate-500 dark:text-slate-400 leading-relaxed",
-            isLarge ? "text-sm line-clamp-3" : "text-xs line-clamp-2"
-          )}
-        >
-          {description}
-        </p>
-
-        {showCta && (
-          <span className="mt-auto pt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#1461bd] dark:text-teal-400 opacity-0 translate-y-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-            {openLabel}
-            <span className="material-symbols-outlined text-[14px]">arrow_forward</span>
-          </span>
-        )}
       </div>
+
     </Link>
+
   );
+
 }
+

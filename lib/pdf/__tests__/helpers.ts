@@ -11,5 +11,5 @@ export async function createTestPdf(pageCount: number): Promise<ArrayBuffer> {
   }
 
   const bytes = await doc.save();
-  return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
+  return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
 }

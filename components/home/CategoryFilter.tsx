@@ -11,9 +11,9 @@ interface CategoryFilterProps {
 
 export default function CategoryFilter({ active, onChange, label }: CategoryFilterProps) {
   return (
-    <div className="overflow-x-auto touch-scroll -mx-6 px-6 sm:mx-0 sm:px-0 pb-1">
+    <div className="pb-1">
       <div
-        className="inline-flex w-max mx-auto sm:flex sm:flex-wrap sm:justify-center gap-1 p-1 rounded-xl border border-slate-200/70 dark:border-slate-700/70 bg-white/70 dark:bg-slate-800/60 shadow-sm"
+        className="flex flex-wrap justify-center gap-1 p-1 rounded-xl border border-slate-200/70 dark:border-slate-700/70 bg-white/70 dark:bg-slate-800/60 shadow-sm"
         role="tablist"
         aria-label="Tool categories"
       >
