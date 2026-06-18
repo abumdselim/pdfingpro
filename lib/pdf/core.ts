@@ -9,7 +9,7 @@ let _pdfjs: typeof import("pdfjs-dist") | null = null;
 export async function getPdfJs() {
   if (_pdfjs) return _pdfjs;
   _pdfjs = await import("pdfjs-dist");
-  _pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.js";
+  _pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.mjs";
   return _pdfjs;
 }
 

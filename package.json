@@ -27,9 +27,9 @@
     "docx": "^8.5.0",
     "jszip": "^3.10.1",
     "modern-pdf-lib": "^0.26.0",
-    "next": "14.2.29",
+    "next": "15.5.19",
     "pdf-lib": "^1.17.1",
-    "pdfjs-dist": "3.11.174",
+    "pdfjs-dist": "4.10.38",
     "puppeteer": "^24.43.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -41,11 +41,11 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
-    "electron": "^34.0.0",
-    "electron-builder": "^25.1.8",
+    "electron": "^42.4.1",
+    "electron-builder": "^26.15.3",
     "eslint": "^8",
-    "eslint-config-next": "14.2.29",
-    "postcss": "^8",
+    "eslint-config-next": "15.5.19",
+    "postcss": "8.5.12",
     "sharp": "^0.33.5",
     "tailwindcss": "^3.4.17",
     "typescript": "^5",
@@ -80,5 +80,16 @@
         }
       ]
     }
+  },
+  "overrides": {
+    "brace-expansion": "^5.0.6",
+    "esbuild": "^0.28.1",
+    "form-data": "^4.0.6",
+    "glob": "^10.4.6",
+    "js-yaml": "^4.1.2",
+    "postcss": "8.5.12",
+    "serialize-javascript": "^7.0.6",
+    "tar": "^7.5.16",
+    "tmp": "^0.2.6"
   }
 }
