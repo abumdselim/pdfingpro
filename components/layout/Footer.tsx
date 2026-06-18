@@ -8,7 +8,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#0b3e7b] mt-auto relative overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6 py-12">
+      <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex flex-col items-center justify-center gap-8 text-center">
           <div className="flex flex-col items-center gap-3">
             <img

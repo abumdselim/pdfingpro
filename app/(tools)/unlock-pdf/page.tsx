@@ -67,8 +67,8 @@ export default function UnlockPDFPage() {
             <ToolCard>
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-semibold text-slate-700 block mb-1.5">{t("unlock.currentPassword")}</label>
-                  <p className="text-xs text-slate-500 mb-2">
+                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-1.5">{t("unlock.currentPassword")}</label>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">
                     {t("unlock.hint")}
                   </p>
                   <div className="relative">
@@ -77,12 +77,12 @@ export default function UnlockPDFPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder={t("unlock.placeholder")}
-                      className="w-full border border-slate-300 rounded px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      className="w-full border border-slate-300 dark:border-slate-600 rounded px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
                     />
                     <button
                       type="button"
                       onClick={() => setShow(!show)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 dark:text-slate-300"
                     >
                       <span className="material-symbols-outlined text-[20px]">
                         {show ? "visibility_off" : "visibility"}
@@ -91,7 +91,7 @@ export default function UnlockPDFPage() {
                   </div>
                 </div>
 
-                {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+                {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
 
                 <PrimaryButton onClick={handleUnlock} loading={processing}>
                   <span className="material-symbols-outlined text-[18px]">lock_open</span>

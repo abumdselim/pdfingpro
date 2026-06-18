@@ -1,4 +1,5 @@
 import { loadPdfDocument } from "./core";
+import { yieldToMain } from "./engine/memory";
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from "docx";
 
 /**
@@ -39,6 +40,10 @@ export async function pdfToWord(arrayBuffer: ArrayBuffer): Promise<Blob> {
     }
 
     sections.push({ children: paragraphs });
+
+    if (i < pdf.numPages) {
+      await yieldToMain();
+    }
   }
 
   const doc = new Document({ sections });

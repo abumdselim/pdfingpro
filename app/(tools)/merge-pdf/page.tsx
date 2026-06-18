@@ -84,12 +84,12 @@ export default function MergePDFPage() {
           {files.length > 0 && (
             <ToolCard>
               <div className="flex items-center justify-between mb-3">
-                <p className="text-sm font-semibold text-slate-700">
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
                   {t("merge.fileCount", { count: files.length })}
                 </p>
                 <button
                   onClick={() => setFiles([])}
-                  className="text-xs text-slate-500 hover:text-red-600 transition-colors flex items-center gap-1"
+                  className="text-xs text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-1"
                 >
                   <span className="material-symbols-outlined text-[14px]">delete_sweep</span>
                   {t("common.clearAll")}
@@ -118,12 +118,12 @@ export default function MergePDFPage() {
                         : "border-slate-200 bg-white hover:border-slate-300"
                     )}
                   >
-                    <span className="material-symbols-outlined text-slate-400 text-[18px]">drag_indicator</span>
-                    <span className="material-symbols-outlined text-teal-600 text-[18px]">picture_as_pdf</span>
-                    <span className="flex-1 truncate text-slate-700 font-medium">{file.name}</span>
+                    <span className="material-symbols-outlined text-slate-400 dark:text-slate-500 text-[18px]">drag_indicator</span>
+                    <span className="material-symbols-outlined text-teal-600 dark:text-teal-400 text-[18px]">picture_as_pdf</span>
+                    <span className="flex-1 truncate text-slate-700 dark:text-slate-300 font-medium">{file.name}</span>
                     <button
                       onClick={(e) => { e.stopPropagation(); removeFile(i); }}
-                      className="text-slate-400 hover:text-red-600 transition-colors"
+                      className="text-slate-400 dark:text-slate-500 hover:text-red-600 dark:hover:text-red-400 transition-colors"
                     >
                       <span className="material-symbols-outlined text-[18px]">close</span>
                     </button>
@@ -134,7 +134,7 @@ export default function MergePDFPage() {
           )}
 
           {error && (
-            <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>
+            <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>
           )}
 
           <PrimaryButton

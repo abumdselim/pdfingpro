@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isTouchDevice } from "@/lib/touch-utils";
+import { useIsTouchDevice } from "@/lib/hooks/useIsTouchDevice";
 import { cn } from "@/lib/utils";
 
 interface TouchHintProps {
@@ -28,7 +28,7 @@ export default function TouchHint({
   className = "",
 }: TouchHintProps) {
   const [visible, setVisible] = useState(true);
-  const [isTouch] = useState(() => isTouchDevice());
+  const isTouch = useIsTouchDevice();
 
   useEffect(() => {
     if (!persistent && visible) {
@@ -42,14 +42,14 @@ export default function TouchHint({
   return (
     <div
       className={cn(
-        "inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/80 backdrop-blur-md border border-white/50 text-slate-800 text-xs font-semibold shadow-[0_8px_30px_rgb(0,0,0,0.12)] animate-fade-in-up",
+        "inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/80 dark:bg-slate-800/90 backdrop-blur-md border border-white/50 dark:border-slate-600/50 text-slate-800 dark:text-slate-200 text-xs font-semibold shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.35)] animate-fade-in-up",
         className
       )}
       role="status"
       aria-live="polite"
     >
-      <div className="w-7 h-7 rounded-full bg-teal-100 flex items-center justify-center shrink-0">
-        <span className="material-symbols-outlined text-[16px] text-teal-600">
+      <div className="w-7 h-7 rounded-full bg-teal-100 dark:bg-teal-900/50 flex items-center justify-center shrink-0">
+        <span className="material-symbols-outlined text-[16px] text-teal-600 dark:text-teal-400">
           {isTouch ? icon : "info"}
         </span>
       </div>
@@ -58,7 +58,7 @@ export default function TouchHint({
         <button
           type="button"
           onClick={() => setVisible(false)}
-          className="ml-2 w-6 h-6 rounded-full hover:bg-slate-200/50 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
+          className="ml-2 w-6 h-6 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-700/50 flex items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
           aria-label="Dismiss hint"
         >
           <span className="material-symbols-outlined text-[14px]">close</span>

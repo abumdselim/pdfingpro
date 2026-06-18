@@ -10,6 +10,27 @@
   :root {
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* Design tokens — light */
+    --ds-bg: #f1f5f9;
+    --ds-bg-dot: #cbd5e1;
+    --ds-text: #0f172a;
+    --ds-muted: #64748b;
+    --ds-card: rgba(255, 255, 255, 0.95);
+    --ds-card-border: rgba(226, 232, 240, 0.8);
+    --ds-accent: #137ece;
+    --ds-focus: #137ece;
+  }
+
+  .dark {
+    --ds-bg: #0f172a;
+    --ds-bg-dot: #334155;
+    --ds-text: #f1f5f9;
+    --ds-muted: #94a3b8;
+    --ds-card: rgba(30, 41, 59, 0.95);
+    --ds-card-border: rgba(51, 65, 85, 0.8);
+    --ds-accent: #5bb0f3;
+    --ds-focus: #5bb0f3;
   }
 
   *, *::before, *::after {
@@ -26,14 +47,14 @@
 
   body {
     font-family: 'Inter', system-ui, sans-serif;
-    background-color: #f1f5f9;
-    background-image: radial-gradient(#cbd5e1 0.8px, transparent 0.8px);
+    background-color: var(--ds-bg);
+    background-image: radial-gradient(var(--ds-bg-dot) 0.8px, transparent 0.8px);
     background-size: 20px 20px;
-    color: #0f172a;
+    color: var(--ds-text);
   }
 
   :focus-visible {
-    outline: 2px solid #137ece;
+    outline: 2px solid var(--ds-focus);
     outline-offset: 2px;
     border-radius: 4px;
   }
@@ -82,7 +103,7 @@
   .animate-scale-in   { animation: scale-in   0.30s var(--ease-spring) both; }
   .animate-float      { animation: float 5s ease-in-out infinite; }
   .animate-shimmer {
-    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background: linear-gradient(90deg, var(--ds-bg) 25%, color-mix(in srgb, var(--ds-bg-dot) 40%, var(--ds-bg)) 50%, var(--ds-bg) 75%);
     background-size: 200% auto;
     animation: shimmer 1.8s linear infinite;
   }
@@ -129,16 +150,43 @@
 
   /* Dropzone highlight */
   .dropzone-active {
-    @apply border-teal-500 bg-teal-500/5;
+    @apply border-teal-500 bg-teal-500/5 dark:bg-teal-500/10;
   }
 
-  /* Performant glass panel: solid white, no blur */
+  /* Performant glass panel: solid surface, no blur */
   .glass-panel {
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    background: var(--ds-card);
+    border: 1px solid var(--ds-card-border);
     box-shadow:
-      inset 0 1px 0 0 rgba(255, 255, 255, 1),
+      inset 0 1px 0 0 color-mix(in srgb, var(--ds-card) 80%, white),
       0 2px 4px rgba(0, 0, 0, 0.04),
       0 1px 2px rgba(0, 0, 0, 0.02);
   }
+
+  .dark .glass-panel {
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.04),
+      0 2px 8px rgba(0, 0, 0, 0.25),
+      0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Design system component utilities */
+  .ds-heading { @apply text-slate-900 dark:text-slate-100; }
+  .ds-subheading { @apply text-slate-800 dark:text-slate-200; }
+  .ds-body { @apply text-slate-600 dark:text-slate-400; }
+  .ds-muted { @apply text-slate-500 dark:text-slate-400; }
+  .ds-label { @apply text-sm font-medium text-slate-700 dark:text-slate-300; }
+  .ds-input {
+    @apply w-full border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm
+      bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100
+      placeholder:text-slate-400 dark:placeholder:text-slate-500
+      focus:outline-none focus:ring-2 focus:ring-teal-400 dark:focus:ring-teal-500;
+  }
+  .ds-surface { @apply bg-white dark:bg-slate-800; }
+  .ds-surface-muted { @apply bg-slate-50 dark:bg-slate-900/50; }
+  .ds-border { @apply border-slate-200/80 dark:border-slate-700/80; }
+  .ds-error { @apply flex items-center gap-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-4 py-3 rounded-xl; }
+  .ds-warning { @apply rounded-xl border border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-950/25 p-5; }
+  .ds-preview-frame { @apply border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 rounded-xl overflow-hidden; }
+  .ds-canvas-surface { @apply bg-white; }
 }

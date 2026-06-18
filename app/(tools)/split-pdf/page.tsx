@@ -68,12 +68,12 @@ export default function SplitPDFPage() {
       ) : done ? (
         <ToolCard>
           <div className="flex flex-col items-center gap-6 py-10 text-center">
-            <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center">
-              <span className="material-symbols-outlined text-teal-600 icon-filled text-[36px]">check_circle</span>
+            <div className="w-16 h-16 bg-teal-100 dark:bg-teal-900/40 rounded-full flex items-center justify-center">
+              <span className="material-symbols-outlined text-teal-600 dark:text-teal-400 icon-filled text-[36px]">check_circle</span>
             </div>
             <div>
-              <p className="font-semibold text-slate-800 text-lg">{t("split.downloadedAsZip")}</p>
-              <p className="text-sm text-slate-500 mt-1">{t("split.checkDownloads")}</p>
+              <p className="font-semibold text-slate-800 dark:text-slate-200 text-lg">{t("split.downloadedAsZip")}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t("split.checkDownloads")}</p>
             </div>
             <SecondaryButton onClick={reset}>
               <span className="material-symbols-outlined text-[18px]">refresh</span>
@@ -87,7 +87,7 @@ export default function SplitPDFPage() {
             <FileDropzone onFiles={(f) => { setFile(f[0]); setSelectedPages(new Set()); setError(null); }} files={[file]} />
           </ToolCard>
           <ToolCard>
-            <p className="text-sm font-semibold text-slate-700 mb-3">{t("split.splitMode")}</p>
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">{t("split.splitMode")}</p>
             <div className="grid sm:grid-cols-3 gap-2">
               {(["ranges", "every-page", "extract"] as Mode[]).map((m) => (
                 <button key={m} onClick={() => setMode(m)} className={cn(
@@ -102,21 +102,21 @@ export default function SplitPDFPage() {
             </div>
             {mode === "ranges" && (
               <div className="mt-4">
-                <label className="text-xs font-medium text-slate-600 block mb-1.5">{t("split.rangeLabel")}</label>
+                <label className="text-xs font-medium text-slate-600 dark:text-slate-400 block mb-1.5">{t("split.rangeLabel")}</label>
                 <input type="text" value={rangeInput} onChange={(e) => setRangeInput(e.target.value)} placeholder="1-3, 5, 7-9"
-                  className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
+                  className="w-full border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400" />
               </div>
             )}
           </ToolCard>
           <ToolCard>
-            <p className="text-sm font-semibold text-slate-700 mb-1">
+            <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
               {mode === "extract" ? t("split.pagesSelect", { count: selectedPages.size }) : t("split.pagesTotal", { count: pageCount })}
             </p>
-            {mode === "extract" && <p className="text-xs text-slate-500 mb-3">{t("split.eachSelectedSaved")}</p>}
+            {mode === "extract" && <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{t("split.eachSelectedSaved")}</p>}
             <PDFThumbnails file={file} selectedPages={mode === "extract" ? selectedPages : undefined}
               onTogglePage={mode === "extract" ? togglePage : undefined} onLoaded={setPageCount} columns={4} />
           </ToolCard>
-          {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+          {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
           <div className="flex gap-3">
             <PrimaryButton onClick={handleSplit} loading={processing}>
               <span className="material-symbols-outlined text-[18px]">cut</span>

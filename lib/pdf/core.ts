@@ -1,5 +1,9 @@
 // Lazy-load pdfjs-dist so it only runs in the browser.
 // Worker is self-hosted from /public/pdfjs (copied on postinstall).
+import { releaseCanvas, yieldToMain } from "./engine/memory";
+import { PdfSession } from "./engine/session";
+import { streamThumbnails } from "./engine/processor";
+
 let _pdfjs: typeof import("pdfjs-dist") | null = null;
 
 export async function getPdfJs() {
@@ -31,49 +35,61 @@ export async function renderPageFromDoc(
   return canvas;
 }
 
-/** Render a single PDF page to an off-screen canvas and return the canvas. */
+/**
+ * Render a single PDF page to canvas.
+ * Pass `existingPdf` when looping pages to avoid reloading the document.
+ */
 export async function renderPageToCanvas(
   arrayBuffer: ArrayBuffer,
   pageNumber: number,
-  scale = 1.5
+  scale = 1.5,
+  existingPdf?: Awaited<ReturnType<typeof loadPdfDocument>>
 ): Promise<HTMLCanvasElement> {
-  const pdf = await loadPdfDocument(arrayBuffer);
-  const page = await pdf.getPage(pageNumber);
-  const viewport = page.getViewport({ scale });
-
-  const canvas = document.createElement("canvas");
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
-  const ctx = canvas.getContext("2d")!;
-
-  await page.render({ canvasContext: ctx, viewport }).promise;
-  return canvas;
+  const pdf = existingPdf ?? (await loadPdfDocument(arrayBuffer));
+  return renderPageFromDoc(pdf, pageNumber, scale);
 }
 
-/** Render all pages and return an array of data-URL strings (for thumbnails). */
+/** Render all page thumbnails — one pdf.js load, memory released per page. */
 export async function renderAllPageThumbnails(
   arrayBuffer: ArrayBuffer,
   scale = 0.3
 ): Promise<string[]> {
-  const pdf = await loadPdfDocument(arrayBuffer);
-  const thumbnails: string[] = [];
+  const session = await PdfSession.fromBuffer(arrayBuffer);
+  const thumbnails: string[] = new Array(session.pageCount);
 
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const viewport = page.getViewport({ scale });
-    const canvas = document.createElement("canvas");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext("2d")!;
-    await page.render({ canvasContext: ctx, viewport }).promise;
-    thumbnails.push(canvas.toDataURL("image/jpeg", 0.7));
+  try {
+    await streamThumbnails({
+      session,
+      scale,
+      onPage: (index, dataUrl) => {
+        thumbnails[index] = dataUrl;
+      },
+    });
+    return thumbnails;
+  } finally {
+    session.destroy();
   }
-
-  return thumbnails;
 }
+
+/** Stream thumbnails with progressive callback (preferred for large PDFs). */
+export { streamThumbnails } from "./engine/processor";
+export { PdfSession } from "./engine/session";
 
 /** Return the page count of a PDF without fully loading it. */
 export async function getPdfPageCount(arrayBuffer: ArrayBuffer): Promise<number> {
   const pdf = await loadPdfDocument(arrayBuffer);
-  return pdf.numPages;
+  const count = pdf.numPages;
+  try {
+    pdf.destroy();
+  } catch {
+    // ignore
+  }
+  return count;
 }
+
+/** Open a session from a user file — preferred entry point for tools. */
+export async function openPdfFile(file: File): Promise<PdfSession> {
+  return PdfSession.fromFile(file);
+}
+
+export { releaseCanvas, yieldToMain };

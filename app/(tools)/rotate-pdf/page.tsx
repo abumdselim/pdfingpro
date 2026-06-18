@@ -83,7 +83,7 @@ export default function RotatePDFPage() {
           {file && (
             <>
               <ToolCard>
-                <p className="text-sm font-semibold text-slate-700 mb-3">{t("rotate.rotation")}</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">{t("rotate.rotation")}</p>
                 <div className="flex gap-3 flex-wrap">
                   {ANGLES.map(({ angle: a, icon, labelKey }) => (
                     <button
@@ -122,7 +122,7 @@ export default function RotatePDFPage() {
 
               {target === "selected" && (
                 <ToolCard>
-                  <p className="text-sm font-semibold text-slate-700 mb-3">
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">
                     {t("rotate.selectPages", { count: selectedPages.size })}
                   </p>
                   <PDFThumbnails
@@ -142,7 +142,7 @@ export default function RotatePDFPage() {
               )}
 
               {error && (
-                <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>
+                <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>
               )}
 
               <PrimaryButton

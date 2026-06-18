@@ -48,7 +48,7 @@ export default function PageJumpInput({
           setIsOpen(true);
           setInputValue(String(currentPage + 1));
         }}
-        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200/80 text-slate-700 text-xs font-semibold shadow-sm hover:bg-slate-50 hover:shadow hover:-translate-y-px transition-all duration-300 ${className}`}
+        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-600 text-slate-700 dark:text-slate-200 text-xs font-semibold shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 hover:shadow hover:-translate-y-px transition-all duration-300 ${className}`}
         aria-label="Jump to page"
       >
         <span className="material-symbols-outlined text-[18px] text-teal-600">search</span>
@@ -62,7 +62,7 @@ export default function PageJumpInput({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white ring-2 ring-teal-500/80 shadow-md animate-fade-in ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white dark:bg-slate-800 ring-2 ring-teal-500/80 shadow-md animate-fade-in ${className}`}
     >
       <span className="material-symbols-outlined text-[18px] text-teal-600">
         search

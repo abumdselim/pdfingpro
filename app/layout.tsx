@@ -3,6 +3,10 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ScrollToTop from "@/components/layout/ScrollToTop";
+import DevServiceWorkerCleanup from "@/components/layout/DevServiceWorkerCleanup";
+import DevSwCleanupScript from "@/components/layout/DevSwCleanupScript";
+import ThemeScript from "@/components/layout/ThemeScript";
+import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { I18nProvider } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -10,7 +14,6 @@ export const metadata: Metadata = {
   description:
     "Merge, split, compress, convert, rotate, watermark and sign PDFs - all in your browser. No uploads, no server. 100% private and open source.",
   keywords: ["pdf editor", "merge pdf", "split pdf", "compress pdf", "free pdf tools", "online pdf"],
-  manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -24,20 +27,26 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#137ece",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head />
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <DevSwCleanupScript />
+        <ThemeScript />
+      </head>
       <body className="flex flex-col min-h-screen">
-        <I18nProvider>
-          <ScrollToTop />
-          <Header />
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </I18nProvider>
+        <ThemeProvider>
+          <I18nProvider>
+            <DevServiceWorkerCleanup />
+            <ScrollToTop />
+            <Header />
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </I18nProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

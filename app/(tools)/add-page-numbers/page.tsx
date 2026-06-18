@@ -75,7 +75,7 @@ export default function AddPageNumbersPage() {
             <ToolCard>
               <div className="space-y-5">
                 <div>
-                  <label className="text-sm font-semibold text-slate-700 block mb-2">{t("pageNumbers.position")}</label>
+                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-2">{t("pageNumbers.position")}</label>
                   <div className="grid grid-cols-3 gap-2">
                     {POSITIONS.map(({ id, labelKey }) => (
                       <button
@@ -96,7 +96,7 @@ export default function AddPageNumbersPage() {
 
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-sm font-medium text-slate-700 block mb-1.5">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1.5">
                       {t("pageNumbers.format")}
                     </label>
                     <input
@@ -104,15 +104,15 @@ export default function AddPageNumbersPage() {
                       value={format}
                       onChange={(e) => setFormat(e.target.value)}
                       placeholder={t("pageNumbers.formatPlaceholder")}
-                      className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      className="w-full border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
                     />
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
                       {t("pageNumbers.formatHint")}
                     </p>
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium text-slate-700 block mb-1.5">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1.5">
                       {t("pageNumbers.startAt")}
                     </label>
                     <input
@@ -120,12 +120,12 @@ export default function AddPageNumbersPage() {
                       min={0}
                       value={startAt}
                       onChange={(e) => setStartAt(Number(e.target.value))}
-                      className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      className="w-full border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium text-slate-700 block mb-1.5">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1.5">
                       {t("pageNumbers.fontSize", { value: fontSize })}
                     </label>
                     <input
@@ -136,7 +136,7 @@ export default function AddPageNumbersPage() {
                   </div>
                 </div>
 
-                {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+                {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
 
                 <PrimaryButton onClick={handleAdd} loading={processing}>
                   <span className="material-symbols-outlined text-[18px]">format_list_numbered</span>

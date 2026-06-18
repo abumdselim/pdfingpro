@@ -58,7 +58,7 @@ export default function PDFToJPGPage() {
           <ToolCard>
             <div className="grid sm:grid-cols-2 gap-6">
               <div>
-                <p className="text-sm font-semibold text-slate-700 mb-2">{t("pdfToJpg.format")}</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">{t("pdfToJpg.format")}</p>
                 <div className="flex gap-2">
                   {(["jpeg", "png"] as ImageFormat[]).map((f) => (
                     <button key={f} onClick={() => setFormat(f)} className={cn(
@@ -69,7 +69,7 @@ export default function PDFToJPGPage() {
                 </div>
               </div>
               <div>
-                <p className="text-sm font-semibold text-slate-700 mb-2">{t("pdfToJpg.resolution", { dpi: dpiLabel })}</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">{t("pdfToJpg.resolution", { dpi: dpiLabel })}</p>
                 <div className="flex gap-2">
                   {[1, 1.5, 2, 3].map((s) => (
                     <button key={s} onClick={() => setScale(s)} className={cn(
@@ -82,14 +82,14 @@ export default function PDFToJPGPage() {
             </div>
             {format === "jpeg" && (
               <div className="mt-4">
-                <label className="text-sm font-medium text-slate-700 block mb-1.5">{t("pdfToJpg.jpegQuality", { value: quality })}</label>
+                <label className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1.5">{t("pdfToJpg.jpegQuality", { value: quality })}</label>
                 <input type="range" min={40} max={100} value={quality} onChange={(e) => setQuality(Number(e.target.value))} className="w-full accent-teal-600" />
               </div>
             )}
             {processing && (
               <div className="mt-4"><ProgressBar value={progress} label={t("pdfToJpg.progress", { value: progress })} /></div>
             )}
-            {error && <p className="mt-3 text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+            {error && <p className="mt-3 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
             <PrimaryButton onClick={handleConvert} loading={processing} className="mt-5">
               <span className="material-symbols-outlined text-[18px]">image</span>
               {t("pdfToJpg.button")}
@@ -100,19 +100,19 @@ export default function PDFToJPGPage() {
         {done && (
           <ToolCard>
             <div className="flex flex-col items-center gap-4 py-6">
-              <div className="w-14 h-14 bg-teal-100 rounded-full flex items-center justify-center">
-                <span className="material-symbols-outlined text-teal-600 icon-filled text-[30px]">check_circle</span>
+              <div className="w-14 h-14 bg-teal-100 dark:bg-teal-900/40 rounded-full flex items-center justify-center">
+                <span className="material-symbols-outlined text-teal-600 dark:text-teal-400 icon-filled text-[30px]">check_circle</span>
               </div>
-              <p className="font-semibold text-slate-800">{t("pdfToJpg.done")}</p>
+              <p className="font-semibold text-slate-800 dark:text-slate-200">{t("pdfToJpg.done")}</p>
               {previews.length > 0 && (
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full mt-2">
                   {previews.map((src, i) => (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img key={i} src={src} alt={`Page ${i + 1}`} className="w-full rounded border border-slate-200" />
+                    <img key={i} src={src} alt={`Page ${i + 1}`} className="w-full rounded border border-slate-200 dark:border-slate-700" />
                   ))}
                 </div>
               )}
-              <button onClick={reset} className="mt-2 inline-flex items-center gap-2 bg-white border border-slate-300 text-slate-700 text-sm font-medium px-5 py-2.5 rounded hover:bg-slate-50 transition-colors">
+              <button onClick={reset} className="mt-2 inline-flex items-center gap-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-sm font-medium px-5 py-2.5 rounded hover:bg-slate-50 dark:hover:bg-slate-800 dark:bg-slate-900/50 transition-colors">
                 <span className="material-symbols-outlined text-[18px]">refresh</span>
                 {t("pdfToJpg.another")}
               </button>

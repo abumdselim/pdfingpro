@@ -4,9 +4,13 @@ import { useState, useRef, useEffect } from "react";
 import ToolLayout, { ToolCard, PrimaryButton, DownloadSuccess } from "@/components/shared/ToolLayout";
 import FileDropzone from "@/components/shared/FileDropzone";
 import PDFThumbnails from "@/components/shared/PDFThumbnail";
+import TouchHint from "@/components/shared/TouchHint";
+import PageJumpInput from "@/components/shared/PageJumpInput";
 import { PDFDocument, degrees } from "pdf-lib";
 import { renderPageToCanvas } from "@/lib/pdf/core";
 import { downloadBlob, getBaseName } from "@/lib/utils";
+import { preventScrollDuringTouch } from "@/lib/touch-utils";
+import { useIsTouchDevice } from "@/lib/hooks/useIsTouchDevice";
 import { useTranslation } from "@/lib/i18n";
 
 type SigPlacement = {
@@ -35,6 +39,9 @@ type HandleState = {
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
+const HANDLE_SIZE = 44;
+const ROTATE_HANDLE_SIZE = 44;
+
 export default function SignPDFPage() {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
@@ -59,6 +66,12 @@ export default function SignPDFPage() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const isDrawing = useRef(false);
   const lastPoint = useRef<{ x: number; y: number } | null>(null);
+  const isTouch = useIsTouchDevice();
+
+  useEffect(() => {
+    const cleanup = preventScrollDuringTouch(wrapRef.current);
+    return cleanup;
+  }, []);
 
   useEffect(() => {
     if (!file) { setPreviewError(null); setPreviewLoading(false); return; }
@@ -288,33 +301,41 @@ export default function SignPDFPage() {
               <ToolCard className="p-4 md:p-5">
                 <div className="flex items-center justify-between gap-3 mb-4">
                   <div>
-                    <p className="text-sm font-semibold text-slate-700">{t("common.pagePreview")}</p>
-                    <p className="text-xs text-slate-500 mt-1">
-                      {sigPreviewUrl
-                        ? t("sign.hintWithSig")
-                        : t("sign.hintNoSig")}
-                    </p>
+                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t("common.pagePreview")}</p>
+                    <TouchHint
+                      text={
+                        sigPreviewUrl
+                          ? isTouch
+                            ? t("sign.hintWithSig")
+                            : t("sign.hintMouse")
+                          : t("sign.hintNoSig")
+                      }
+                      icon="draw"
+                      className="mt-2"
+                    />
                   </div>
                   <div className="flex items-center gap-3">
                     {pagePlacements.length > 0 && (
-                      <span className="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
+                      <span className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full">
                         {pagePlacements.length} placed
                       </span>
                     )}
-                    <span className="text-xs font-medium text-slate-500">
-                      Page {Math.min(targetPage + 1, Math.max(pageCount, 1))}{pageCount > 0 ? ` / ${pageCount}` : ""}
-                    </span>
+                    <PageJumpInput
+                      currentPage={targetPage}
+                      totalPages={pageCount}
+                      onJump={goToPage}
+                    />
                   </div>
                 </div>
 
                 <div className="relative">
-                  <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+                  <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
                     <canvas ref={previewCanvasRef} className="block w-full h-auto" />
                   </div>
 
                   <div
                     ref={wrapRef}
-                    className={`absolute inset-0 touch-none ${cursorClass}`}
+                    className={`absolute inset-0 touch-none no-select ${cursorClass}`}
                     onMouseMove={(e) => { if (!handle) setHoverPt(getRelPt(e.clientX, e.clientY)); }}
                     onMouseLeave={() => { if (!handle) setHoverPt(null); }}
                     onClick={placeSignature}
@@ -341,12 +362,20 @@ export default function SignPDFPage() {
                               {/* Rotation handle */}
                               {isSel && (
                                 <div
-                                  className="absolute -top-11 left-1/2 -translate-x-1/2 flex flex-col items-center z-30 cursor-grab active:cursor-grabbing touch-none"
+                                  className="absolute flex flex-col items-center z-30 cursor-grab active:cursor-grabbing touch-none"
+                                  style={{
+                                    top: `-${ROTATE_HANDLE_SIZE + 12}px`,
+                                    left: "50%",
+                                    transform: "translateX(-50%)",
+                                  }}
                                   onPointerDown={(e) => startRotate(e, p)}
                                   onClick={(e) => e.stopPropagation()}
                                 >
-                                  <div className="w-9 h-9 bg-white border-2 border-teal-500 rounded-full flex items-center justify-center shadow-md hover:bg-teal-50 transition-colors">
-                                    <span className="material-symbols-outlined text-[18px] text-teal-600 leading-none select-none">rotate_right</span>
+                                  <div
+                                    className="bg-white dark:bg-slate-800 border-2 border-teal-500 rounded-full flex items-center justify-center shadow-md hover:bg-teal-50 dark:hover:bg-teal-950/40 dark:bg-teal-950/40 transition-colors"
+                                    style={{ width: `${ROTATE_HANDLE_SIZE}px`, height: `${ROTATE_HANDLE_SIZE}px` }}
+                                  >
+                                    <span className="material-symbols-outlined text-[20px] text-teal-600 dark:text-teal-400 leading-none select-none">rotate_right</span>
                                   </div>
                                   <div className="w-px h-3 bg-teal-400" />
                                 </div>
@@ -364,25 +393,33 @@ export default function SignPDFPage() {
                                 {/* Delete button - always visible when selected, hover-only otherwise */}
                                 <button
                                   type="button"
-                                  className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 z-20 bg-white/90 border border-slate-200 text-slate-500 rounded-full flex items-center justify-center shadow hover:bg-red-500 hover:border-red-500 hover:text-white transition-all ${isSel ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+                                  className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-full flex items-center justify-center shadow hover:bg-red-500 hover:border-red-500 hover:text-white transition-all active:scale-95 ${isSel ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+                                  style={{ width: `${HANDLE_SIZE}px`, height: `${HANDLE_SIZE}px` }}
                                   onPointerDown={(e) => e.stopPropagation()}
                                   onClick={(e) => { e.stopPropagation(); deletePlacement(p.id); }}
                                 >
-                                  <span className="material-symbols-outlined text-[18px] leading-none">delete</span>
+                                  <span className="material-symbols-outlined text-[20px] leading-none">delete</span>
                                 </button>
 
-                                {/* Corner resize handles - enlarged for touch */}
                                 {isSel && (
                                   <>
                                     {[
-                                      "absolute -top-2.5 -left-2.5 cursor-nw-resize",
-                                      "absolute -top-2.5 -right-2.5 cursor-ne-resize",
-                                      "absolute -bottom-2.5 -left-2.5 cursor-sw-resize",
-                                      "absolute -bottom-2.5 -right-2.5 cursor-se-resize",
+                                      "absolute cursor-nw-resize",
+                                      "absolute cursor-ne-resize",
+                                      "absolute cursor-sw-resize",
+                                      "absolute cursor-se-resize",
                                     ].map((cls, i) => (
                                       <div
                                         key={i}
-                                        className={`${cls} w-5 h-5 bg-white border-2 border-teal-500 rounded-sm shadow-sm z-20 touch-none`}
+                                        className={`${cls} bg-white dark:bg-slate-800 border-2 border-teal-500 rounded-sm shadow-sm z-20 touch-none`}
+                                        style={{
+                                          width: `${HANDLE_SIZE}px`,
+                                          height: `${HANDLE_SIZE}px`,
+                                          top: i < 2 ? `-${HANDLE_SIZE / 2}px` : undefined,
+                                          bottom: i >= 2 ? `-${HANDLE_SIZE / 2}px` : undefined,
+                                          left: i === 0 || i === 2 ? `-${HANDLE_SIZE / 2}px` : undefined,
+                                          right: i === 1 || i === 3 ? `-${HANDLE_SIZE / 2}px` : undefined,
+                                        }}
                                         onPointerDown={(e) => startResize(e, p)}
                                         onClick={(e) => e.stopPropagation()}
                                       />
@@ -414,19 +451,19 @@ export default function SignPDFPage() {
                     )}
 
                     {!sigPreviewUrl && (
-                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-teal-300 bg-white/70 px-4 py-2 text-xs font-medium tracking-wide text-teal-700 pointer-events-none whitespace-nowrap">
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-teal-300 dark:border-teal-600 bg-white dark:bg-slate-800/70 px-4 py-2 text-xs font-medium tracking-wide text-teal-700 dark:text-teal-300 pointer-events-none whitespace-nowrap">
                         {t("sign.drawPrompt")}
                       </div>
                     )}
 
                     {previewLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/70 rounded-xl pointer-events-none">
+                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-800/70 rounded-xl pointer-events-none">
                         <span className="material-symbols-outlined animate-spin text-teal-500 text-[22px]">progress_activity</span>
                       </div>
                     )}
                     {previewError && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/85 p-4 rounded-xl pointer-events-none">
-                        <p className="text-sm text-red-600 text-center">{previewError}</p>
+                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-800/85 p-4 rounded-xl pointer-events-none">
+                        <p className="text-sm text-red-600 dark:text-red-400 text-center">{previewError}</p>
                       </div>
                     )}
                   </div>
@@ -434,11 +471,11 @@ export default function SignPDFPage() {
                   {pageCount > 1 && (
                     <>
                       <button type="button" aria-label="Previous page" onClick={() => goToPage(targetPage - 1)} disabled={targetPage === 0}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:bg-white hover:text-teal-700 disabled:opacity-40 disabled:cursor-not-allowed">
+                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/95 text-slate-700 dark:text-slate-300 shadow-md transition hover:bg-white dark:hover:bg-slate-700 hover:text-teal-700 dark:hover:text-teal-300 disabled:opacity-40 disabled:cursor-not-allowed">
                         <span className="material-symbols-outlined text-[24px]">chevron_left</span>
                       </button>
                       <button type="button" aria-label="Next page" onClick={() => goToPage(targetPage + 1)} disabled={targetPage >= pageCount - 1}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:bg-white hover:text-teal-700 disabled:opacity-40 disabled:cursor-not-allowed">
+                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/95 text-slate-700 dark:text-slate-300 shadow-md transition hover:bg-white dark:hover:bg-slate-700 hover:text-teal-700 dark:hover:text-teal-300 disabled:opacity-40 disabled:cursor-not-allowed">
                         <span className="material-symbols-outlined text-[24px]">chevron_right</span>
                       </button>
                     </>
@@ -449,8 +486,8 @@ export default function SignPDFPage() {
               {/* Signature pad */}
               <ToolCard>
                 <div className="flex items-center justify-between mb-3">
-                  <p className="text-sm font-semibold text-slate-700">{t("sign.drawTitle")}</p>
-                  <button onClick={clearSignature} className="text-xs text-slate-500 hover:text-red-600 transition-colors flex items-center gap-1">
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t("sign.drawTitle")}</p>
+                  <button onClick={clearSignature} className="text-xs text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-1">
                     <span className="material-symbols-outlined text-[14px]">delete</span>
                     {t("common.clear")}
                   </button>
@@ -469,14 +506,14 @@ export default function SignPDFPage() {
                   onTouchEnd={endDraw}
                 />
                 {!hasSig && (
-                  <p className="text-center text-sm text-slate-400 mt-2">{t("sign.signHint")}</p>
+                  <p className="text-center text-sm text-slate-400 dark:text-slate-500 mt-2">{t("sign.signHint")}</p>
                 )}
               </ToolCard>
 
               {/* Page thumbnails */}
               <ToolCard>
-                <p className="text-sm font-semibold text-slate-700 mb-3">{t("common.pages")}</p>
-                <p className="text-xs text-slate-500 mb-3">
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">{t("common.pages")}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
                   {t("sign.thumbHint")}
                 </p>
                 <PDFThumbnails
@@ -485,10 +522,11 @@ export default function SignPDFPage() {
                   onTogglePage={(i) => setTargetPage(i)}
                   onLoaded={setPageCount}
                   columns={6}
+                  mobileHorizontalScroll
                 />
               </ToolCard>
 
-              {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+              {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
 
               <PrimaryButton onClick={handleEmbed} loading={processing} disabled={!hasSig}>
                 <span className="material-symbols-outlined text-[18px]">draw</span>

@@ -321,7 +321,7 @@ export default function WebsiteToPDFPage() {
       <div className="space-y-4">
         <ToolCard>
           <div className="flex flex-col gap-4">
-            <div className="inline-flex w-full rounded-full border border-slate-200 bg-slate-100 p-1 sm:w-auto">
+            <div className="inline-flex w-full rounded-full border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 p-1 sm:w-auto">
               {(["url", "html"] as const).map((item) => (
                 <button
                   key={item}
@@ -344,7 +344,7 @@ export default function WebsiteToPDFPage() {
 
             {mode === "url" ? (
               <div className="space-y-3">
-                <label className="block text-sm font-semibold text-slate-700" htmlFor="website-url">
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="website-url">
                   {t("webToPdf.websiteLink")}
                 </label>
                 <div className="flex flex-col gap-3 sm:flex-row">
@@ -354,19 +354,19 @@ export default function WebsiteToPDFPage() {
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="https://example.com"
-                    className="min-h-11 flex-1 rounded border border-slate-300 px-3 py-2 text-sm outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+                    className="min-h-11 flex-1 rounded border border-slate-300 dark:border-slate-600 px-3 py-2 text-sm outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/50"
                   />
                   <SecondaryButton onClick={openUrlInNewTab} disabled={!normalizedUrl}>
                     <span className="material-symbols-outlined text-[18px]">open_in_new</span>
                     {t("webToPdf.open")}
                   </SecondaryButton>
                 </div>
-                <p className="text-xs leading-relaxed text-slate-500">{t("webToPdf.urlHint")}</p>
+                <p className="text-xs leading-relaxed text-slate-500 dark:text-slate-400">{t("webToPdf.urlHint")}</p>
               </div>
             ) : (
               <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_260px]">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2" htmlFor="html-input">
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2" htmlFor="html-input">
                     {t("webToPdf.pasteHtml")}
                   </label>
                   <textarea
@@ -374,12 +374,12 @@ export default function WebsiteToPDFPage() {
                     value={html}
                     onChange={(e) => setHtml(e.target.value)}
                     rows={8}
-                    className="w-full rounded border border-slate-300 px-3 py-2 font-mono text-xs outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+                    className="w-full rounded border border-slate-300 dark:border-slate-600 px-3 py-2 font-mono text-xs outline-none transition focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/50"
                     spellCheck={false}
                   />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-slate-700 mb-2">{t("webToPdf.uploadHtml")}</p>
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">{t("webToPdf.uploadHtml")}</p>
                   <FileDropzone
                     onFiles={handleHtmlFile}
                     files={[]}
@@ -400,13 +400,13 @@ export default function WebsiteToPDFPage() {
         <ToolCard>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
+              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2">
                 {t("webToPdf.pageSize")}
               </label>
               <select
                 value={pageSize}
                 onChange={(e) => setPageSize(e.target.value as PageSize)}
-                className="min-h-11 w-full rounded border border-slate-300 bg-white px-3 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+                className="min-h-11 w-full rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/50"
               >
                 <option>Letter</option>
                 <option>A4</option>
@@ -415,10 +415,10 @@ export default function WebsiteToPDFPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
+              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2">
                 {t("webToPdf.orientation")}
               </label>
-              <div className="grid grid-cols-2 rounded border border-slate-200 bg-slate-100 p-1">
+              <div className="grid grid-cols-2 rounded border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 p-1">
                 {(["portrait", "landscape"] as const).map((item) => (
                   <button
                     key={item}
@@ -436,13 +436,13 @@ export default function WebsiteToPDFPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
+              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2">
                 {t("webToPdf.margins")}
               </label>
               <select
                 value={margin}
                 onChange={(e) => setMargin(e.target.value as MarginPreset)}
-                className="min-h-11 w-full rounded border border-slate-300 bg-white px-3 text-sm capitalize outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100"
+                className="min-h-11 w-full rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 text-sm capitalize outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-100 dark:focus:ring-teal-900/50"
               >
                 <option value="none">None</option>
                 <option value="small">Small</option>
@@ -452,7 +452,7 @@ export default function WebsiteToPDFPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
+              <label className="block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400 mb-2">
                 {t("webToPdf.scale", { value: scale })}
               </label>
               <input
@@ -490,8 +490,8 @@ export default function WebsiteToPDFPage() {
         <ToolCard className="p-4 md:p-5">
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <p className="text-sm font-semibold text-slate-700">{t("webToPdf.preview")}</p>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t("webToPdf.preview")}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 {mode === "url" ? t("webToPdf.previewHintUrl") : t("webToPdf.previewHintHtml")}
               </p>
             </div>
@@ -507,7 +507,7 @@ export default function WebsiteToPDFPage() {
             </PrimaryButton>
           </div>
 
-          <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+          <div className="relative overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
             {mode === "url" ? (
               normalizedUrl ? (
                 <>
@@ -521,8 +521,8 @@ export default function WebsiteToPDFPage() {
                     onLoad={handleUrlIframeLoad}
                   />
                   {previewStatus === "loading" && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
-                      <div className="flex items-center gap-2 text-sm font-medium text-slate-600">
+                    <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-800/80 backdrop-blur-sm">
+                      <div className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400">
                         <span className="material-symbols-outlined animate-spin text-[20px]">progress_activity</span>
                         {t("webToPdf.previewLoading")}
                       </div>
@@ -530,12 +530,12 @@ export default function WebsiteToPDFPage() {
                   )}
                   {urlPreviewBlocked && (
                     <div className="absolute inset-0 flex items-center justify-center bg-slate-900/55 p-6 backdrop-blur-[1px]">
-                      <div className="max-w-md rounded-2xl border border-teal-200 bg-white p-6 text-center shadow-lg">
-                        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-teal-100 text-teal-700">
+                      <div className="max-w-md rounded-2xl border border-teal-200 dark:border-teal-800/50 bg-white dark:bg-slate-800 p-6 text-center shadow-lg">
+                        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300">
                           <span className="material-symbols-outlined text-[24px]">public</span>
                         </div>
-                        <h3 className="text-base font-bold text-slate-900">{t("webToPdf.embedBlockedTitle")}</h3>
-                        <p className="mt-2 text-sm leading-relaxed text-slate-600">{t("webToPdf.embedBlockedBody")}</p>
+                        <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">{t("webToPdf.embedBlockedTitle")}</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t("webToPdf.embedBlockedBody")}</p>
                         <div className="mt-5">
                           <PrimaryButton onClick={convertUrlToPdf} loading={processing} disabled={processing}>
                             <span className="material-symbols-outlined text-[18px]">download</span>
@@ -547,7 +547,7 @@ export default function WebsiteToPDFPage() {
                   )}
                 </>
               ) : (
-                <div className="flex min-h-[360px] items-center justify-center p-6 text-center text-sm text-slate-500">
+                <div className="flex min-h-[360px] items-center justify-center p-6 text-center text-sm text-slate-500 dark:text-slate-400">
                   {t("webToPdf.enterUrlPreview")}
                 </div>
               )

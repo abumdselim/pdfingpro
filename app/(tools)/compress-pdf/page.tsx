@@ -68,7 +68,7 @@ export default function CompressPDFPage() {
             sizeBytes={result.blob.size}
           />
           {file && (
-            <p className="text-center text-xs text-slate-500 mt-2">
+            <p className="text-center text-xs text-slate-500 dark:text-slate-400 mt-2">
               {t("compress.result", {
                 from: formatBytes(file.size),
                 to: formatBytes(result.blob.size),
@@ -89,7 +89,7 @@ export default function CompressPDFPage() {
           {file && (
             <>
               <ToolCard>
-                <p className="text-sm font-semibold text-slate-700 mb-3">{t("compress.level")}</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">{t("compress.level")}</p>
                 <div className="grid sm:grid-cols-3 gap-3">
                   {LEVELS.map(({ id, labelKey, descKey }) => (
                     <button
@@ -105,12 +105,12 @@ export default function CompressPDFPage() {
                       <p className={cn("font-semibold text-sm", level === id ? "text-teal-700" : "text-slate-800")}>
                         {t(labelKey)}
                       </p>
-                      <p className="text-xs text-slate-500 mt-0.5">{t(descKey)}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{t(descKey)}</p>
                     </button>
                   ))}
                 </div>
 
-                <div className="mt-5 p-3 bg-amber-50 border border-amber-200 rounded text-xs text-amber-700">
+                <div className="mt-5 p-3 bg-amber-50 dark:bg-amber-950/25 border border-amber-200 dark:border-amber-800/50 rounded text-xs text-amber-700 dark:text-amber-300">
                   <span className="font-semibold">{t("compress.noteLabel")}</span> {t("compress.note")}
                 </div>
               </ToolCard>
@@ -122,7 +122,7 @@ export default function CompressPDFPage() {
               )}
 
               {error && (
-                <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>
+                <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>
               )}
 
               <PrimaryButton onClick={handleCompress} loading={processing}>

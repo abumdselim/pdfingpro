@@ -64,30 +64,30 @@ export default function ProtectPDFPage() {
             <ToolCard>
               <div className="space-y-4">
                 <div>
-                  <label className="text-sm font-semibold text-slate-700 block mb-1.5">{t("protect.password")}</label>
+                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-1.5">{t("protect.password")}</label>
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder={t("protect.enterPassword")}
-                    className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+                    className="w-full border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-semibold text-slate-700 block mb-1.5">{t("protect.confirmPassword")}</label>
+                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-1.5">{t("protect.confirmPassword")}</label>
                   <input
                     type="password"
                     value={confirm}
                     onChange={(e) => setConfirm(e.target.value)}
                     placeholder={t("protect.reenterPassword")}
-                    className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+                    className="w-full border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
                   />
                   {mismatch && (
                     <p className="text-xs text-red-500 mt-1">{t("protect.mismatch")}</p>
                   )}
                 </div>
 
-                {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+                {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
 
                 <PrimaryButton onClick={handleProtect} loading={processing} disabled={!password || mismatch}>
                   <span className="material-symbols-outlined text-[18px]">lock</span>

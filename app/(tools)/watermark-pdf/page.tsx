@@ -81,19 +81,19 @@ export default function WatermarkPDFPage() {
             <ToolCard>
               <div className="space-y-5">
                 <div>
-                  <label className="text-sm font-semibold text-slate-700 block mb-1.5">{t("watermark.text")}</label>
+                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-1.5">{t("watermark.text")}</label>
                   <input
                     type="text"
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     placeholder="CONFIDENTIAL"
-                    className="w-full border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
+                    className="w-full border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400"
                   />
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="text-sm font-medium text-slate-700 block mb-1.5">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1.5">
                       {t("watermark.opacity", { value: opacity })}
                     </label>
                     <input
@@ -103,7 +103,7 @@ export default function WatermarkPDFPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-slate-700 block mb-1.5">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1.5">
                       {t("watermark.fontSize", { value: fontSize })}
                     </label>
                     <input
@@ -113,7 +113,7 @@ export default function WatermarkPDFPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-slate-700 block mb-1.5">
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1.5">
                       {t("watermark.angle", { value: angle })}
                     </label>
                     <input
@@ -123,20 +123,20 @@ export default function WatermarkPDFPage() {
                     />
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-slate-700 block mb-1.5">{t("watermark.color")}</label>
+                    <label className="text-sm font-medium text-slate-700 dark:text-slate-300 block mb-1.5">{t("watermark.color")}</label>
                     <div className="flex items-center gap-3">
                       <input
                         type="color" value={color}
                         onChange={(e) => setColor(e.target.value)}
-                        className="w-10 h-10 rounded cursor-pointer border border-slate-300"
+                        className="w-10 h-10 rounded cursor-pointer border border-slate-300 dark:border-slate-600"
                       />
-                      <span className="text-sm text-slate-600 font-mono">{color}</span>
+                      <span className="text-sm text-slate-600 dark:text-slate-400 font-mono">{color}</span>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-sm font-semibold text-slate-700 block mb-2">{t("watermark.position")}</label>
+                  <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-2">{t("watermark.position")}</label>
                   <div className="flex gap-3">
                     {(["center", "tile"] as const).map((p) => (
                       <button
@@ -155,7 +155,7 @@ export default function WatermarkPDFPage() {
                   </div>
                 </div>
 
-                {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+                {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
 
                 <PrimaryButton onClick={handleWatermark} loading={processing} disabled={!text.trim()}>
                   <span className="material-symbols-outlined text-[18px]">water</span>

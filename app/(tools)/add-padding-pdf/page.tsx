@@ -15,7 +15,8 @@ import {
 } from "@/lib/pdf/padding";
 import type { CropRectFrac } from "@/lib/pdf/crop";
 import { downloadBlob, getBaseName, pdfBytes } from "@/lib/utils";
-import { preventScrollDuringTouch, isTouchDevice } from "@/lib/touch-utils";
+import { preventScrollDuringTouch } from "@/lib/touch-utils";
+import { useIsTouchDevice } from "@/lib/hooks/useIsTouchDevice";
 import { useTranslation } from "@/lib/i18n";
 
 type DragMode =
@@ -213,7 +214,7 @@ export default function AddPaddingPDFPage() {
 
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  const [isTouch] = useState(() => isTouchDevice());
+  const isTouch = useIsTouchDevice();
 
   const pageWidthIn = pageSizePt ? pageSizePt.width / PTS_PER_IN : 8.5;
   const pageHeightIn = pageSizePt ? pageSizePt.height / PTS_PER_IN : 11;
@@ -503,7 +504,7 @@ export default function AddPaddingPDFPage() {
               <ToolCard className="p-4 md:p-5">
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-slate-700">{t("padding.preview")}</p>
+                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t("padding.preview")}</p>
                     <TouchHint
                       text={isTouch ? t("padding.hintTouch") : t("padding.hintMouse")}
                       icon="border_outer"
@@ -514,7 +515,7 @@ export default function AddPaddingPDFPage() {
                 </div>
 
                 <div className="relative">
-                  <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+                  <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
                     <canvas ref={previewCanvasRef} className="block w-full h-auto" />
                   </div>
 
@@ -585,15 +586,15 @@ export default function AddPaddingPDFPage() {
                     </button>
 
                     {previewLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/70 rounded-xl pointer-events-none">
+                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-800/70 rounded-xl pointer-events-none">
                         <span className="material-symbols-outlined animate-spin text-blue-500 text-[22px]">
                           progress_activity
                         </span>
                       </div>
                     )}
                     {previewError && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/85 p-4 rounded-xl pointer-events-none">
-                        <p className="text-sm text-red-600 text-center">{previewError}</p>
+                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-800/85 p-4 rounded-xl pointer-events-none">
+                        <p className="text-sm text-red-600 dark:text-red-400 text-center">{previewError}</p>
                       </div>
                     )}
                   </div>
@@ -605,7 +606,7 @@ export default function AddPaddingPDFPage() {
                         aria-label="Previous page"
                         onClick={() => goToPage(targetPage - 1)}
                         disabled={targetPage === 0}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:bg-white hover:text-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/95 text-slate-700 dark:text-slate-300 shadow-md transition hover:bg-white dark:hover:bg-slate-700 hover:text-indigo-700 dark:text-indigo-300 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
                         style={{ width: "44px", height: "44px" }}
                       >
                         <span className="material-symbols-outlined text-[24px]">chevron_left</span>
@@ -615,7 +616,7 @@ export default function AddPaddingPDFPage() {
                         aria-label="Next page"
                         onClick={() => goToPage(targetPage + 1)}
                         disabled={targetPage >= pageCount - 1}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:bg-white hover:text-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/95 text-slate-700 dark:text-slate-300 shadow-md transition hover:bg-white dark:hover:bg-slate-700 hover:text-indigo-700 dark:text-indigo-300 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
                         style={{ width: "44px", height: "44px" }}
                       >
                         <span className="material-symbols-outlined text-[24px]">chevron_right</span>
@@ -638,13 +639,13 @@ export default function AddPaddingPDFPage() {
                       type="button"
                       onClick={clearAll}
                       disabled={!hasAnyPadding}
-                      className="text-sm text-slate-500 hover:text-red-600 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="text-sm text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <span className="material-symbols-outlined text-[18px]">delete_sweep</span>
                       {t("padding.resetAll")}
                     </button>
                   </div>
-                  <div className="text-xs text-slate-500">
+                  <div className="text-xs text-slate-500 dark:text-slate-400">
                     {hasAnyPadding
                       ? t("padding.adjustedCount", { count: adjustedCount })
                       : t("padding.noPadding")}
@@ -653,8 +654,8 @@ export default function AddPaddingPDFPage() {
               </ToolCard>
 
               <ToolCard>
-                <p className="text-sm font-semibold text-slate-700 mb-3">{t("common.pages")}</p>
-                <p className="text-xs text-slate-500 mb-3">{t("padding.thumbHint")}</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">{t("common.pages")}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{t("padding.thumbHint")}</p>
                 <PDFThumbnails
                   file={file}
                   selectedPages={new Set([targetPage])}
@@ -665,7 +666,7 @@ export default function AddPaddingPDFPage() {
                 />
               </ToolCard>
 
-              {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+              {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <PrimaryButton

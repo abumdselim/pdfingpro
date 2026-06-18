@@ -53,7 +53,7 @@ export default function OCRPDFPage() {
   return (
     <ToolLayout title={t("tools.ocrPdf.title")} description={t("ocr.pageDescription")} icon="document_scanner" iconClass="bg-teal-50 text-teal-600">
       <div className="space-y-4">
-        <div className="p-4 bg-amber-50 border border-amber-200 rounded text-sm text-amber-700">
+        <div className="p-4 bg-amber-50 dark:bg-amber-950/25 border border-amber-200 dark:border-amber-800/50 rounded text-sm text-amber-700 dark:text-amber-300">
           <span className="font-semibold">{t("ocr.perfNote")}</span>
           {t("ocr.perfBody")}
         </div>
@@ -66,9 +66,9 @@ export default function OCRPDFPage() {
           <ToolCard>
             <div className="space-y-4">
               <div>
-                <label className="text-sm font-semibold text-slate-700 block mb-2">{t("ocr.language")}</label>
+                <label className="text-sm font-semibold text-slate-700 dark:text-slate-300 block mb-2">{t("ocr.language")}</label>
                 <select value={lang} onChange={(e) => setLang(e.target.value)}
-                  className="border border-slate-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 bg-white">
+                  className="border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 bg-white dark:bg-slate-800">
                   {LANGUAGES.map(({ id, labelKey }) => (
                     <option key={id} value={id}>{t(labelKey)}</option>
                   ))}
@@ -77,7 +77,7 @@ export default function OCRPDFPage() {
               {processing && progress && (
                 <ProgressBar value={progressPct} label={t("ocr.progress", { page: progress.page, total: progress.total, status: progress.status })} />
               )}
-              {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+              {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
               <PrimaryButton onClick={handleOCR} loading={processing}>
                 <span className="material-symbols-outlined text-[18px]">document_scanner</span>
                 {processing ? t("ocr.running") : t("ocr.start")}
@@ -89,18 +89,18 @@ export default function OCRPDFPage() {
         {text && (
           <ToolCard>
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm font-semibold text-slate-700">{t("ocr.extractedText")}</p>
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t("ocr.extractedText")}</p>
               <div className="flex gap-2">
                 <button onClick={downloadText} className="inline-flex items-center gap-1.5 text-xs font-medium bg-teal-600 text-white px-3 py-1.5 rounded hover:bg-teal-700 transition-colors">
                   <span className="material-symbols-outlined text-[14px]">download</span>
                   {t("ocr.downloadTxt")}
                 </button>
-                <button onClick={reset} className="text-xs font-medium text-slate-500 hover:text-slate-800 px-3 py-1.5 border border-slate-200 rounded hover:border-slate-400 transition-colors">
+                <button onClick={reset} className="text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 px-3 py-1.5 border border-slate-200 dark:border-slate-700 rounded hover:border-slate-400 dark:hover:border-slate-500 transition-colors">
                   {t("ocr.startOver")}
                 </button>
               </div>
             </div>
-            <pre className="text-xs text-slate-700 bg-slate-50 rounded p-4 overflow-auto max-h-96 whitespace-pre-wrap font-mono leading-relaxed border border-slate-200">
+            <pre className="text-xs text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-900/50 rounded p-4 overflow-auto max-h-96 whitespace-pre-wrap font-mono leading-relaxed border border-slate-200 dark:border-slate-700">
               {text}
             </pre>
           </ToolCard>

@@ -1,5 +1,6 @@
 import { PDFDocument } from "pdf-lib";
-import { renderPageToCanvas } from "./core";
+import { PdfSession } from "./engine/session";
+import { canvasToBytes, releaseCanvas, yieldToMain } from "./engine/memory";
 
 export type CompressionLevel = "low" | "medium" | "high";
 
@@ -16,39 +17,49 @@ const SCALE_MAP: Record<CompressionLevel, number> = {
 };
 
 /**
- * Compress a PDF by re-rendering each page to a JPEG image at reduced quality.
- * This trades text selectability for significant file-size reduction.
+ * Compress a PDF by re-rendering each page to JPEG at reduced quality.
+ * Uses a single PdfSession so large files are not re-parsed per page.
  */
 export async function compressPDF(
   arrayBuffer: ArrayBuffer,
   level: CompressionLevel = "medium",
   onProgress?: (page: number, total: number) => void
 ): Promise<Uint8Array> {
+  const session = await PdfSession.fromBuffer(arrayBuffer);
   const quality = QUALITY_MAP[level];
   const scale = SCALE_MAP[level];
 
-  // Determine page count without loading the full pdf-lib doc
-  const srcDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
-  const pageCount = srcDoc.getPageCount();
-  const outDoc = await PDFDocument.create();
+  try {
+    const pageCount = session.pageCount;
+    const outDoc = await PDFDocument.create();
 
-  for (let i = 1; i <= pageCount; i++) {
-    onProgress?.(i, pageCount);
+    for (let i = 1; i <= pageCount; i++) {
+      onProgress?.(i, pageCount);
 
-    const canvas = await renderPageToCanvas(arrayBuffer, i, scale);
-    const jpegDataUrl = canvas.toDataURL("image/jpeg", quality);
-    const base64 = jpegDataUrl.split(",")[1];
-    const imageBytes = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+      const canvas = await session.renderPage(i, scale);
+      const width = canvas.width;
+      const height = canvas.height;
+      const imageBytes = await canvasToBytes(canvas, "image/jpeg", quality);
+      releaseCanvas(canvas);
 
-    const jpegImage = await outDoc.embedJpg(imageBytes);
-    const page = outDoc.addPage([canvas.width, canvas.height]);
-    page.drawImage(jpegImage, {
-      x: 0,
-      y: 0,
-      width: canvas.width,
-      height: canvas.height,
-    });
+      const jpegImage = await outDoc.embedJpg(imageBytes);
+      const page = outDoc.addPage([width, height]);
+      page.drawImage(jpegImage, {
+        x: 0,
+        y: 0,
+        width,
+        height,
+      });
+
+      if (session.profile.yieldMs > 0) {
+        await yieldToMain(session.profile.yieldMs);
+      } else {
+        await yieldToMain();
+      }
+    }
+
+    return outDoc.save();
+  } finally {
+    session.destroy();
   }
-
-  return outDoc.save();
 }

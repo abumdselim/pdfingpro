@@ -46,7 +46,7 @@ export default function PDFToWordPage() {
           />
         </ToolCard>
 
-        <div className="p-4 bg-amber-50 border border-amber-200 rounded text-sm text-amber-700">
+        <div className="p-4 bg-amber-50 dark:bg-amber-950/25 border border-amber-200 dark:border-amber-800/50 rounded text-sm text-amber-700 dark:text-amber-300">
           <p className="font-semibold mb-1">{t("pdfToWord.limitations")}</p>
           <p>
             {t("pdfToWord.limitationsBody")}{" "}
@@ -65,7 +65,7 @@ export default function PDFToWordPage() {
         ) : (
           file && (
             <ToolCard>
-              {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded mb-4">{error}</p>}
+              {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded mb-4">{error}</p>}
               <PrimaryButton onClick={handleConvert} loading={processing}>
                 <span className="material-symbols-outlined text-[18px]">description</span>
                 {t("pdfToWord.button")}

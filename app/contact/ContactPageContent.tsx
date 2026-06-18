@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n";
+import { ui } from "@/lib/theme/ui";
 
 const CONTACT_CHANNELS = [
   {
@@ -54,24 +56,21 @@ export default function ContactPageContent() {
   return (
     <div className="min-h-screen pt-14 pb-20">
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-teal-50/50 to-transparent -z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-teal-50/50 dark:from-teal-950/30 to-transparent -z-10" />
         <div className="max-w-3xl mx-auto px-6 py-12 text-center animate-fade-in-up">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-4 py-1.5 rounded-full transition-colors mb-8"
-          >
+          <Link href="/" className={cn(ui.backLink, "mb-8")}>
             <span className="material-symbols-outlined text-[16px]">arrow_back</span>
             {t("common.allTools")}
           </Link>
 
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 mb-6 shadow-sm mx-auto bg-teal-50 text-teal-600">
+          <div className={cn("w-16 h-16 rounded-2xl flex items-center justify-center shrink-0 mb-6 shadow-sm mx-auto", ui.iconBadge)}>
             <span className="material-symbols-outlined text-[32px]">contact_mail</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className={cn("text-3xl sm:text-4xl font-extrabold tracking-tight", ui.heading)}>
             {t("legal.contact.title")}
           </h1>
-          <p className="text-lg text-slate-500 mt-3 max-w-xl mx-auto leading-relaxed">
+          <p className={cn("text-lg mt-3 max-w-xl mx-auto leading-relaxed", ui.muted)}>
             {t("legal.contact.subtitle")}
           </p>
         </div>
@@ -87,13 +86,13 @@ export default function ContactPageContent() {
               rel={channel.external ? "noopener noreferrer" : undefined}
               className="glass-panel rounded-2xl p-6 sm:p-8 flex gap-5 items-start hover:shadow-md transition-all duration-300 group"
             >
-              <div className="w-12 h-12 rounded-xl bg-[#1461bd]/10 text-[#1461bd] flex items-center justify-center shrink-0 group-hover:bg-[#1461bd] group-hover:text-white transition-colors">
+              <div className="w-12 h-12 rounded-xl bg-[#1461bd]/10 dark:bg-teal-500/15 text-[#1461bd] dark:text-teal-400 flex items-center justify-center shrink-0 group-hover:bg-[#1461bd] dark:group-hover:bg-teal-600 group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined text-[24px]">{channel.icon}</span>
               </div>
               <div className="text-left min-w-0">
-                <h2 className="text-lg font-bold text-slate-900">{t(channel.titleKey)}</h2>
-                <p className="text-[15px] text-slate-600 mt-1 leading-relaxed">{t(channel.bodyKey)}</p>
-                <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#1461bd] mt-3 group-hover:underline">
+                <h2 className={cn("text-lg font-bold", ui.heading)}>{t(channel.titleKey)}</h2>
+                <p className={cn("text-[15px] mt-1 leading-relaxed", ui.body)}>{t(channel.bodyKey)}</p>
+                <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#1461bd] dark:text-teal-400 mt-3 group-hover:underline">
                   {t(channel.linkLabelKey)}
                   <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                 </span>
@@ -103,9 +102,9 @@ export default function ContactPageContent() {
         </div>
 
         <section className="glass-panel rounded-2xl p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">{t("legal.contact.response.title")}</h2>
-          <p className="mt-4 text-[15px] text-slate-600 leading-relaxed">{t("legal.contact.response.p1")}</p>
-          <ul className="mt-4 list-disc pl-5 space-y-2 text-[15px] text-slate-600 marker:text-[#1461bd]">
+          <h2 className={cn("text-xl font-bold tracking-tight", ui.heading)}>{t("legal.contact.response.title")}</h2>
+          <p className={cn("mt-4 text-[15px] leading-relaxed", ui.body)}>{t("legal.contact.response.p1")}</p>
+          <ul className={cn("mt-4 list-disc pl-5 space-y-2 text-[15px] marker:text-[#1461bd] dark:marker:text-teal-400", ui.body)}>
             <li>{t("legal.contact.response.l1")}</li>
             <li>{t("legal.contact.response.l2")}</li>
             <li>{t("legal.contact.response.l3")}</li>
@@ -113,13 +112,13 @@ export default function ContactPageContent() {
         </section>
 
         <section className="glass-panel rounded-2xl p-6 sm:p-8">
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">{t("legal.contact.faq.title")}</h2>
+          <h2 className={cn("text-xl font-bold tracking-tight", ui.heading)}>{t("legal.contact.faq.title")}</h2>
           <div className="mt-6 space-y-5">
             {FAQ_ITEMS.map((item) => (
-              <div key={item.questionKey} className="border-b border-slate-100 last:border-0 pb-5 last:pb-0">
-                <h3 className="font-semibold text-slate-900">{t(item.questionKey)}</h3>
-                <p className="text-[15px] text-slate-600 mt-2 leading-relaxed">{t(item.answerKey)}</p>
-                <Link href={item.href} className="inline-flex items-center gap-1 text-sm font-medium text-[#1461bd] mt-2 hover:underline">
+              <div key={item.questionKey} className="border-b border-slate-100 dark:border-slate-800 last:border-0 pb-5 last:pb-0">
+                <h3 className={cn("font-semibold", ui.heading)}>{t(item.questionKey)}</h3>
+                <p className={cn("text-[15px] mt-2 leading-relaxed", ui.body)}>{t(item.answerKey)}</p>
+                <Link href={item.href} className="inline-flex items-center gap-1 text-sm font-medium text-[#1461bd] dark:text-teal-400 mt-2 hover:underline">
                   {t("legal.contact.faq.learnMore")}
                   <span className="material-symbols-outlined text-[14px]">open_in_new</span>
                 </Link>
@@ -129,7 +128,7 @@ export default function ContactPageContent() {
         </section>
 
         <div className="glass-panel rounded-2xl p-6 sm:p-8 text-center">
-          <p className="text-xs sm:text-sm font-medium text-slate-500 whitespace-nowrap mx-auto">
+          <p className={cn("text-xs sm:text-sm font-medium whitespace-nowrap mx-auto", ui.muted)}>
             {t("legal.contact.maintainedBy")}
           </p>
           <a
@@ -142,7 +141,7 @@ export default function ContactPageContent() {
             <img
               src="https://res.cloudinary.com/dgcnhseqm/image/upload/q_auto/f_auto/v1781425405/Inievo_ujfqno.png"
               alt="Inievo Technologies"
-              className="h-8 sm:h-10 w-auto max-w-[220px] object-contain"
+              className="h-8 sm:h-10 w-auto max-w-[220px] object-contain dark:brightness-110"
             />
           </a>
         </div>

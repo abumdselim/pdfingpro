@@ -1,3 +1,5 @@
+import { withDarkIcon } from "@/lib/theme/ui";
+
 export interface Tool {
   id: string;
   titleKey: string;
@@ -5,7 +7,11 @@ export interface Tool {
   icon: string;
   href: string;
   category: ToolCategory;
-  color: string; // Tailwind bg color class for icon container
+  color: string; // Tailwind icon container — light + dark pairs
+}
+
+function icon(light: string) {
+  return withDarkIcon(light);
 }
 
 export type ToolCategory = "organize" | "convert" | "edit" | "security";
@@ -19,7 +25,7 @@ export const TOOLS: Tool[] = [
     icon: "merge",
     href: "/merge-pdf",
     category: "organize",
-    color: "bg-indigo-50 text-indigo-600",
+    color: icon("bg-indigo-50 text-indigo-600"),
   },
   {
     id: "split-pdf",
@@ -28,7 +34,7 @@ export const TOOLS: Tool[] = [
     icon: "cut",
     href: "/split-pdf",
     category: "organize",
-    color: "bg-rose-50 text-rose-600",
+    color: icon("bg-rose-50 text-rose-600"),
   },
   {
     id: "organize-pdf",
@@ -37,7 +43,7 @@ export const TOOLS: Tool[] = [
     icon: "grid_view",
     href: "/organize-pdf",
     category: "organize",
-    color: "bg-amber-50 text-amber-600",
+    color: icon("bg-amber-50 text-amber-600"),
   },
   {
     id: "add-page-numbers",
@@ -46,7 +52,7 @@ export const TOOLS: Tool[] = [
     icon: "format_list_numbered",
     href: "/add-page-numbers",
     category: "organize",
-    color: "bg-sky-50 text-sky-600",
+    color: icon("bg-sky-50 text-sky-600"),
   },
   // Convert
   {
@@ -56,7 +62,7 @@ export const TOOLS: Tool[] = [
     icon: "image",
     href: "/pdf-to-jpg",
     category: "convert",
-    color: "bg-orange-50 text-orange-600",
+    color: icon("bg-orange-50 text-orange-600"),
   },
   {
     id: "jpg-to-pdf",
@@ -65,7 +71,7 @@ export const TOOLS: Tool[] = [
     icon: "add_photo_alternate",
     href: "/jpg-to-pdf",
     category: "convert",
-    color: "bg-fuchsia-50 text-fuchsia-600",
+    color: icon("bg-fuchsia-50 text-fuchsia-600"),
   },
   {
     id: "pdf-to-word",
@@ -74,7 +80,7 @@ export const TOOLS: Tool[] = [
     icon: "description",
     href: "/pdf-to-word",
     category: "convert",
-    color: "bg-blue-50 text-blue-600",
+    color: icon("bg-blue-50 text-blue-600"),
   },
   {
     id: "website-to-pdf",
@@ -83,7 +89,7 @@ export const TOOLS: Tool[] = [
     icon: "language",
     href: "/website-to-pdf",
     category: "convert",
-    color: "bg-stone-50 text-stone-600",
+    color: icon("bg-stone-50 text-stone-600"),
   },
   // Edit
   {
@@ -93,7 +99,7 @@ export const TOOLS: Tool[] = [
     icon: "compress",
     href: "/compress-pdf",
     category: "edit",
-    color: "bg-emerald-50 text-emerald-600",
+    color: icon("bg-emerald-50 text-emerald-600"),
   },
   {
     id: "rotate-pdf",
@@ -102,7 +108,7 @@ export const TOOLS: Tool[] = [
     icon: "rotate_right",
     href: "/rotate-pdf",
     category: "edit",
-    color: "bg-purple-50 text-purple-600",
+    color: icon("bg-purple-50 text-purple-600"),
   },
   {
     id: "watermark-pdf",
@@ -111,7 +117,7 @@ export const TOOLS: Tool[] = [
     icon: "water",
     href: "/watermark-pdf",
     category: "edit",
-    color: "bg-cyan-50 text-cyan-600",
+    color: icon("bg-cyan-50 text-cyan-600"),
   },
   {
     id: "sign-pdf",
@@ -120,7 +126,7 @@ export const TOOLS: Tool[] = [
     icon: "draw",
     href: "/sign-pdf",
     category: "edit",
-    color: "bg-pink-50 text-pink-600",
+    color: icon("bg-pink-50 text-pink-600"),
   },
   {
     id: "highlight-pdf",
@@ -129,7 +135,7 @@ export const TOOLS: Tool[] = [
     icon: "draw",
     href: "/highlight-pdf",
     category: "edit",
-    color: "bg-yellow-50 text-yellow-600",
+    color: icon("bg-yellow-50 text-yellow-600"),
   },
   {
     id: "stamp-pdf",
@@ -138,7 +144,7 @@ export const TOOLS: Tool[] = [
     icon: "approval",
     href: "/stamp-pdf",
     category: "edit",
-    color: "bg-teal-50 text-teal-600",
+    color: icon("bg-teal-50 text-teal-600"),
   },
   {
     id: "crop-pdf",
@@ -147,7 +153,7 @@ export const TOOLS: Tool[] = [
     icon: "crop",
     href: "/crop-pdf",
     category: "edit",
-    color: "bg-lime-50 text-lime-600",
+    color: icon("bg-lime-50 text-lime-600"),
   },
   {
     id: "add-padding-pdf",
@@ -156,7 +162,7 @@ export const TOOLS: Tool[] = [
     icon: "border_outer",
     href: "/add-padding-pdf",
     category: "edit",
-    color: "bg-slate-100 text-slate-700",
+    color: icon("bg-slate-100 text-slate-700"),
   },
   {
     id: "ocr-pdf",
@@ -165,7 +171,7 @@ export const TOOLS: Tool[] = [
     icon: "document_scanner",
     href: "/ocr-pdf",
     category: "edit",
-    color: "bg-violet-50 text-violet-600",
+    color: icon("bg-violet-50 text-violet-600"),
   },
   // Security
   {
@@ -175,7 +181,7 @@ export const TOOLS: Tool[] = [
     icon: "lock",
     href: "/protect-pdf",
     category: "security",
-    color: "bg-red-50 text-red-600",
+    color: icon("bg-red-50 text-red-600"),
   },
   {
     id: "unlock-pdf",
@@ -184,7 +190,7 @@ export const TOOLS: Tool[] = [
     icon: "lock_open",
     href: "/unlock-pdf",
     category: "security",
-    color: "bg-green-50 text-green-600",
+    color: icon("bg-green-50 text-green-600"),
   },
 ];
 

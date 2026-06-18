@@ -9,7 +9,8 @@ import PageJumpInput from "@/components/shared/PageJumpInput";
 import { PDFDocument, degrees } from "pdf-lib";
 import { renderPageToCanvas } from "@/lib/pdf/core";
 import { downloadBlob, getBaseName } from "@/lib/utils";
-import { preventScrollDuringTouch, isTouchDevice } from "@/lib/touch-utils";
+import { preventScrollDuringTouch } from "@/lib/touch-utils";
+import { useIsTouchDevice } from "@/lib/hooks/useIsTouchDevice";
 import { useTranslation } from "@/lib/i18n";
 
 type StampPlacement = {
@@ -64,7 +65,7 @@ export default function StampPDFPage() {
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const stampUrlRef = useRef<string | null>(null);
-  const [isTouch] = useState(() => isTouchDevice());
+  const isTouch = useIsTouchDevice();
 
   // Prevent scroll during touch interaction
   useEffect(() => {
@@ -273,7 +274,7 @@ export default function StampPDFPage() {
               <button
                 type="button"
                 onClick={() => { setStampFile(null); setStampUrl(null); setPlacements([]); setSelectedId(null); }}
-                className="mt-3 text-xs text-slate-500 hover:text-red-600 transition-colors flex items-center gap-1"
+                className="mt-3 text-xs text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-1"
               >
                 <span className="material-symbols-outlined text-[14px]">delete</span>
                 {t("stamp.clearStamp")}
@@ -286,7 +287,7 @@ export default function StampPDFPage() {
               <ToolCard className="p-4 md:p-5">
                 <div className="flex items-center justify-between gap-3 mb-4">
                   <div>
-                    <p className="text-sm font-semibold text-slate-700">{t("common.pagePreview")}</p>
+                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t("common.pagePreview")}</p>
                     <TouchHint
                       text={stampUrl
                         ? (isTouch ? t("stamp.hintTouch") : t("stamp.hintMouse"))
@@ -297,7 +298,7 @@ export default function StampPDFPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     {pagePlacements.length > 0 && (
-                      <span className="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
+                      <span className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full">
                         {pagePlacements.length} placed
                       </span>
                     )}
@@ -311,7 +312,7 @@ export default function StampPDFPage() {
 
                 {/* Canvas + interactive overlay */}
                 <div className="relative">
-                  <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+                  <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
                     <canvas ref={previewCanvasRef} className="block w-full h-auto" />
                   </div>
 
@@ -355,10 +356,10 @@ export default function StampPDFPage() {
                                   onClick={(e) => e.stopPropagation()}
                                 >
                                   <div
-                                    className="bg-white border-2 border-teal-500 rounded-full flex items-center justify-center shadow-md hover:bg-teal-50 transition-colors"
+                                    className="bg-white dark:bg-slate-800 border-2 border-teal-500 rounded-full flex items-center justify-center shadow-md hover:bg-teal-50 dark:hover:bg-teal-950/40 dark:bg-teal-950/40 transition-colors"
                                     style={{ width: `${ROTATE_HANDLE_SIZE}px`, height: `${ROTATE_HANDLE_SIZE}px` }}
                                   >
-                                    <span className="material-symbols-outlined text-[20px] text-teal-600 leading-none select-none">rotate_right</span>
+                                    <span className="material-symbols-outlined text-[20px] text-teal-600 dark:text-teal-400 leading-none select-none">rotate_right</span>
                                   </div>
                                   <div className="w-px h-3 bg-teal-400" />
                                 </div>
@@ -376,7 +377,7 @@ export default function StampPDFPage() {
                                 {/* Delete button - always visible when selected, hover-only otherwise */}
                                 <button
                                   type="button"
-                                  className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-white/90 border border-slate-200 text-slate-500 rounded-full flex items-center justify-center shadow hover:bg-red-500 hover:border-red-500 hover:text-white transition-all active:scale-95 ${isSel ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
+                                  className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-full flex items-center justify-center shadow hover:bg-red-500 hover:border-red-500 hover:text-white transition-all active:scale-95 ${isSel ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
                                   style={{ width: `${HANDLE_SIZE}px`, height: `${HANDLE_SIZE}px` }}
                                   onPointerDown={(e) => e.stopPropagation()}
                                   onClick={(e) => { e.stopPropagation(); deletePlacement(p.id); }}
@@ -395,7 +396,7 @@ export default function StampPDFPage() {
                                     ].map((cfg, i) => (
                                       <div
                                         key={i}
-                                        className={`${cfg.pos} bg-white border-2 border-teal-500 rounded-sm shadow-sm z-20 touch-none`}
+                                        className={`${cfg.pos} bg-white dark:bg-slate-800 border-2 border-teal-500 rounded-sm shadow-sm z-20 touch-none`}
                                         style={{ ...cfg.style, width: `${HANDLE_SIZE}px`, height: `${HANDLE_SIZE}px` }}
                                         onPointerDown={(e) => startResize(e, p)}
                                         onClick={(e) => e.stopPropagation()}
@@ -428,19 +429,19 @@ export default function StampPDFPage() {
                     )}
 
                     {!stampUrl && (
-                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-teal-300 bg-white/70 px-4 py-2 text-xs font-medium tracking-wide text-teal-700 pointer-events-none whitespace-nowrap">
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-teal-300 dark:border-teal-600 bg-white dark:bg-slate-800/70 px-4 py-2 text-xs font-medium tracking-wide text-teal-700 dark:text-teal-300 pointer-events-none whitespace-nowrap">
                         {t("stamp.uploadFirst")}
                       </div>
                     )}
 
                     {previewLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/70 rounded-xl pointer-events-none">
+                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-800/70 rounded-xl pointer-events-none">
                         <span className="material-symbols-outlined animate-spin text-teal-500 text-[22px]">progress_activity</span>
                       </div>
                     )}
                     {previewError && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/85 p-4 rounded-xl pointer-events-none">
-                        <p className="text-sm text-red-600 text-center">{previewError}</p>
+                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-800/85 p-4 rounded-xl pointer-events-none">
+                        <p className="text-sm text-red-600 dark:text-red-400 text-center">{previewError}</p>
                       </div>
                     )}
                   </div>
@@ -448,12 +449,12 @@ export default function StampPDFPage() {
                   {pageCount > 1 && (
                     <>
                       <button type="button" aria-label="Previous page" onClick={() => goToPage(targetPage - 1)} disabled={targetPage === 0}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:bg-white hover:text-teal-700 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/95 text-slate-700 dark:text-slate-300 shadow-md transition hover:bg-white dark:hover:bg-slate-700 hover:text-teal-700 dark:hover:text-teal-300 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
                         style={{ width: "44px", height: "44px" }}>
                         <span className="material-symbols-outlined text-[24px]">chevron_left</span>
                       </button>
                       <button type="button" aria-label="Next page" onClick={() => goToPage(targetPage + 1)} disabled={targetPage >= pageCount - 1}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:bg-white hover:text-teal-700 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/95 text-slate-700 dark:text-slate-300 shadow-md transition hover:bg-white dark:hover:bg-slate-700 hover:text-teal-700 dark:hover:text-teal-300 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
                         style={{ width: "44px", height: "44px" }}>
                         <span className="material-symbols-outlined text-[24px]">chevron_right</span>
                       </button>
@@ -463,8 +464,8 @@ export default function StampPDFPage() {
               </ToolCard>
 
               <ToolCard>
-                <p className="text-sm font-semibold text-slate-700 mb-3">{t("common.pages")}</p>
-                <p className="text-xs text-slate-500 mb-3">{t("stamp.thumbHint")}</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">{t("common.pages")}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{t("stamp.thumbHint")}</p>
                 <PDFThumbnails
                   file={file}
                   selectedPages={new Set([targetPage])}
@@ -475,7 +476,7 @@ export default function StampPDFPage() {
                 />
               </ToolCard>
 
-              {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+              {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
 
               <PrimaryButton onClick={handleEmbed} loading={processing} disabled={!stampUrl || placements.length === 0}>
                 <span className="material-symbols-outlined text-[18px]">approval</span>

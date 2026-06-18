@@ -4,9 +4,13 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import ToolLayout, { ToolCard, PrimaryButton, SecondaryButton, DownloadSuccess } from "@/components/shared/ToolLayout";
 import FileDropzone from "@/components/shared/FileDropzone";
 import PDFThumbnails from "@/components/shared/PDFThumbnail";
+import TouchHint from "@/components/shared/TouchHint";
+import PageJumpInput from "@/components/shared/PageJumpInput";
 import { PDFDocument, rgb } from "pdf-lib";
 import { renderPageToCanvas } from "@/lib/pdf/core";
 import { downloadBlob, getBaseName } from "@/lib/utils";
+import { preventScrollDuringTouch, MIN_TOUCH_TARGET } from "@/lib/touch-utils";
+import { useIsTouchDevice } from "@/lib/hooks/useIsTouchDevice";
 import { useTranslation } from "@/lib/i18n";
 
 const COLORS = [
@@ -84,6 +88,12 @@ export default function HighlightPDFPage() {
   const strokeCanvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const annotationOrderRef = useRef(1);
+  const isTouch = useIsTouchDevice();
+
+  useEffect(() => {
+    const cleanup = preventScrollDuringTouch(wrapRef.current);
+    return cleanup;
+  }, []);
 
   useEffect(() => {
     if (!file) { setPreviewError(null); setPreviewLoading(false); return; }
@@ -379,19 +389,19 @@ export default function HighlightPDFPage() {
               <ToolCard>
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                   <div>
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">{t("highlight.editMode")}</p>
-                    <div className="inline-flex rounded-full border border-slate-200 bg-slate-100 p-1">
+                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">{t("highlight.editMode")}</p>
+                    <div className="inline-flex rounded-full border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 p-1">
                       <button
                         type="button"
                         onClick={() => setMode("highlight")}
-                        className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${mode === "highlight" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
+                        className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${mode === "highlight" ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-slate-400"}`}
                       >
                         {t("highlight.modeHighlight")}
                       </button>
                       <button
                         type="button"
                         onClick={() => setMode("draw")}
-                        className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${mode === "draw" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500"}`}
+                        className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${mode === "draw" ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm" : "text-slate-500 dark:text-slate-400"}`}
                       >
                         {t("highlight.modeDraw")}
                       </button>
@@ -399,7 +409,7 @@ export default function HighlightPDFPage() {
                   </div>
 
                   <div className="min-w-0 lg:w-80">
-                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
+                    <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">
                       {t("highlight.thickness")}
                     </label>
                     <div className="flex items-center gap-3">
@@ -412,7 +422,7 @@ export default function HighlightPDFPage() {
                         onChange={(e) => setStrokeWidth(Number(e.target.value))}
                         className="w-full accent-teal-600"
                       />
-                      <span className="w-12 shrink-0 rounded-full border border-slate-200 bg-slate-50 px-2 py-1 text-center text-xs font-semibold text-slate-700">
+                      <span className="w-12 shrink-0 rounded-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 px-2 py-1 text-center text-xs font-semibold text-slate-700 dark:text-slate-300">
                         {strokeWidth}px
                       </span>
                     </div>
@@ -433,7 +443,7 @@ export default function HighlightPDFPage() {
               <ToolCard>
                 <div className="flex flex-wrap items-center gap-4">
                   <div>
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">
+                    <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2">
                       {mode === "draw" ? t("highlight.penColor") : t("highlight.highlightColor")}
                     </p>
                     <div className="flex items-center gap-2">
@@ -443,17 +453,19 @@ export default function HighlightPDFPage() {
                           type="button"
                           title={c.name}
                           onClick={() => setActiveColorIdx(i)}
-                          className="relative w-8 h-8 rounded-full border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400"
+                          className="relative rounded-full border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-400 active:scale-95"
                           style={{
                             backgroundColor: c.hex,
                             borderColor: i === activeColorIdx ? "#0f172a" : "transparent",
                             boxShadow: i === activeColorIdx ? "0 0 0 2px #0f172a" : "0 1px 3px rgba(0,0,0,0.2)",
                             transform: i === activeColorIdx ? "scale(1.15)" : "scale(1)",
+                            width: isTouch ? MIN_TOUCH_TARGET : 32,
+                            height: isTouch ? MIN_TOUCH_TARGET : 32,
                           }}
                         >
                           {i === activeColorIdx && (
                             <span className="absolute inset-0 flex items-center justify-center">
-                              <span className="material-symbols-outlined text-[14px] text-slate-800 font-bold">check</span>
+                              <span className="material-symbols-outlined text-[14px] text-slate-800 dark:text-slate-200 font-bold">check</span>
                             </span>
                           )}
                         </button>
@@ -463,7 +475,7 @@ export default function HighlightPDFPage() {
 
                   <div className="ml-auto flex items-center gap-3">
                     {totalHighlights + totalStrokes > 0 && (
-                      <span className="text-xs text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
+                      <span className="text-xs text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-full">
                         {totalHighlights + totalStrokes} annotation{totalHighlights + totalStrokes !== 1 ? "s" : ""}
                       </span>
                     )}
@@ -471,7 +483,7 @@ export default function HighlightPDFPage() {
                       <button
                         type="button"
                         onClick={clearAnnotations}
-                        className="text-xs text-slate-500 hover:text-red-600 transition-colors flex items-center gap-1"
+                        className="text-xs text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors flex items-center gap-1"
                       >
                         <span className="material-symbols-outlined text-[14px]">delete_sweep</span>
                         {t("common.clearAll")}
@@ -485,22 +497,30 @@ export default function HighlightPDFPage() {
               <ToolCard className="p-4 md:p-5">
                 <div className="flex items-center justify-between gap-3 mb-4">
                   <div>
-                    <p className="text-sm font-semibold text-slate-700">{t("common.pagePreview")}</p>
-                    <p className="text-xs text-slate-500 mt-0.5">
-                      {selectedId
-                        ? t("highlight.hintSelected")
-                        : mode === "draw"
-                          ? t("highlight.hintDraw")
-                          : t("highlight.hintHighlight")}
-                    </p>
+                    <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t("common.pagePreview")}</p>
+                    <TouchHint
+                      text={
+                        selectedId
+                          ? t("highlight.hintSelected")
+                          : mode === "draw"
+                            ? t("highlight.hintDraw")
+                            : isTouch
+                              ? t("highlight.hintHighlightTouch")
+                              : t("highlight.hintHighlight")
+                      }
+                      icon="draw"
+                      className="mt-2"
+                    />
                   </div>
-                  <span className="text-xs font-medium text-slate-500 shrink-0">
-                    Page {Math.min(targetPage + 1, Math.max(pageCount, 1))}{pageCount > 0 ? ` / ${pageCount}` : ""}
-                  </span>
+                  <PageJumpInput
+                    currentPage={targetPage}
+                    totalPages={pageCount}
+                    onJump={goToPage}
+                  />
                 </div>
 
                 <div className="relative">
-                  <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+                  <div className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800">
                     <canvas ref={previewCanvasRef} className="block w-full h-auto" />
                   </div>
 
@@ -513,7 +533,7 @@ export default function HighlightPDFPage() {
                   {/* Interaction overlay */}
                   <div
                     ref={wrapRef}
-                    className="absolute inset-0 touch-none select-none cursor-crosshair"
+                    className="absolute inset-0 touch-none no-select cursor-crosshair"
                     style={{ cursor: selectedId ? "default" : "crosshair" }}
                     onPointerDown={onPointerDown}
                     onPointerMove={onPointerMove}
@@ -548,11 +568,17 @@ export default function HighlightPDFPage() {
                           {isSel && (
                             <button
                               type="button"
-                              className="absolute -top-4 -right-4 w-8 h-8 bg-white border border-slate-200 rounded-full flex items-center justify-center shadow hover:bg-red-500 hover:border-red-500 hover:text-white text-slate-500 transition-all z-20"
+                              className="absolute z-20 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full flex items-center justify-center shadow hover:bg-red-500 hover:border-red-500 hover:text-white text-slate-500 dark:text-slate-400 transition-all active:scale-95"
+                              style={{
+                                width: MIN_TOUCH_TARGET,
+                                height: MIN_TOUCH_TARGET,
+                                top: -MIN_TOUCH_TARGET / 2,
+                                right: -MIN_TOUCH_TARGET / 2,
+                              }}
                               onPointerDown={(e) => e.stopPropagation()}
                               onClick={(e) => { e.stopPropagation(); deleteHighlight(hl.id); }}
                             >
-                              <span className="material-symbols-outlined text-[16px] leading-none">delete</span>
+                              <span className="material-symbols-outlined text-[18px] leading-none">delete</span>
                             </button>
                           )}
                         </div>
@@ -576,13 +602,13 @@ export default function HighlightPDFPage() {
                     )}
 
                     {previewLoading && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/70 rounded-xl pointer-events-none">
+                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-800/70 rounded-xl pointer-events-none">
                         <span className="material-symbols-outlined animate-spin text-teal-500 text-[22px]">progress_activity</span>
                       </div>
                     )}
                     {previewError && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-white/85 p-4 rounded-xl pointer-events-none">
-                        <p className="text-sm text-red-600 text-center">{previewError}</p>
+                      <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-800/85 p-4 rounded-xl pointer-events-none">
+                        <p className="text-sm text-red-600 dark:text-red-400 text-center">{previewError}</p>
                       </div>
                     )}
                   </div>
@@ -595,7 +621,8 @@ export default function HighlightPDFPage() {
                         aria-label="Previous page"
                         onClick={() => goToPage(targetPage - 1)}
                         disabled={targetPage === 0}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:bg-white hover:text-teal-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="absolute left-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/95 text-slate-700 dark:text-slate-300 shadow-md transition hover:bg-white dark:hover:bg-slate-700 hover:text-teal-700 dark:hover:text-teal-300 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+                        style={{ width: MIN_TOUCH_TARGET, height: MIN_TOUCH_TARGET }}
                       >
                         <span className="material-symbols-outlined text-[24px]">chevron_left</span>
                       </button>
@@ -604,7 +631,8 @@ export default function HighlightPDFPage() {
                         aria-label="Next page"
                         onClick={() => goToPage(targetPage + 1)}
                         disabled={targetPage >= pageCount - 1}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-md transition hover:bg-white hover:text-teal-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 z-20 inline-flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/95 text-slate-700 dark:text-slate-300 shadow-md transition hover:bg-white dark:hover:bg-slate-700 hover:text-teal-700 dark:hover:text-teal-300 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+                        style={{ width: MIN_TOUCH_TARGET, height: MIN_TOUCH_TARGET }}
                       >
                         <span className="material-symbols-outlined text-[24px]">chevron_right</span>
                       </button>
@@ -615,18 +643,19 @@ export default function HighlightPDFPage() {
 
               {/* Page thumbnails */}
               <ToolCard>
-                <p className="text-sm font-semibold text-slate-700 mb-3">{t("common.pages")}</p>
-                <p className="text-xs text-slate-500 mb-3">{t("highlight.thumbHint")}</p>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">{t("common.pages")}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">{t("highlight.thumbHint")}</p>
                 <PDFThumbnails
                   file={file}
                   selectedPages={new Set([targetPage])}
                   onTogglePage={goToPage}
                   onLoaded={setPageCount}
                   columns={6}
+                  mobileHorizontalScroll
                 />
               </ToolCard>
 
-              {error && <p className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded">{error}</p>}
+              {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <PrimaryButton onClick={handleExport} loading={processing} disabled={totalHighlights + totalStrokes === 0} className="w-full sm:w-auto">

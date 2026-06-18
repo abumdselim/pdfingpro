@@ -93,12 +93,12 @@ export default function TermsPageContent() {
       sections={SECTIONS}
     >
       <div className="glass-panel rounded-2xl p-6 sm:p-8 text-center">
-        <p className="text-sm text-slate-500">{t("legal.terms.related")}</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400">{t("legal.terms.related")}</p>
         <div className="flex flex-wrap items-center justify-center gap-4 mt-4 text-sm font-medium">
           <Link href="/privacy" className="text-[#1461bd] hover:underline">
             {t("legal.footer.privacy")}
           </Link>
-          <span className="text-slate-300">·</span>
+          <span className="text-slate-300 dark:text-slate-600">·</span>
           <Link href="/contact" className="text-[#1461bd] hover:underline">
             {t("legal.footer.contact")}
           </Link>
