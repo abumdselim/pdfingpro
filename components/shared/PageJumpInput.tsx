@@ -48,12 +48,12 @@ export default function PageJumpInput({
           setIsOpen(true);
           setInputValue(String(currentPage + 1));
         }}
-        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-slate-200 text-slate-700 text-xs font-medium shadow-sm hover:bg-slate-50 transition-colors ${className}`}
+        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-slate-200/80 text-slate-700 text-xs font-semibold shadow-sm hover:bg-slate-50 hover:shadow hover:-translate-y-px transition-all duration-300 ${className}`}
         aria-label="Jump to page"
       >
-        <span className="material-symbols-outlined text-[16px]">search</span>
+        <span className="material-symbols-outlined text-[18px] text-teal-600">search</span>
         <span>
-          Page {currentPage + 1} / {totalPages}
+          Page {currentPage + 1} of {totalPages}
         </span>
       </button>
     );
@@ -62,9 +62,9 @@ export default function PageJumpInput({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`inline-flex items-center gap-2 px-2 py-1 rounded-full bg-white border-2 border-teal-500 shadow-md ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white ring-2 ring-teal-500/80 shadow-md animate-fade-in ${className}`}
     >
-      <span className="material-symbols-outlined text-[16px] text-teal-600">
+      <span className="material-symbols-outlined text-[18px] text-teal-600">
         search
       </span>
       <input
@@ -77,11 +77,11 @@ export default function PageJumpInput({
         onBlur={() => {
           setTimeout(() => setIsOpen(false), 150);
         }}
-        className="w-12 text-xs font-medium text-center bg-transparent border-none outline-none"
-        placeholder="##"
+        className="w-10 text-sm font-bold text-center text-teal-700 bg-transparent border-none outline-none focus:ring-0 placeholder-teal-300"
+        placeholder="#"
         aria-label="Enter page number"
       />
-      <span className="text-xs text-slate-500">/ {totalPages}</span>
+      <span className="text-xs font-medium text-slate-400">/ {totalPages}</span>
     </form>
   );
 }

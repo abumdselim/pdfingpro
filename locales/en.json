@@ -18,12 +18,12 @@
   "common.placed_one": "{count} placed",
   "common.placed_other": "{count} placed",
 
-  "header.appName": "HelloPDF",
+  "header.appName": "Pdfing Pro",
   "header.allTools": "All Tools",
   "header.github": "GitHub",
   "header.language": "Language",
 
-  "footer.copyright": "© {year} HelloPDF by Inievo Technologies.",
+  "footer.copyright": "© {year} Pdfing Pro by Inievo Technologies.",
   "footer.poweredBy": "Powered by",
 
   "categories.all": "All Tools",
@@ -36,7 +36,7 @@
   "home.hero.title": "Every PDF tool you need, completely free",
   "home.hero.subtitle": "Merge, split, compress, convert, rotate, watermark, sign, and stamp PDFs - all processed locally in your browser. No uploads. No accounts. Open source.",
   "home.filesStay.title": "Your files stay on your device",
-  "home.filesStay.body": "HelloPDF runs entirely inside your browser. That means your PDFs are processed on your computer/phone, not uploaded to a server.",
+  "home.filesStay.body": "Pdfing Pro runs entirely inside your browser. That means your PDFs are processed on your computer/phone, not uploaded to a server.",
   "home.step1.title": "1) Choose a file",
   "home.step1.body": "Pick a PDF from your device. It stays local.",
   "home.step2.title": "2) Edit in your browser",
@@ -57,6 +57,13 @@
   "home.offlineSupport.body": "Works without internet. Process all files directly on your computer or phone.",
   "home.noLimits.title": "No Limits",
   "home.noLimits.body": "No file-size caps, no sign-up required, no watermarks added.",
+
+  "home.offline.title": "Works Offline, Too",
+  "home.offline.body": "Once loaded, Pdfing Pro keeps working even without an internet connection. Everything runs directly on your device.",
+  "home.offline.features.noInternet": "No internet needed",
+  "home.offline.features.fast": "Blazing fast",
+  "home.offline.features.secure": "100% secure",
+  "home.offline.features.installable": "Installable PWA",
 
   "tools.mergePdf.title": "Merge PDF",
   "tools.mergePdf.description": "Combine multiple PDFs into one file.",

@@ -4,7 +4,7 @@
  */
 
 export const APP_VERSION = "1.0.0-beta.1";
-export const APP_NAME = "HelloPDF";
+export const APP_NAME = "Pdfing Pro";
 export const RELEASE_DATE = new Date("2026-04-28");
 
 export interface VersionInfo {
@@ -25,7 +25,7 @@ export const versionInfo: VersionInfo = {
 
 /**
  * Get formatted version string
- * @example "HelloPDF v1.0.0-beta.1"
+ * @example "Pdfing Pro v1.0.0-beta.1"
  */
 export const getVersionString = (): string => {
   return `${APP_NAME} v${APP_VERSION}`;

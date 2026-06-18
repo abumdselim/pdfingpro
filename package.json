@@ -1,5 +1,5 @@
 {
-  "name": "hellopdf",
+  "name": "pdfing-pro",
   "version": "1.0.0-beta.1",
   "private": true,
   "main": "electron/main.cjs",
@@ -13,6 +13,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ducanh2912/next-pwa": "^10.2.9",
     "@pdfsmaller/pdf-encrypt-lite": "^1.0.2",
     "docx": "^8.5.0",
     "jszip": "^3.10.1",
@@ -30,17 +31,17 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.29",
     "electron": "^34.0.0",
     "electron-builder": "^25.1.8",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.29",
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
   },
   "build": {
-    "appId": "com.hellopdf",
-    "productName": "HelloPDF",
+    "appId": "com.pdfingpro",
+    "productName": "Pdfing Pro",
     "directories": {
       "output": "release"
     },

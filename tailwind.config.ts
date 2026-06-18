@@ -6,10 +6,25 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./lib/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       colors: {
+        // Override teal to be our primary blue #137ece to globally update all UI elements
+        teal: {
+          50: '#f0f7fe',
+          100: '#ddeffd',
+          200: '#bfe0fb',
+          300: '#90cbf8',
+          400: '#5bb0f3',
+          500: '#3596ec',
+          600: '#137ece',
+          700: '#1a64c4',
+          800: '#19519f',
+          900: '#19467f',
+          950: '#112d53',
+        },
         // Surface
         "surface": "#fcf8fa",
         "surface-dim": "#dcd9db",
@@ -30,19 +45,19 @@ const config: Config = {
         "on-primary": "#ffffff",
         "primary-container": "#131b2e",
         "on-primary-container": "#7c839b",
-        // Secondary (teal - primary action color)
-        "secondary": "#006a61",
+        // Secondary (old teal override)
+        "secondary": "#137ece",
         "on-secondary": "#ffffff",
-        "secondary-container": "#86f2e4",
-        "on-secondary-container": "#006f66",
+        "secondary-container": "#bfe0fb",
+        "on-secondary-container": "#112d53",
         // Error
         "error": "#ba1a1a",
         "on-error": "#ffffff",
         "error-container": "#ffdad6",
         "on-error-container": "#93000a",
         // Background
-        "background": "#fcf8fa",
-        "on-background": "#1b1b1d",
+        "background": "#f8fafc",
+        "on-background": "#0f172a",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
@@ -69,16 +84,34 @@ const config: Config = {
         "container-max": "1440px",
       },
       borderRadius: {
-        DEFAULT: "0.25rem",
-        sm: "0.125rem",
-        md: "0.375rem",
-        lg: "0.5rem",
-        xl: "0.75rem",
+        DEFAULT: "0.5rem",
+        sm: "0.25rem",
+        md: "0.5rem",
+        lg: "0.75rem",
+        xl: "1rem",
         full: "9999px",
       },
       boxShadow: {
         card: "0px 1px 3px 0px rgba(0,0,0,0.07), 0px 1px 2px -1px rgba(0,0,0,0.04)",
         overlay: "0px 10px 15px -3px rgba(0,0,0,0.05), 0px 4px 6px -2px rgba(0,0,0,0.025)",
+        glass: "0 8px 32px 0 rgba(19, 126, 206, 0.15)",
+        modern: "0 20px 40px -10px rgba(0,0,0,0.08), 0 0 20px -5px rgba(19, 126, 206, 0.05)",
+        glow: "0 0 20px rgba(19, 126, 206, 0.4)",
+        bento: "0 2px 4px rgba(0,0,0,0.02), 0 4px 12px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.05)",
+      },
+      keyframes: {
+        "fade-in-up": {
+          "0%": { opacity: "0", transform: "translateY(20px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+      },
+      animation: {
+        "fade-in-up": "fade-in-up 0.5s ease-out forwards",
+        "float": "float 6s ease-in-out infinite",
       },
     },
   },

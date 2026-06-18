@@ -27,7 +27,7 @@ export const SUPPORTED_LOCALES: { id: Locale; label: string; flag: string }[] = 
   { id: "en", label: "English", flag: "🇺🇸" },
 ];
 
-const STORAGE_KEY = "hellopdf-lang";
+const STORAGE_KEY = "pdfingpro-lang";
 const DEFAULT_LOCALE: Locale = "en";
 
 // ---------------------------------------------------------------------------

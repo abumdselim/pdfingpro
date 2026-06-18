@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { isTouchDevice } from "@/lib/touch-utils";
+import { cn } from "@/lib/utils";
 
 interface TouchHintProps {
   /** Context-specific hint text */
@@ -40,19 +41,24 @@ export default function TouchHint({
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-teal-50 border border-teal-200 text-teal-800 text-xs font-medium shadow-sm animate-fade-in ${className}`}
+      className={cn(
+        "inline-flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/80 backdrop-blur-md border border-white/50 text-slate-800 text-xs font-semibold shadow-[0_8px_30px_rgb(0,0,0,0.12)] animate-fade-in-up",
+        className
+      )}
       role="status"
       aria-live="polite"
     >
-      <span className="material-symbols-outlined text-[16px] text-teal-600">
-        {isTouch ? icon : "info"}
-      </span>
-      <span>{text}</span>
+      <div className="w-7 h-7 rounded-full bg-teal-100 flex items-center justify-center shrink-0">
+        <span className="material-symbols-outlined text-[16px] text-teal-600">
+          {isTouch ? icon : "info"}
+        </span>
+      </div>
+      <span className="drop-shadow-sm">{text}</span>
       {!persistent && (
         <button
           type="button"
           onClick={() => setVisible(false)}
-          className="ml-1 text-teal-600 hover:text-teal-800 transition-colors"
+          className="ml-2 w-6 h-6 rounded-full hover:bg-slate-200/50 flex items-center justify-center text-slate-400 hover:text-slate-600 transition-colors"
           aria-label="Dismiss hint"
         >
           <span className="material-symbols-outlined text-[14px]">close</span>
