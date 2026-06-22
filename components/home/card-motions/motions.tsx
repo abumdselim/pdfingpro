@@ -321,6 +321,145 @@ export function UnlockMotion(props: CardMotionProps) {
   );
 }
 
+export function RedactMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <MiniPage className="h-[68%]" />
+      </div>
+      <div className="ctm-redact-bar absolute left-[20%] top-[40%] h-[8%] w-[50%] rounded-sm bg-current opacity-50" />
+      <div className="ctm-redact-bar-2 absolute left-[24%] top-[54%] h-[6%] w-[38%] rounded-sm bg-current opacity-40" />
+    </MotionWrap>
+  );
+}
+
+export function CompareMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="ctm-compare-left absolute left-[8%] bottom-[12%] h-[58%] w-[38%]">
+        <MiniPage className="h-full" />
+      </div>
+      <div className="ctm-compare-right absolute right-[8%] bottom-[12%] h-[58%] w-[38%]">
+        <MiniPage className="h-full" />
+      </div>
+      <div className="ctm-compare-icon absolute left-1/2 top-[20%] -translate-x-1/2">
+        <span className="material-symbols-outlined text-[14px] opacity-45">compare</span>
+      </div>
+    </MotionWrap>
+  );
+}
+
+export function MetadataMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <MiniPage className="h-[68%]" />
+      </div>
+      <div className="ctm-meta-tag absolute right-[14%] top-[18%] rounded bg-current px-1 py-0.5 text-[6px] font-bold uppercase opacity-50">
+        Info
+      </div>
+    </MotionWrap>
+  );
+}
+
+export function RepairMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="ctm-repair-page absolute inset-0 flex items-center justify-center">
+        <MiniPage className="h-[68%]" />
+      </div>
+      <div className="ctm-repair-wrench absolute left-1/2 top-[12%] -translate-x-1/2">
+        <span className="material-symbols-outlined text-[16px] opacity-45">build</span>
+      </div>
+    </MotionWrap>
+  );
+}
+
+export function FormsMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <MiniPage className="h-[68%]" />
+      </div>
+      <div className="ctm-form-line absolute left-[22%] top-[38%] h-0.5 w-[50%] rounded bg-current opacity-35" />
+      <div className="ctm-form-line-2 absolute left-[22%] top-[50%] h-0.5 w-[40%] rounded bg-current opacity-28" />
+      <div className="ctm-form-check absolute left-[22%] top-[60%] h-2 w-2 rounded-sm border border-current opacity-40" />
+    </MotionWrap>
+  );
+}
+
+export function VerifyMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="absolute inset-0 flex items-center justify-center opacity-60">
+        <MiniPage className="h-[62%]" />
+      </div>
+      <div className="ctm-verify-badge absolute left-1/2 top-[22%] -translate-x-1/2 flex h-[30%] w-[30%] items-center justify-center rounded-full border-2 border-current opacity-50">
+        <span className="material-symbols-outlined text-[12px] opacity-70">verified</span>
+      </div>
+    </MotionWrap>
+  );
+}
+
+export function PdfaMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <MiniPage className="h-[68%]" />
+      </div>
+      <div className="ctm-pdfa-stamp absolute bottom-[18%] left-1/2 -translate-x-1/2 text-[7px] font-black uppercase tracking-wider opacity-50">
+        PDF/A
+      </div>
+    </MotionWrap>
+  );
+}
+
+export function ExcelMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="ctm-excel-grid absolute left-[10%] bottom-[10%] h-[50%] w-[44%]">
+        <svg viewBox="0 0 40 40" className="h-full w-full" aria-hidden>
+          <rect x="1" y="1" width="38" height="38" rx="3" className="fill-current opacity-30" />
+          <line x1="1" y1="14" x2="39" y2="14" stroke="currentColor" strokeWidth="1" className="opacity-25" />
+          <line x1="14" y1="1" x2="14" y2="39" stroke="currentColor" strokeWidth="1" className="opacity-25" />
+        </svg>
+      </div>
+      <div className="ctm-excel-pdf absolute right-[8%] bottom-[12%] h-[52%] opacity-70">
+        <MiniPage className="h-full" />
+      </div>
+    </MotionWrap>
+  );
+}
+
+export function ExtractImagesMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="absolute inset-0 flex items-center justify-center opacity-50">
+        <MiniPage className="h-[62%]" />
+      </div>
+      <div className="ctm-extract-img absolute left-[12%] top-[20%] h-[28%] w-[28%]">
+        <MiniImage className="h-full" />
+      </div>
+      <div className="ctm-extract-img-2 absolute right-[12%] bottom-[16%] h-[24%] w-[24%]">
+        <MiniImage className="h-full" />
+      </div>
+    </MotionWrap>
+  );
+}
+
+export function WorkflowMotion(props: CardMotionProps) {
+  return (
+    <MotionWrap {...props}>
+      <div className="ctm-flow-1 absolute left-[10%] top-[30%] h-[22%] w-[22%] rounded bg-current opacity-30" />
+      <div className="ctm-flow-2 absolute left-[40%] top-[30%] h-[22%] w-[22%] rounded bg-current opacity-35" />
+      <div className="ctm-flow-3 absolute right-[10%] top-[30%] h-[22%] w-[22%] rounded bg-current opacity-40" />
+      <div className="ctm-flow-arrow absolute left-1/2 bottom-[20%] -translate-x-1/2">
+        <span className="material-symbols-outlined text-[14px] opacity-40">arrow_forward</span>
+      </div>
+    </MotionWrap>
+  );
+}
+
 export const TOOL_MOTIONS: Record<string, ComponentType<CardMotionProps>> = {
   "merge-pdf": MergeMotion,
   "split-pdf": SplitMotion,
@@ -341,4 +480,14 @@ export const TOOL_MOTIONS: Record<string, ComponentType<CardMotionProps>> = {
   "ocr-pdf": OcrMotion,
   "protect-pdf": ProtectMotion,
   "unlock-pdf": UnlockMotion,
+  "redact-pdf": RedactMotion,
+  "compare-pdf": CompareMotion,
+  "edit-metadata-pdf": MetadataMotion,
+  "repair-pdf": RepairMotion,
+  "fill-pdf-forms": FormsMotion,
+  "verify-signature-pdf": VerifyMotion,
+  "pdf-to-pdfa": PdfaMotion,
+  "pdf-to-excel": ExcelMotion,
+  "extract-images-pdf": ExtractImagesMotion,
+  "pdf-workflow": WorkflowMotion,
 };

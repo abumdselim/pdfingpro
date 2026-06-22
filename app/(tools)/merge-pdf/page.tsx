@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import ToolLayout, { ToolCard, PrimaryButton, DownloadSuccess } from "@/components/shared/ToolLayout";
 import FileDropzone from "@/components/shared/FileDropzone";
 import { mergePDFs } from "@/lib/pdf/merge";
-import { downloadBlob } from "@/lib/utils";
+import { downloadBlob, getBaseName } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import JSZip from "jszip";
 import { useTranslation } from "@/lib/i18n";
 
 export default function MergePDFPage() {
   const { t } = useTranslation();
   const [files, setFiles] = useState<File[]>([]);
+  const [batchMode, setBatchMode] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -37,14 +39,31 @@ export default function MergePDFPage() {
   };
 
   const handleMerge = async () => {
-    if (files.length < 2) return;
+    if (files.length < (batchMode ? 1 : 2)) return;
     setProcessing(true);
     setError(null);
     try {
-      const buffers = await Promise.all(files.map((f) => f.arrayBuffer()));
-      const bytes = await mergePDFs(buffers);
-      const blob = new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
-      setResult({ blob, filename: "merged.pdf" });
+      if (batchMode) {
+        const zip = new JSZip();
+        for (let i = 0; i < files.length; i += 2) {
+          const group = files.slice(i, i + 2);
+          const buffers = await Promise.all(group.map((f) => f.arrayBuffer()));
+          const bytes = group.length === 1
+            ? new Uint8Array(buffers[0])
+            : await mergePDFs(buffers);
+          const label = group.length === 1
+            ? getBaseName(group[0].name)
+            : `${getBaseName(group[0].name)}-${getBaseName(group[1].name)}`;
+          zip.file(`${label}-merged.pdf`, bytes);
+        }
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+        setResult({ blob: zipBlob, filename: "merged-batch.zip" });
+      } else {
+        const buffers = await Promise.all(files.map((f) => f.arrayBuffer()));
+        const bytes = await mergePDFs(buffers);
+        const blob = new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
+        setResult({ blob, filename: "merged.pdf" });
+      }
     } catch (err: unknown) {
       setError((err as Error)?.message ?? t("merge.error"));
     } finally {
@@ -52,7 +71,7 @@ export default function MergePDFPage() {
     }
   };
 
-  const reset = () => { setFiles([]); setResult(null); setError(null); };
+  const reset = () => { setFiles([]); setResult(null); setError(null); setBatchMode(false); };
 
   return (
     <ToolLayout
@@ -72,6 +91,11 @@ export default function MergePDFPage() {
       ) : (
         <div className="space-y-4">
           <ToolCard>
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+              <input type="checkbox" checked={batchMode} onChange={(e) => { setBatchMode(e.target.checked); setResult(null); }} />
+              {t("batch.mode")}
+            </label>
+            {batchMode && <p className="text-xs text-slate-500 mb-3">{t("merge.batchHint")}</p>}
             <FileDropzone
               onFiles={addFiles}
               files={[]}
@@ -140,12 +164,14 @@ export default function MergePDFPage() {
           <PrimaryButton
             onClick={handleMerge}
             loading={processing}
-            disabled={files.length < 2}
+            disabled={batchMode ? files.length < 1 : files.length < 2}
           >
             <span className="material-symbols-outlined text-[18px]">merge</span>
-            {files.length >= 2
-              ? t("merge.mergeButton", { count: files.length })
-              : t("merge.addAtLeast2")}
+            {batchMode
+              ? t("merge.batchButton", { count: files.length })
+              : files.length >= 2
+                ? t("merge.mergeButton", { count: files.length })
+                : t("merge.addAtLeast2")}
           </PrimaryButton>
         </div>
       )}

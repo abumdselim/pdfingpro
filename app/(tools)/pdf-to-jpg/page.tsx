@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ToolLayout, { ToolCard, PrimaryButton, ProgressBar } from "@/components/shared/ToolLayout";
 import FileDropzone from "@/components/shared/FileDropzone";
+import BatchFileQueue, { createBatchId, type BatchQueueItem } from "@/components/shared/BatchFileQueue";
 import { pdfToImages, type ImageFormat } from "@/lib/pdf/convert";
 import { downloadBlob, getBaseName } from "@/lib/utils";
 import JSZip from "jszip";
@@ -12,6 +13,8 @@ import { useTranslation } from "@/lib/i18n";
 export default function PDFToJPGPage() {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
+  const [batchMode, setBatchMode] = useState(false);
+  const [queue, setQueue] = useState<BatchQueueItem[]>([]);
   const [format, setFormat] = useState<ImageFormat>("jpeg");
   const [quality, setQuality] = useState(92);
   const [scale, setScale] = useState(2.0);
@@ -24,37 +27,60 @@ export default function PDFToJPGPage() {
   const dpiLabel = scale === 1 ? "72 dpi" : scale === 1.5 ? "108 dpi" : scale === 2 ? "144 dpi" : "216 dpi";
 
   const handleConvert = async () => {
-    if (!file) return;
+    const targets = batchMode ? queue.map((q) => q.file) : file ? [file] : [];
+    if (targets.length === 0) return;
     setProcessing(true); setProgress(0); setError(null); setPreviews([]);
     try {
-      const buffer = await file.arrayBuffer();
-      const images = await pdfToImages(buffer, format, scale, quality / 100, (page, total) => {
-        setProgress(Math.round((page / total) * 100));
-      });
-      const thumbs: string[] = [];
-      for (const img of images.slice(0, 4)) thumbs.push(URL.createObjectURL(img.blob));
-      setPreviews(thumbs);
       const zip = new JSZip();
-      const base = getBaseName(file.name);
-      images.forEach(({ blob, filename }) => zip.file(`${base}-${filename}`, blob));
+      for (let fi = 0; fi < targets.length; fi++) {
+        const f = targets[fi];
+        if (batchMode) {
+          setQueue((prev) => prev.map((q) => (q.file === f ? { ...q, status: "processing" } : q)));
+        }
+        const buffer = await f.arrayBuffer();
+        const images = await pdfToImages(buffer, format, scale, quality / 100, (page, total) => {
+          setProgress(Math.round(((fi + page / total) / targets.length) * 100));
+        });
+        if (fi === 0) {
+          const thumbs: string[] = [];
+          for (const img of images.slice(0, 4)) thumbs.push(URL.createObjectURL(img.blob));
+          setPreviews(thumbs);
+        }
+        const base = getBaseName(f.name);
+        images.forEach(({ blob, filename }) => zip.file(`${base}/${filename}`, blob));
+        if (batchMode) {
+          setQueue((prev) => prev.map((q) => (q.file === f ? { ...q, status: "done" } : q)));
+        }
+      }
       const zipBlob = await zip.generateAsync({ type: "blob" });
-      downloadBlob(zipBlob, `${base}-images.zip`);
+      downloadBlob(zipBlob, batchMode ? "pdf-images-batch.zip" : `${getBaseName(file!.name)}-images.zip`);
       setDone(true);
     } catch (err: unknown) {
       setError((err as Error)?.message ?? t("pdfToJpg.error"));
     } finally { setProcessing(false); }
   };
 
-  const reset = () => { setFile(null); setPreviews([]); setDone(false); setError(null); };
+  const reset = () => { setFile(null); setQueue([]); setPreviews([]); setDone(false); setError(null); };
 
   return (
     <ToolLayout title={t("tools.pdfToJpg.title")} description={t("pdfToJpg.pageDescription")} icon="image" iconClass="bg-orange-50 text-orange-600">
       <div className="space-y-4">
         <ToolCard>
-          <FileDropzone onFiles={(f) => { setFile(f[0]); setDone(false); setPreviews([]); }} files={file ? [file] : []} />
+          <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+            <input type="checkbox" checked={batchMode} onChange={(e) => { setBatchMode(e.target.checked); setFile(null); setQueue([]); setDone(false); }} />
+            {t("batch.mode")}
+          </label>
+          {batchMode ? (
+            <>
+              <FileDropzone onFiles={(f) => setQueue((prev) => [...prev, ...f.map((file) => ({ id: createBatchId(), file, status: "pending" as const }))])} files={[]} maxFiles={20} />
+              <BatchFileQueue items={queue} onRemove={(id) => setQueue((prev) => prev.filter((q) => q.id !== id))} onClear={() => setQueue([])} className="mt-3" />
+            </>
+          ) : (
+            <FileDropzone onFiles={(f) => { setFile(f[0]); setDone(false); setPreviews([]); }} files={file ? [file] : []} />
+          )}
         </ToolCard>
 
-        {file && !done && (
+        {(file || queue.length > 0) && !done && (
           <ToolCard>
             <div className="grid sm:grid-cols-2 gap-6">
               <div>

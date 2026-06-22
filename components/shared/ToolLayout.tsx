@@ -4,12 +4,14 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n";
 import { ui, withDarkIcon } from "@/lib/theme/ui";
+import ProcessingBadge, { type ProcessingTier } from "@/components/shared/ProcessingBadge";
 
 interface ToolLayoutProps {
   title: string;
   description: string;
   icon: string;
   iconClass?: string;
+  processingTier?: ProcessingTier;
   children: React.ReactNode;
 }
 
@@ -18,6 +20,7 @@ export default function ToolLayout({
   description,
   icon,
   iconClass = ui.iconBadge,
+  processingTier = "local",
   children,
 }: ToolLayoutProps) {
   const { t } = useTranslation();
@@ -36,6 +39,9 @@ export default function ToolLayout({
           </div>
           <h1 className={cn("text-3xl font-extrabold tracking-tight", ui.heading)}>{title}</h1>
           <p className={cn("text-lg mt-3 max-w-xl mx-auto leading-relaxed", ui.muted)}>{description}</p>
+          <div className="mt-4">
+            <ProcessingBadge tier={processingTier} />
+          </div>
         </div>
       </div>
 

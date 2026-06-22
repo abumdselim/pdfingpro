@@ -49,6 +49,16 @@ export const TOOL_CARD_THEMES: Record<string, CardTheme> = {
   "ocr-pdf": solid("bg-violet-600", "border-violet-700", ON_DARK),
   "protect-pdf": solid("bg-red-600", "border-red-700", ON_DARK),
   "unlock-pdf": solid("bg-green-500", "border-green-600", ON_DARK),
+  "pdf-workflow": solid("bg-blue-700", "border-blue-800", ON_DARK),
+  "compare-pdf": solid("bg-indigo-500", "border-indigo-600", ON_DARK),
+  "pdf-to-excel": solid("bg-green-700", "border-green-800", ON_DARK),
+  "extract-images-pdf": solid("bg-amber-600", "border-amber-700", ON_DARK),
+  "pdf-to-pdfa": solid("bg-slate-700", "border-slate-800", ON_DARK),
+  "redact-pdf": solid("bg-neutral-700", "border-neutral-800", ON_DARK),
+  "edit-metadata-pdf": solid("bg-zinc-600", "border-zinc-700", ON_DARK),
+  "repair-pdf": solid("bg-orange-700", "border-orange-800", ON_DARK),
+  "fill-pdf-forms": solid("bg-cyan-700", "border-cyan-800", ON_DARK),
+  "verify-signature-pdf": solid("bg-red-700", "border-red-800", ON_DARK),
 };
 
 export function getToolCardTheme(toolId: string): CardTheme {

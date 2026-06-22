@@ -244,6 +244,61 @@
 .ctm-lock-shackle { animation: ctm-lock-shackle 3.4s var(--ease-smooth) infinite; }
 .ctm-unlock-shackle { animation: ctm-unlock-shackle 3.4s var(--ease-smooth) infinite; }
 
+@keyframes ctm-redact-pulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.65; }
+}
+@keyframes ctm-compare-left {
+  0%, 100% { transform: translateX(0); opacity: 0.6; }
+  50% { transform: translateX(-4%); opacity: 0.85; }
+}
+@keyframes ctm-compare-right {
+  0%, 100% { transform: translateX(0); opacity: 0.6; }
+  50% { transform: translateX(4%); opacity: 0.85; }
+}
+@keyframes ctm-meta-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+@keyframes ctm-repair-shake {
+  0%, 100% { transform: translateX(-50%) rotate(0); }
+  25% { transform: translateX(-50%) rotate(-8deg); }
+  75% { transform: translateX(-50%) rotate(8deg); }
+}
+@keyframes ctm-form-fill {
+  0%, 100% { width: 40%; opacity: 0.25; }
+  50% { width: 50%; opacity: 0.45; }
+}
+@keyframes ctm-verify-pulse {
+  0%, 100% { transform: translateX(-50%) scale(0.9); opacity: 0.4; }
+  50% { transform: translateX(-50%) scale(1.05); opacity: 0.65; }
+}
+@keyframes ctm-pdfa-fade {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+@keyframes ctm-extract-pop {
+  0%, 100% { transform: scale(0.85); opacity: 0.4; }
+  50% { transform: scale(1); opacity: 0.7; }
+}
+@keyframes ctm-flow-step {
+  0%, 100% { opacity: 0.25; transform: scale(0.9); }
+  50% { opacity: 0.5; transform: scale(1); }
+}
+
+.ctm-redact-bar, .ctm-redact-bar-2 { animation: ctm-redact-pulse 3s var(--ease-smooth) infinite; }
+.ctm-compare-left { animation: ctm-compare-left 3.2s var(--ease-smooth) infinite; }
+.ctm-compare-right { animation: ctm-compare-right 3.2s var(--ease-smooth) infinite; }
+.ctm-meta-tag { animation: ctm-meta-pulse 3s var(--ease-smooth) infinite; }
+.ctm-repair-wrench { animation: ctm-repair-shake 3.5s var(--ease-smooth) infinite; }
+.ctm-form-line { animation: ctm-form-fill 3s var(--ease-smooth) infinite; }
+.ctm-verify-badge { animation: ctm-verify-pulse 3.2s var(--ease-smooth) infinite; }
+.ctm-pdfa-stamp { animation: ctm-pdfa-fade 3s var(--ease-smooth) infinite; }
+.ctm-extract-img, .ctm-extract-img-2 { animation: ctm-extract-pop 3.4s var(--ease-smooth) infinite; }
+.ctm-flow-1 { animation: ctm-flow-step 3s var(--ease-smooth) infinite; }
+.ctm-flow-2 { animation: ctm-flow-step 3s var(--ease-smooth) 0.4s infinite; }
+.ctm-flow-3 { animation: ctm-flow-step 3s var(--ease-smooth) 0.8s infinite; }
+
 @media (prefers-reduced-motion: reduce) {
   [class*="ctm-"] {
     animation: none !important;

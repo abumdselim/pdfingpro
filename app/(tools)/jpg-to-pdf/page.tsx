@@ -4,8 +4,9 @@ import { useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import ToolLayout, { ToolCard, PrimaryButton, DownloadSuccess } from "@/components/shared/ToolLayout";
 import { imagesToPDF } from "@/lib/pdf/convert";
-import { downloadBlob, formatBytes } from "@/lib/utils";
+import { downloadBlob, formatBytes, getBaseName } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import JSZip from "jszip";
 import { useTranslation } from "@/lib/i18n";
 
 const IMAGE_ACCEPT = {
@@ -18,6 +19,7 @@ const IMAGE_ACCEPT = {
 export default function JPGToPDFPage() {
   const { t } = useTranslation();
   const [files, setFiles] = useState<File[]>([]);
+  const [batchMode, setBatchMode] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [result, setResult] = useState<{ blob: Blob; filename: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -37,9 +39,19 @@ export default function JPGToPDFPage() {
     if (files.length === 0) return;
     setProcessing(true); setError(null);
     try {
-      const bytes = await imagesToPDF(files);
-      const blob = new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
-      setResult({ blob, filename: files.length === 1 ? `${files[0].name.replace(/\.[^.]+$/, "")}.pdf` : "images.pdf" });
+      if (batchMode) {
+        const zip = new JSZip();
+        for (const f of files) {
+          const bytes = await imagesToPDF([f]);
+          zip.file(`${getBaseName(f.name)}.pdf`, bytes);
+        }
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+        setResult({ blob: zipBlob, filename: "images-batch.zip" });
+      } else {
+        const bytes = await imagesToPDF(files);
+        const blob = new Blob([bytes as unknown as BlobPart], { type: "application/pdf" });
+        setResult({ blob, filename: files.length === 1 ? `${getBaseName(files[0].name)}.pdf` : "images.pdf" });
+      }
     } catch (err: unknown) {
       setError((err as Error)?.message ?? t("jpgToPdf.error"));
     } finally { setProcessing(false); }
@@ -56,6 +68,11 @@ export default function JPGToPDFPage() {
       ) : (
         <div className="space-y-4">
           <ToolCard>
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+              <input type="checkbox" checked={batchMode} onChange={(e) => { setBatchMode(e.target.checked); setFiles([]); }} />
+              {t("batch.mode")}
+            </label>
+            {batchMode && <p className="text-xs text-slate-500 mb-3">{t("batch.modeHint")}</p>}
             <div {...getRootProps()} className={cn(
               "flex flex-col items-center justify-center gap-3 border-2 border-dashed rounded-lg py-10 cursor-pointer transition-all",
               isDragActive ? "border-teal-500 bg-teal-50" : "border-slate-200 hover:border-teal-400 hover:bg-slate-50"

@@ -9,6 +9,8 @@ import ToolBentoCard from "@/components/home/ToolBentoCard";
 import CategoryFilter from "@/components/home/CategoryFilter";
 import PrivacyBento from "@/components/home/PrivacyBento";
 
+const CATEGORY_ORDER: ToolCategory[] = ["organize", "convert", "edit", "security"];
+
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<ToolCategory | "all">("all");
   const { t } = useTranslation();
@@ -18,11 +20,31 @@ export default function HomePage() {
       ? TOOLS
       : TOOLS.filter((tool) => tool.category === activeCategory);
 
-  const isBento = activeCategory === "all";
+  const isGroupedAll = activeCategory === "all";
+
+  const renderToolGrid = (tools: typeof TOOLS, useBento: boolean) => (
+    <div
+      className={cn(
+        "grid gap-3 sm:gap-4",
+        useBento
+          ? "grid-flow-dense grid-cols-2 md:grid-cols-4 lg:grid-cols-6 auto-rows-[minmax(6.5rem,auto)]"
+          : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
+      )}
+    >
+      {tools.map((tool) => (
+        <ToolBentoCard
+          key={tool.id}
+          tool={tool}
+          title={t(tool.titleKey)}
+          size={getBentoSize(tool.id, useBento ? "all" : activeCategory)}
+          className={getBentoSpan(tool.id, useBento ? "all" : activeCategory)}
+        />
+      ))}
+    </div>
+  );
 
   return (
     <main>
-      {/* Hero */}
       <section className="relative overflow-hidden pt-24 pb-12 sm:pt-28 sm:pb-14">
         <div className="absolute inset-0 bg-gradient-to-b from-teal-50/50 dark:from-teal-950/30 to-transparent -z-10" />
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[min(720px,92vw)] h-[300px] bg-[#1461bd]/8 dark:bg-teal-500/5 blur-[100px] rounded-full pointer-events-none -z-10" />
@@ -58,30 +80,30 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Tools bento */}
       <section id="tools" className="max-w-6xl mx-auto px-6 pb-20 scroll-mt-20">
         <div className="mb-6 hidden md:block">
           <CategoryFilter active={activeCategory} onChange={setActiveCategory} label={t} />
         </div>
 
-        <div
-          className={cn(
-            "grid gap-3 sm:gap-4",
-            isBento
-              ? "grid-flow-dense grid-cols-2 md:grid-cols-4 lg:grid-cols-6 auto-rows-[minmax(6.5rem,auto)]"
-              : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"
-          )}
-        >
-          {filtered.map((tool) => (
-            <ToolBentoCard
-              key={tool.id}
-              tool={tool}
-              title={t(tool.titleKey)}
-              size={getBentoSize(tool.id, activeCategory)}
-              className={getBentoSpan(tool.id, activeCategory)}
-            />
-          ))}
-        </div>
+        {isGroupedAll ? (
+          <div className="space-y-10">
+            {CATEGORY_ORDER.map((cat) => {
+              const catTools = TOOLS.filter((tool) => tool.category === cat);
+              const catLabel = CATEGORIES.find((c) => c.id === cat);
+              if (!catTools.length || !catLabel) return null;
+              return (
+                <div key={cat}>
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">
+                    {t(catLabel.labelKey)}
+                  </h2>
+                  {renderToolGrid(catTools, true)}
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          renderToolGrid(filtered, false)
+        )}
       </section>
 
       <PrivacyBento t={t} />

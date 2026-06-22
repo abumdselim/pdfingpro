@@ -11,6 +11,10 @@ export const BENTO_SPANS: Record<string, string> = {
   "protect-pdf": "col-span-1 row-span-1",
   "highlight-pdf": "col-span-1 row-span-1",
   "website-to-pdf": "col-span-2 row-span-1",
+  "pdf-workflow": "col-span-2 row-span-1",
+  "compare-pdf": "col-span-1 row-span-1",
+  "pdf-to-excel": "col-span-1 row-span-1",
+  "redact-pdf": "col-span-1 row-span-1",
 };
 
 export type BentoSize = "sm" | "md" | "lg";

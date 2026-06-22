@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ToolLayout, { ToolCard, PrimaryButton, SecondaryButton } from "@/components/shared/ToolLayout";
 import FileDropzone from "@/components/shared/FileDropzone";
+import BatchFileQueue, { createBatchId, type BatchQueueItem } from "@/components/shared/BatchFileQueue";
 import PDFThumbnails from "@/components/shared/PDFThumbnail";
 import { splitPDF, splitPDFByPage, parseRangeString } from "@/lib/pdf/split";
 import { downloadBlob, getBaseName } from "@/lib/utils";
@@ -15,6 +16,8 @@ type Mode = "ranges" | "every-page" | "extract";
 export default function SplitPDFPage() {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
+  const [batchMode, setBatchMode] = useState(false);
+  const [queue, setQueue] = useState<BatchQueueItem[]>([]);
   const [pageCount, setPageCount] = useState(0);
   const [mode, setMode] = useState<Mode>("ranges");
   const [rangeInput, setRangeInput] = useState("");
@@ -24,11 +27,33 @@ export default function SplitPDFPage() {
   const [done, setDone] = useState(false);
 
   const reset = () => {
-    setFile(null); setPageCount(0); setRangeInput(""); setSelectedPages(new Set()); setError(null); setDone(false);
+    setFile(null); setQueue([]); setPageCount(0); setRangeInput(""); setSelectedPages(new Set()); setError(null); setDone(false);
   };
 
   const togglePage = (i: number) => {
     setSelectedPages((prev) => { const next = new Set(prev); next.has(i) ? next.delete(i) : next.add(i); return next; });
+  };
+
+  const handleBatchSplit = async () => {
+    if (queue.length === 0) return;
+    setProcessing(true); setError(null);
+    try {
+      const masterZip = new JSZip();
+      for (const item of queue) {
+        setQueue((prev) => prev.map((q) => (q.id === item.id ? { ...q, status: "processing" } : q)));
+        const buffer = await item.file.arrayBuffer();
+        const base = getBaseName(item.file.name);
+        const parts = await splitPDFByPage(buffer);
+        const folder = masterZip.folder(base)!;
+        parts.forEach(({ bytes, label }) => folder.file(`${label}.pdf`, bytes));
+        setQueue((prev) => prev.map((q) => (q.id === item.id ? { ...q, status: "done" } : q)));
+      }
+      const zipBlob = await masterZip.generateAsync({ type: "blob" });
+      downloadBlob(zipBlob, "split-batch.zip");
+      setDone(true);
+    } catch (err: unknown) {
+      setError((err as Error)?.message ?? t("split.error"));
+    } finally { setProcessing(false); }
   };
 
   const handleSplit = async () => {
@@ -63,7 +88,48 @@ export default function SplitPDFPage() {
 
   return (
     <ToolLayout title={t("tools.splitPdf.title")} description={t("split.pageDescription")} icon="cut" iconClass="bg-blue-50 text-blue-600">
-      {!file ? (
+      {!file && !batchMode ? (
+        <ToolCard>
+          <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+            <input type="checkbox" checked={batchMode} onChange={(e) => setBatchMode(e.target.checked)} />
+            {t("batch.mode")}
+          </label>
+          <FileDropzone onFiles={(f) => setFile(f[0])} />
+        </ToolCard>
+      ) : batchMode && done ? (
+        <ToolCard>
+          <div className="flex flex-col items-center gap-6 py-10 text-center">
+            <div className="w-16 h-16 bg-teal-100 dark:bg-teal-900/40 rounded-full flex items-center justify-center">
+              <span className="material-symbols-outlined text-teal-600 dark:text-teal-400 icon-filled text-[36px]">check_circle</span>
+            </div>
+            <div>
+              <p className="font-semibold text-slate-800 dark:text-slate-200 text-lg">{t("split.downloadedAsZip")}</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t("batch.complete")}</p>
+            </div>
+            <SecondaryButton onClick={reset}>
+              <span className="material-symbols-outlined text-[18px]">refresh</span>
+              {t("split.splitAnother")}
+            </SecondaryButton>
+          </div>
+        </ToolCard>
+      ) : batchMode && !done ? (
+        <div className="space-y-4">
+          <ToolCard>
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">
+              <input type="checkbox" checked={batchMode} onChange={(e) => { setBatchMode(e.target.checked); setQueue([]); }} />
+              {t("batch.mode")}
+            </label>
+            <p className="text-xs text-slate-500 mb-3">{t("batch.modeHint")}</p>
+            <FileDropzone onFiles={(f) => setQueue((prev) => [...prev, ...f.map((file) => ({ id: createBatchId(), file, status: "pending" as const }))])} files={[]} maxFiles={20} />
+            <BatchFileQueue items={queue} onRemove={(id) => setQueue((prev) => prev.filter((q) => q.id !== id))} onClear={() => setQueue([])} className="mt-3" />
+          </ToolCard>
+          {error && <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
+          <PrimaryButton onClick={handleBatchSplit} loading={processing} disabled={queue.length === 0}>
+            <span className="material-symbols-outlined text-[18px]">cut</span>
+            {t("split.splitButton")}
+          </PrimaryButton>
+        </div>
+      ) : !file ? (
         <ToolCard><FileDropzone onFiles={(f) => setFile(f[0])} /></ToolCard>
       ) : done ? (
         <ToolCard>
