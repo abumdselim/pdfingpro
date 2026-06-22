@@ -26,7 +26,7 @@ export default function ToolLayout({
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen flex flex-col bg-transparent pt-14">
+    <div className="min-h-screen flex flex-col bg-transparent pt-[var(--app-header-total)] md:pt-14">
       <div className="relative z-10 animate-fade-in-up">
         <div className="max-w-3xl mx-auto px-6 py-12 text-center flex flex-col items-center">
           <Link href="/" className={cn(ui.backLink, "mb-8")}>

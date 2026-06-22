@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Merge, split, compress, convert, rotate, watermark and sign PDFs - all in your browser.",
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#137ece",
+    background_color: "#f1f5f9",
+    theme_color: "#f1f5f9",
     icons: [
       {
         src: "/icons/icon.svg",

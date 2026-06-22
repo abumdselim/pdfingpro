@@ -7,7 +7,7 @@ export default function Footer() {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-[#0b3e7b] mt-auto relative overflow-hidden">
+    <footer className="bg-[#0b3e7b] mt-auto relative overflow-hidden pb-[var(--app-safe-bottom)]">
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="flex flex-col items-center justify-center gap-8 text-center">
           <div className="flex flex-col items-center gap-3">

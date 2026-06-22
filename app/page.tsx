@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n";
 import ToolBentoCard from "@/components/home/ToolBentoCard";
 import CategoryFilter from "@/components/home/CategoryFilter";
-import PrivacyBento from "@/components/home/PrivacyBento";
+import ToolsComingSoon from "@/components/home/ToolsComingSoon";
 
 const CATEGORY_ORDER: ToolCategory[] = ["organize", "convert", "edit", "security"];
 
@@ -45,9 +45,9 @@ export default function HomePage() {
 
   return (
     <main>
-      <section className="relative overflow-hidden pt-24 pb-12 sm:pt-28 sm:pb-14">
-        <div className="absolute inset-0 bg-gradient-to-b from-teal-50/50 dark:from-teal-950/30 to-transparent -z-10" />
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[min(720px,92vw)] h-[300px] bg-[#1461bd]/8 dark:bg-teal-500/5 blur-[100px] rounded-full pointer-events-none -z-10" />
+      <section className="relative overflow-hidden pb-12 sm:pb-14 -mt-[var(--app-header-total)] pt-[calc(var(--app-header-total)+4.5rem)] sm:mt-0 sm:pt-28 sm:pb-14">
+        <div className="absolute inset-x-0 top-[calc(-1*var(--app-header-total))] bottom-0 bg-gradient-to-b from-teal-50/50 dark:from-teal-950/30 to-transparent -z-10" />
+        <div className="absolute top-[calc(25%-var(--app-header-total))] left-1/2 -translate-x-1/2 w-[min(720px,92vw)] h-[300px] bg-[#1461bd]/8 dark:bg-teal-500/5 blur-[100px] rounded-full pointer-events-none -z-10" />
 
         <div className="max-w-6xl mx-auto px-6 text-center">
           <div className="animate-fade-in-up inline-flex items-center gap-1.5 bg-white/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 shadow-sm text-slate-600 dark:text-slate-300 text-[11px] sm:text-xs font-bold px-3 py-1.5 rounded-full mb-6 tracking-wide uppercase">
@@ -106,7 +106,7 @@ export default function HomePage() {
         )}
       </section>
 
-      <PrivacyBento t={t} />
+      <ToolsComingSoon t={t} />
     </main>
   );
 }

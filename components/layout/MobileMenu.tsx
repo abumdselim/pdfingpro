@@ -85,6 +85,7 @@ export default function MobileMenu({ open, onClose, t }: MobileMenuProps) {
         aria-label={t("header.menu")}
         className={cn(
           "mobile-menu-panel absolute top-0 right-0 flex h-full w-[min(20rem,88vw)] flex-col",
+          "pt-[var(--app-safe-top)]",
           "border-l border-slate-200/80 dark:border-slate-700/80",
           "bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl shadow-slate-900/10",
           "transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   keywords: ["pdf editor", "merge pdf", "split pdf", "compress pdf", "free pdf tools", "online pdf"],
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "Pdfing Pro",
   },
   openGraph: {
@@ -27,7 +27,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#137ece",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover" as const,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f1f5f9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

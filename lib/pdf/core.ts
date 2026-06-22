@@ -9,7 +9,16 @@ let _pdfjs: typeof import("pdfjs-dist") | null = null;
 export async function getPdfJs() {
   if (_pdfjs) return _pdfjs;
   _pdfjs = await import("pdfjs-dist");
-  _pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.mjs";
+  if (typeof window === "undefined") {
+    const { createRequire } = await import("node:module");
+    const { pathToFileURL } = await import("node:url");
+    const require = createRequire(import.meta.url);
+    _pdfjs.GlobalWorkerOptions.workerSrc = pathToFileURL(
+      require.resolve("pdfjs-dist/build/pdf.worker.mjs")
+    ).href;
+  } else {
+    _pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.mjs";
+  }
   return _pdfjs;
 }
 

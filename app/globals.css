@@ -21,6 +21,12 @@
     --ds-card-border: rgba(226, 232, 240, 0.8);
     --ds-accent: #137ece;
     --ds-focus: #137ece;
+
+    /* Mobile app shell */
+    --app-safe-top: env(safe-area-inset-top, 0px);
+    --app-safe-bottom: env(safe-area-inset-bottom, 0px);
+    --app-header-content: 3.5rem;
+    --app-header-total: calc(var(--app-header-content) + var(--app-safe-top));
   }
 
   .dark {
@@ -52,6 +58,12 @@
     background-image: radial-gradient(var(--ds-bg-dot) 0.8px, transparent 0.8px);
     background-size: 20px 20px;
     color: var(--ds-text);
+  }
+
+  @media (max-width: 767px) {
+    html {
+      -webkit-tap-highlight-color: transparent;
+    }
   }
 
   :focus-visible {
@@ -235,6 +247,75 @@
     .color-bento-card-interactive:hover {
       transform: none;
       filter: none;
+    }
+  }
+
+  /* Mobile native app chrome */
+  .app-header-shell {
+    padding-top: var(--app-safe-top);
+  }
+
+  @media (max-width: 767px) {
+    .app-header-surface {
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--ds-bg) 96%, white) 0%,
+        color-mix(in srgb, var(--ds-bg) 72%, transparent) 72%,
+        transparent 100%
+      );
+      border-bottom-color: transparent;
+      transition:
+        background 0.35s var(--ease-smooth),
+        border-color 0.35s var(--ease-smooth),
+        box-shadow 0.35s var(--ease-smooth);
+    }
+
+    .app-header-surface--home {
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, #ccfbf1 42%, var(--ds-bg)) 0%,
+        color-mix(in srgb, var(--ds-bg) 78%, transparent) 68%,
+        transparent 100%
+      );
+    }
+
+    .dark .app-header-surface--home {
+      background: linear-gradient(
+        180deg,
+        color-mix(in srgb, #042f2e 38%, var(--ds-bg)) 0%,
+        color-mix(in srgb, var(--ds-bg) 82%, transparent) 68%,
+        transparent 100%
+      );
+    }
+
+    .app-header-surface--scrolled {
+      background: color-mix(in srgb, var(--ds-bg) 90%, transparent);
+      backdrop-filter: saturate(160%) blur(18px);
+      -webkit-backdrop-filter: saturate(160%) blur(18px);
+      border-bottom-color: color-mix(in srgb, var(--ds-card-border) 85%, transparent);
+      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05);
+    }
+
+    .dark .app-header-surface--scrolled {
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.22);
+    }
+
+    .app-nav-pill {
+      border-radius: 9999px;
+      border-color: color-mix(in srgb, var(--ds-card-border) 55%, transparent);
+      background: color-mix(in srgb, var(--ds-card) 72%, transparent);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow:
+        0 1px 0 color-mix(in srgb, white 70%, transparent) inset,
+        0 4px 18px rgba(15, 23, 42, 0.06);
+    }
+
+    .dark .app-nav-pill {
+      background: color-mix(in srgb, var(--ds-card) 68%, transparent);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.05) inset,
+        0 4px 18px rgba(0, 0, 0, 0.24);
     }
   }
 }
