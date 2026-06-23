@@ -13,7 +13,7 @@
 
 - ✅ **Client-Side PDF Tools** - Merge, split, compress, OCR, and more run in your browser
 - ✅ **Website to PDF** - Public URLs rendered with headless Chrome (local server / desktop app)
-- ✅ **18+ PDF Tools** - Convert, merge, split, compress, watermark, and more
+- ✅ **101 PDF Tools** - Merge, split, convert, OCR, sign, workflow, and more — see [what works](/what-works)
 - ✅ **Intuitive UI** - Modern, responsive design for desktop and mobile
 - ✅ **Real-Time Preview** - See changes instantly as you edit
 - ✅ **No Installation Required** - Works directly in your browser
@@ -23,24 +23,14 @@
 
 ## 🛠️ Available Tools
 
-| Tool | Description |
-|------|-------------|
-| **Merge PDF** | Combine multiple PDFs into one |
-| **Split PDF** | Extract specific pages from a PDF |
-| **Compress PDF** | Reduce file size while maintaining quality |
-| **Protect PDF** | Add password protection to PDFs |
-| **Unlock PDF** | Remove password protection |
-| **Rotate PDF** | Rotate pages 90°, 180°, or 270° |
-| **Add Page Numbers** | Insert page numbers with custom styling |
-| **Watermark PDF** | Add text or image watermarks |
-| **Stamp PDF** | Apply stamps to specific pages |
-| **Draw / Highlight PDF** | Draw freehand strokes or highlight text and annotations |
-| **OCR PDF** | Extract text from scanned documents |
-| **PDF to JPG** | Convert pages to high-quality images |
-| **JPG to PDF** | Create PDFs from image files |
-| **PDF to Word** | Extract content to Word documents |
-| **Website / HTML to PDF** | Convert public webpages or local HTML into a downloadable PDF |
-| **Organize PDF** | Reorder, delete, or duplicate pages |
+Pdfing Pro ships **101 tools** across organize, convert, edit, and security categories. Most run fully in your browser; a few are marked **Limited** or **Server** — see the [What works](/what-works) page for the full list and processing tiers.
+
+| Category | Examples |
+|----------|----------|
+| **Organize** | Merge, split, rotate, booklet, N-up, Bates numbering |
+| **Convert** | PDF ↔ images, Word, Excel, HTML, Markdown, JSON, CSV |
+| **Edit** | Watermark, sign, redact, crop, OCR, forms, QR codes |
+| **Security** | Protect, unlock, sanitize, verify signature |
 
 ---
 

@@ -56,6 +56,12 @@ export default function ToolLayout({
             <ProcessingBadge tier={tier} />
           </div>
 
+          {tier === "limited" && (
+            <p className="mt-3 text-xs leading-relaxed rounded-lg border border-sky-200 bg-sky-50 px-3 py-2 text-sky-800 dark:border-sky-800/50 dark:bg-sky-950/30 dark:text-sky-200">
+              {t("badge.limitedDisclaimer")}
+            </p>
+          )}
+
           <p className="mt-3.5 text-xs sm:text-sm leading-relaxed max-w-2xl text-slate-900 dark:text-slate-100">
             {description}
           </p>

@@ -22,6 +22,9 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-[13px] font-medium text-white/80">
+            <Link href="/what-works" className="hover:text-white transition-colors">
+              {t("legal.footer.whatWorks")}
+            </Link>
             <Link href="/privacy" className="hover:text-white transition-colors">
               {t("legal.footer.privacy")}
             </Link>
