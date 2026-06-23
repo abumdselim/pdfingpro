@@ -513,4 +513,9 @@ export const TOOL_MOTIONS: Record<string, ComponentType<CardMotionProps>> = {
   "header-footer-pdf": PageNumbersMotion,
   "pdf-to-powerpoint": PdfToWordMotion,
   "webp-to-pdf": JpgToPdfMotion,
+  "split-by-size": SplitMotion,
+  "merge-alternate": MergeMotion,
+  "add-links-pdf": WebsiteToPdfMotion,
+  "text-to-pdf": PdfToWordMotion,
+  "auto-rotate-pdf": RotateMotion,
 };
