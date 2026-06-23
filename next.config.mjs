@@ -18,6 +18,7 @@ const withPWA = withPWAInit({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
+  serverExternalPackages: ["@matbee/libreoffice-converter"],
   webpack: (config, { isServer, webpack }) => {
     // pdfjs-dist tries to import 'canvas' which is a Node-only optional dep.
     // Aliasing to false tells webpack to provide an empty module instead.

@@ -46,6 +46,10 @@ const SECTIONS: LegalSection[] = [
     listKeys: [
       "legal.privacy.sections.limitedTools.l1",
       "legal.privacy.sections.limitedTools.l2",
+      "legal.privacy.sections.limitedTools.l3",
+      "legal.privacy.sections.limitedTools.l4",
+      "legal.privacy.sections.limitedTools.l5",
+      "legal.privacy.sections.limitedTools.l6",
     ],
   },
   {
