@@ -829,7 +829,6 @@
   "addAttachments.dropHint": "Any file type — documents, spreadsheets, images, etc.",
   "addAttachments.button": "Embed attachments",
   "addAttachments.error": "Could not embed attachments.",
-
   "pdfToJpg.pageDescription": "Export each page as a high-resolution image.",
   "pdfToJpg.format": "Format",
   "pdfToJpg.resolution": "Resolution: {dpi}",
