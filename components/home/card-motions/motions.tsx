@@ -518,4 +518,9 @@ export const TOOL_MOTIONS: Record<string, ComponentType<CardMotionProps>> = {
   "add-links-pdf": WebsiteToPdfMotion,
   "text-to-pdf": PdfToWordMotion,
   "auto-rotate-pdf": RotateMotion,
+  "extract-attachments-pdf": ExtractImagesMotion,
+  "tiff-to-pdf": JpgToPdfMotion,
+  "visual-diff-pdf": CompareMotion,
+  "batch-workflow": WorkflowMotion,
+  "add-attachments-pdf": ExtractImagesMotion,
 };

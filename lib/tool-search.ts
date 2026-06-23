@@ -38,6 +38,11 @@ const TOOL_KEYWORDS: Partial<Record<string, string[]>> = {
   "add-links-pdf": ["hyperlink", "url", "clickable link", "website link"],
   "text-to-pdf": ["plain text", "notes", "txt", "write pdf"],
   "auto-rotate-pdf": ["orientation", "landscape", "portrait", "fix rotation"],
+  "extract-attachments-pdf": ["embedded files", "file extract", "attachments zip"],
+  "tiff-to-pdf": ["tif", "scan", "tiff image"],
+  "visual-diff-pdf": ["pixel diff", "visual compare", "document compare", "redline"],
+  "batch-workflow": ["pipeline", "advanced workflow", "multi step", "automate"],
+  "add-attachments-pdf": ["embed files", "attach file", "file attachment"],
 };
 
 export const SUGGESTED_SEARCH_QUERIES = [

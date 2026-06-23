@@ -7,10 +7,10 @@ interface ToolsComingSoonProps {
 }
 
 const TEASERS = [
-  { icon: "attach_file", labelKey: "home.comingSoon.item.attachments" },
-  { icon: "image", labelKey: "home.comingSoon.item.tiff" },
-  { icon: "difference", labelKey: "home.comingSoon.item.compareVisual" },
-  { icon: "account_tree", labelKey: "home.comingSoon.item.workflows" },
+  { icon: "photo_camera", labelKey: "home.comingSoon.item.heic" },
+  { icon: "tag", labelKey: "home.comingSoon.item.bates" },
+  { icon: "code", labelKey: "home.comingSoon.item.html" },
+  { icon: "text_fields", labelKey: "home.comingSoon.item.splitText" },
 ] as const;
 
 export default function ToolsComingSoon({ t }: ToolsComingSoonProps) {
