@@ -18,32 +18,28 @@ export default function Header() {
   const { t } = useTranslation();
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  const isHome = pathname === "/";
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [pathname]);
-
   const closeMenu = () => setMenuOpen(false);
+
+  const openSearchFromMenu = () => {
+    setMenuOpen(false);
+    setSearchOpen(true);
+  };
 
   return (
     <>
       <header
         className={cn(
           "app-header-shell sticky top-0 z-50 w-full border-b transition-[background,border-color,box-shadow] duration-300",
-          "md:h-16 md:bg-white/75 md:dark:bg-slate-900/75 md:backdrop-blur-xl md:border-slate-200/60 md:dark:border-slate-700/60",
-          "max-md:border-b max-md:app-header-surface",
-          isHome && "max-md:app-header-surface--home",
-          scrolled && "max-md:app-header-surface--scrolled"
+          "h-14 md:h-16",
+          "bg-[#f8fafc]/95 dark:bg-slate-900/95 backdrop-blur-md",
+          "border-slate-200/80 dark:border-slate-700/80",
+          "shadow-sm shadow-slate-900/[0.03] dark:shadow-black/20"
         )}
       >
         <div className="max-w-6xl mx-auto h-14 md:h-16 flex items-center justify-between px-4 sm:px-6">
@@ -67,13 +63,13 @@ export default function Header() {
           <nav
             className={cn(
               "flex items-center overflow-hidden shrink-0",
-              "rounded-lg border border-slate-200/70 dark:border-slate-700/70 bg-white/80 dark:bg-slate-800/70 shadow-sm",
-              "max-md:app-nav-pill max-md:shadow-none"
+              "rounded-lg border border-slate-200/80 dark:border-slate-700/80",
+              "bg-white/90 dark:bg-slate-800/90 shadow-sm"
             )}
             aria-label={t("header.appName")}
           >
             <ThemeToggle segmented />
-            <ToolSearch t={t} />
+            <ToolSearch t={t} open={searchOpen} onOpenChange={setSearchOpen} />
             <Link
               href="/#tools"
               className="hidden md:inline-flex h-9 items-center justify-center border-l border-slate-200/70 dark:border-slate-700/70 px-3.5 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-[#1461bd] dark:hover:text-teal-400 hover:bg-slate-50/80 dark:hover:bg-slate-700/40 transition-colors"
@@ -107,7 +103,7 @@ export default function Header() {
         </div>
       </header>
 
-      <MobileMenu open={menuOpen} onClose={closeMenu} t={t} />
+      <MobileMenu open={menuOpen} onClose={closeMenu} onOpenSearch={openSearchFromMenu} t={t} />
     </>
   );
 }

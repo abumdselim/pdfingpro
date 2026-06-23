@@ -26,9 +26,9 @@ const CONTACT_CHANNELS = [
     icon: "bug_report",
     titleKey: "legal.contact.channels.bugs.title",
     bodyKey: "legal.contact.channels.bugs.body",
-    href: "https://github.com/inievolabs/hellopdf/issues",
+    href: "mailto:contact@inievo.com?subject=Pdfing%20Pro%20bug%20report",
     linkLabelKey: "legal.contact.channels.bugs.link",
-    external: true,
+    external: false,
   },
 ] as const;
 

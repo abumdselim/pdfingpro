@@ -6,7 +6,6 @@ import FileDropzone from "@/components/shared/FileDropzone";
 import PDFThumbnails from "@/components/shared/PDFThumbnail";
 import TouchHint from "@/components/shared/TouchHint";
 import PageJumpInput from "@/components/shared/PageJumpInput";
-import ProcessingBadge from "@/components/shared/ProcessingBadge";
 import { renderPageToCanvas } from "@/lib/pdf/core";
 import {
   applyRedactions,
@@ -328,9 +327,6 @@ export default function RedactPdfPage() {
       ) : (
         <div className="space-y-4">
           <ToolCard>
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-              <ProcessingBadge tier="local" />
-            </div>
             <FileDropzone
               onFiles={(f) => {
                 setFile(f[0]);

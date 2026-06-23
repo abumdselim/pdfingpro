@@ -7,7 +7,7 @@ export default function ThemeScript() {
   try {
     var key = ${JSON.stringify(THEME_STORAGE_KEY)};
     var stored = localStorage.getItem(key);
-    var dark = stored === 'dark' || (stored !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    var dark = stored === 'dark' || (stored === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.classList.toggle('dark', dark);
     document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
   } catch (e) {}

@@ -58,7 +58,7 @@ export default function PdfToExcelPage() {
           <ToolCard>
             <p className="text-center text-slate-600 dark:text-slate-400">{t("common.done")}</p>
             <div className="flex justify-center mt-4">
-              <PrimaryButton onClick={reset}>{t("common.startOver")}</PrimaryButton>
+              <PrimaryButton onClick={reset} privacyBadge={false}>{t("common.startOver")}</PrimaryButton>
             </div>
           </ToolCard>
         )}
