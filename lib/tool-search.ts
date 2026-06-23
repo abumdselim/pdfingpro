@@ -15,6 +15,7 @@ const TOOL_KEYWORDS: Partial<Record<string, string[]>> = {
   "redact-pdf": ["blackout", "censor", "hide text"],
   "pdf-to-word": ["docx", "doc", "word"],
   "pdf-to-excel": ["xlsx", "spreadsheet", "excel"],
+  "pdf-to-csv": ["csv", "spreadsheet", "table export"],
   "html-to-pdf": ["website", "url", "web page", "html"],
   "pdf-to-jpg": ["jpeg", "image", "photo"],
   "jpg-to-pdf": ["jpeg", "image", "photo"],
@@ -149,6 +150,7 @@ function scoreTool(tool: Tool, query: string, t: (key: string) => string): numbe
   if (title.startsWith(q)) score = Math.max(score, 90);
   if (slug.startsWith(q) || tool.id.startsWith(q.replace(/\s+/g, "-"))) score = Math.max(score, 85);
   if (title.includes(q)) score = Math.max(score, 70);
+  if (keywords.some((k) => k === q)) score = Math.max(score, 96);
   if (keywords.some((k) => k.includes(q) || q.includes(k))) score = Math.max(score, 65);
   if (category.includes(q)) score = Math.max(score, 60);
   if (description.includes(q)) score = Math.max(score, 50);
