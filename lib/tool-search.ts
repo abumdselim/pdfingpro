@@ -43,6 +43,10 @@ const TOOL_KEYWORDS: Partial<Record<string, string[]>> = {
   "visual-diff-pdf": ["pixel diff", "visual compare", "document compare", "redline"],
   "batch-workflow": ["pipeline", "advanced workflow", "multi step", "automate"],
   "add-attachments-pdf": ["embed files", "attach file", "file attachment"],
+  "heic-to-pdf": ["iphone", "heif", "apple photo", "heic image"],
+  "bates-numbering-pdf": ["legal", "discovery", "bates stamp", "document id"],
+  "pdf-to-html": ["html export", "web page", "markup"],
+  "split-by-text": ["chapter split", "text search", "section split", "delimiter"],
 };
 
 export const SUGGESTED_SEARCH_QUERIES = [

@@ -523,4 +523,8 @@ export const TOOL_MOTIONS: Record<string, ComponentType<CardMotionProps>> = {
   "visual-diff-pdf": CompareMotion,
   "batch-workflow": WorkflowMotion,
   "add-attachments-pdf": ExtractImagesMotion,
+  "heic-to-pdf": JpgToPdfMotion,
+  "bates-numbering-pdf": PageNumbersMotion,
+  "pdf-to-html": PdfToWordMotion,
+  "split-by-text": SplitMotion,
 };
