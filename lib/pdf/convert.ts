@@ -47,7 +47,7 @@ export async function pdfToImages(
 }
 
 /**
- * Convert image files (JPG/PNG/WebP/BMP) to a single PDF.
+ * Convert image files (JPG/PNG/WebP/BMP/GIF) to a single PDF.
  */
 export async function imagesToPDF(files: File[]): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
@@ -63,6 +63,7 @@ export async function imagesToPDF(files: File[]): Promise<Uint8Array> {
     } else if (mime === "image/png") {
       img = await doc.embedPng(bytes);
     } else {
+      // WebP, BMP, GIF, and other browser-decodable formats via canvas.
       img = await embedViaCanvas(doc, file);
     }
 
