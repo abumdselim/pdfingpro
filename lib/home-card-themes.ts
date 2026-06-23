@@ -92,6 +92,10 @@ export const TOOL_CARD_THEMES: Record<string, CardTheme> = {
   "visual-diff-pdf": solid("bg-rose-600", "border-rose-700", ON_DARK),
   "batch-workflow": solid("bg-blue-800", "border-blue-900", ON_DARK),
   "add-attachments-pdf": solid("bg-teal-600", "border-teal-700", ON_DARK),
+  "heic-to-pdf": solid("bg-violet-600", "border-violet-700", ON_DARK),
+  "bates-numbering-pdf": solid("bg-slate-700", "border-slate-800", ON_DARK),
+  "pdf-to-html": solid("bg-orange-600", "border-orange-700", ON_DARK),
+  "split-by-text": solid("bg-indigo-600", "border-indigo-700", ON_DARK),
 };
 
 export function getToolCardTheme(toolId: string): CardTheme {
