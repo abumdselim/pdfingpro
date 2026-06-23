@@ -8,9 +8,9 @@ interface CardPdfShadowProps {
 }
 
 const sizeMap = {
-  sm: "h-[4.5rem] w-[4.5rem] -right-1 -bottom-2",
-  md: "h-[5.5rem] w-[5.5rem] -right-2 -bottom-3",
-  lg: "h-[7rem] w-[7rem] -right-3 -bottom-4",
+  sm: "h-[4rem] w-[4rem] right-1 bottom-0 sm:h-[4.5rem] sm:w-[4.5rem] sm:right-2 sm:bottom-1",
+  md: "h-[5rem] w-[5rem] right-0 bottom-0 sm:h-[5.5rem] sm:w-[5.5rem] sm:right-1 sm:bottom-1",
+  lg: "h-[6.5rem] w-[6.5rem] right-2 bottom-1 sm:h-[7.5rem] sm:w-[7.5rem] sm:right-3 sm:bottom-2",
 };
 
 /** Faint stacked PDF page watermark for colorful bento cards. */
@@ -22,8 +22,8 @@ export default function CardPdfShadow({
   return (
     <div
       className={cn(
-        "pointer-events-none absolute select-none overflow-visible opacity-50 transition-opacity duration-300",
-        "group-hover:opacity-[0.72]",
+        "pointer-events-none absolute select-none overflow-visible opacity-30 transition-opacity duration-300",
+        "group-hover:opacity-45",
         sizeMap[size],
         watermarkClass,
         className

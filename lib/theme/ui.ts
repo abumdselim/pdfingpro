@@ -10,15 +10,19 @@ export const ui = {
   muted: "text-slate-500 dark:text-slate-400",
   faint: "text-slate-400 dark:text-slate-500",
 
+  /** Section labels inside tool cards */
+  sectionLabel:
+    "text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-400 dark:text-slate-500",
+
   /** Form */
   label: "text-sm font-medium text-slate-700 dark:text-slate-300",
   input:
-    "w-full border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-teal-400 dark:focus:ring-teal-500 focus:border-teal-500",
+    "w-full min-h-11 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#1461bd]/20 dark:focus:ring-teal-500/25 focus:border-[#1461bd] dark:focus:border-teal-500 transition-colors",
   select:
-    "border border-slate-300 dark:border-slate-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 dark:focus:ring-teal-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100",
+    "min-h-11 border border-slate-200 dark:border-slate-700 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#1461bd]/20 dark:focus:ring-teal-500/25 focus:border-[#1461bd] dark:focus:border-teal-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors",
 
   /** Surfaces */
-  surface: "bg-white dark:bg-slate-800",
+  surface: "bg-white dark:bg-slate-900",
   surfaceMuted: "bg-slate-50 dark:bg-slate-900/50",
   surfaceSubtle: "bg-slate-100 dark:bg-slate-800",
   border: "border-slate-200/80 dark:border-slate-700/80",
@@ -26,58 +30,58 @@ export const ui = {
 
   /** Navigation */
   backLink:
-    "inline-flex items-center gap-1 text-sm font-medium text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 px-4 py-1.5 rounded-full transition-colors",
+    "inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 transition-colors",
 
   /** Pills / option buttons */
   pillActive:
-    "border-teal-500 bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300",
+    "border-[#1461bd] bg-[#1461bd]/[0.06] dark:border-teal-500 dark:bg-teal-950/40 text-[#1461bd] dark:text-teal-300 shadow-sm",
   pillInactive:
-    "border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800",
+    "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50/80 dark:hover:bg-slate-800/50",
 
   /** Toggle group (segmented control) */
   toggleGroup:
-    "flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 p-1",
+    "inline-flex rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100/90 dark:bg-slate-900/80 p-1",
   toggleActive:
-    "bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm",
+    "bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm",
   toggleInactive:
     "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200",
 
   /** Alerts */
   error:
-    "flex items-center gap-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-4 py-3 rounded-xl",
+    "flex items-center gap-2 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/30 px-4 py-3 rounded-lg border border-red-200/80 dark:border-red-900/50",
   errorText: "text-sm text-red-600 dark:text-red-400",
   warning:
-    "rounded-xl border border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-950/25 p-5",
+    "rounded-lg border border-amber-200 dark:border-amber-800/50 bg-amber-50 dark:bg-amber-950/25 p-4 sm:p-5",
   warningIcon: "w-10 h-10 rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300",
   warningTitle: "font-semibold text-amber-900 dark:text-amber-200",
   warningBody: "mt-1 text-sm text-amber-800 dark:text-amber-300/90 leading-relaxed",
 
   /** PDF preview chrome */
   previewFrame:
-    "border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 rounded-xl overflow-hidden",
+    "border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 rounded-lg overflow-hidden",
   previewNavBtn:
-    "inline-flex items-center justify-center rounded-full border border-slate-200 dark:border-slate-600 bg-white/95 dark:bg-slate-800/95 text-slate-700 dark:text-slate-200 shadow-md transition hover:bg-white dark:hover:bg-slate-700 hover:text-teal-700 dark:hover:text-teal-400 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95",
+    "inline-flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 shadow-sm transition hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-[#1461bd] dark:hover:text-teal-400 disabled:opacity-40 disabled:cursor-not-allowed active:scale-95",
   previewLoadingOverlay:
-    "absolute inset-0 flex items-center justify-center bg-white/70 dark:bg-slate-900/70 rounded-xl pointer-events-none",
+    "absolute inset-0 flex items-center justify-center bg-white/75 dark:bg-slate-900/75 rounded-lg pointer-events-none",
   previewHintOverlay:
-    "absolute inset-0 flex items-center justify-center bg-white/85 dark:bg-slate-900/85 p-4 rounded-xl pointer-events-none",
+    "absolute inset-0 flex items-center justify-center bg-white/85 dark:bg-slate-900/85 p-4 rounded-lg pointer-events-none",
   previewHintBadge:
-    "rounded-full border border-dashed border-teal-300 dark:border-teal-600 bg-white/70 dark:bg-slate-800/80 px-4 py-2 text-xs font-medium tracking-wide text-teal-700 dark:text-teal-300 pointer-events-none whitespace-nowrap",
+    "rounded-md border border-dashed border-[#1461bd]/30 dark:border-teal-600/50 bg-white/80 dark:bg-slate-900/80 px-3 py-1.5 text-xs font-medium text-[#1461bd] dark:text-teal-300 pointer-events-none whitespace-nowrap",
   previewHandle:
-    "bg-white dark:bg-slate-200 border-2 border-teal-500 rounded-sm shadow-sm z-20 touch-none",
+    "bg-white dark:bg-slate-200 border-2 border-[#1461bd] dark:border-teal-500 rounded-sm shadow-sm z-20 touch-none",
   previewDeleteBtn:
-    "bg-white/90 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-400 rounded-full flex items-center justify-center shadow hover:bg-red-500 hover:border-red-500 hover:text-white transition-all active:scale-95",
+    "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 rounded-lg flex items-center justify-center shadow-sm hover:bg-red-500 hover:border-red-500 hover:text-white transition-all active:scale-95",
 
   /** Always white — signature pads, iframe previews, PDF canvas */
   canvasSurface: "bg-white",
 
   /** File list / dropzone */
   fileRow:
-    "flex items-center gap-4 text-sm p-3 bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 rounded-2xl shadow-sm hover:shadow-md transition-shadow",
+    "flex items-center gap-3 rounded-lg border border-slate-200/80 bg-slate-50/80 p-3 dark:border-slate-700/80 dark:bg-slate-800/40",
   dropzone:
-    "border-slate-300/80 dark:border-slate-600/80 bg-slate-50/30 dark:bg-slate-900/30 hover:border-teal-400 dark:hover:border-teal-500 hover:bg-teal-50/20 dark:hover:bg-teal-950/20",
+    "border-slate-200/90 bg-white shadow-sm dark:border-slate-700/90 dark:bg-slate-900/50 hover:border-[#1461bd]/35 hover:shadow-md dark:hover:border-teal-500/40",
   dropzoneActive:
-    "border-teal-500 bg-teal-50/50 dark:bg-teal-950/40 scale-[0.99] shadow-inner",
+    "border-[#1461bd] bg-[#1461bd]/[0.03] shadow-md ring-2 ring-[#1461bd]/10 dark:border-teal-500 dark:bg-teal-950/20 dark:ring-teal-500/10",
 
   /** Code / pre blocks */
   codeBlock:
@@ -85,10 +89,10 @@ export const ui = {
 
   /** Icon badge (tool headers) */
   iconBadge:
-    "bg-teal-50 dark:bg-teal-950/50 text-teal-600 dark:text-teal-400",
+    "bg-[#1461bd]/10 dark:bg-teal-950/50 text-[#1461bd] dark:text-teal-400",
 
   /** Progress track */
-  progressTrack: "h-2.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden",
+  progressTrack: "h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden",
 } as const;
 
 /** Append dark-mode pairs to tool icon colors from lib/tools.ts */
@@ -113,6 +117,8 @@ export function withDarkIcon(lightClasses: string): string {
     "bg-violet-50 text-violet-600": "dark:bg-violet-950/50 dark:text-violet-400",
     "bg-red-50 text-red-600": "dark:bg-red-950/50 dark:text-red-400",
     "bg-green-50 text-green-600": "dark:bg-green-950/50 dark:text-green-400",
+    "bg-zinc-50 text-zinc-600": "dark:bg-zinc-900/50 dark:text-zinc-400",
+    "bg-neutral-50 text-neutral-600": "dark:bg-neutral-900/50 dark:text-neutral-400",
   };
   const dark = map[lightClasses.trim()];
   return dark ? `${lightClasses} ${dark}` : lightClasses;

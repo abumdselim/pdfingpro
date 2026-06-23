@@ -57,7 +57,7 @@ export default function BatchFileQueue({ items, onRemove, onClear, className }: 
       {items.map((item) => (
         <div
           key={item.id}
-          className="flex items-center gap-3 px-3 py-2 rounded border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/50 text-sm"
+          className="flex items-center gap-3 px-3.5 py-3 rounded-xl border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-sm shadow-sm"
         >
           <span className={cn("material-symbols-outlined text-[18px]", statusClass[item.status])}>
             {statusIcon[item.status]}

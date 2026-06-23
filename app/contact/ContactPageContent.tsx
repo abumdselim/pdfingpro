@@ -26,9 +26,9 @@ const CONTACT_CHANNELS = [
     icon: "bug_report",
     titleKey: "legal.contact.channels.bugs.title",
     bodyKey: "legal.contact.channels.bugs.body",
-    href: "https://github.com/inievolabs/hellopdf/issues",
+    href: "mailto:contact@inievo.com?subject=Pdfing%20Pro%20bug%20report",
     linkLabelKey: "legal.contact.channels.bugs.link",
-    external: true,
+    external: false,
   },
 ] as const;
 
@@ -54,7 +54,7 @@ export default function ContactPageContent() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen pt-14 pb-20">
+    <div className="min-h-screen pt-[var(--app-header-total)] md:pt-14 pb-20">
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-teal-50/50 dark:from-teal-950/30 to-transparent -z-10" />
         <div className="max-w-3xl mx-auto px-6 py-12 text-center animate-fade-in-up">

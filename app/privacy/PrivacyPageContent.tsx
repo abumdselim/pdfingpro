@@ -11,6 +11,16 @@ const SECTIONS: LegalSection[] = [
     paragraphKeys: ["legal.privacy.sections.overview.p1", "legal.privacy.sections.overview.p2"],
   },
   {
+    id: "processing-models",
+    titleKey: "legal.privacy.sections.processingModels.title",
+    paragraphKeys: ["legal.privacy.sections.processingModels.p1"],
+    listKeys: [
+      "legal.privacy.sections.processingModels.l1",
+      "legal.privacy.sections.processingModels.l2",
+      "legal.privacy.sections.processingModels.l3",
+    ],
+  },
+  {
     id: "client-side",
     titleKey: "legal.privacy.sections.clientSide.title",
     paragraphKeys: ["legal.privacy.sections.clientSide.p1"],
@@ -27,6 +37,27 @@ const SECTIONS: LegalSection[] = [
     paragraphKeys: [
       "legal.privacy.sections.websiteToPdf.p1",
       "legal.privacy.sections.websiteToPdf.p2",
+    ],
+  },
+  {
+    id: "limited-tools",
+    titleKey: "legal.privacy.sections.limitedTools.title",
+    paragraphKeys: ["legal.privacy.sections.limitedTools.p1"],
+    listKeys: [
+      "legal.privacy.sections.limitedTools.l1",
+      "legal.privacy.sections.limitedTools.l2",
+    ],
+  },
+  {
+    id: "local-preferences",
+    titleKey: "legal.privacy.sections.localPreferences.title",
+    paragraphKeys: [
+      "legal.privacy.sections.localPreferences.p1",
+      "legal.privacy.sections.localPreferences.p3",
+    ],
+    listKeys: [
+      "legal.privacy.sections.localPreferences.l1",
+      "legal.privacy.sections.localPreferences.l2",
     ],
   },
   {
@@ -54,10 +85,29 @@ const SECTIONS: LegalSection[] = [
   {
     id: "third-party",
     titleKey: "legal.privacy.sections.thirdParty.title",
-    paragraphKeys: ["legal.privacy.sections.thirdParty.p1"],
+    paragraphKeys: [
+      "legal.privacy.sections.thirdParty.p1",
+      "legal.privacy.sections.thirdParty.p3",
+    ],
     listKeys: [
       "legal.privacy.sections.thirdParty.l1",
       "legal.privacy.sections.thirdParty.l2",
+    ],
+  },
+  {
+    id: "security",
+    titleKey: "legal.privacy.sections.security.title",
+    paragraphKeys: [
+      "legal.privacy.sections.security.p1",
+      "legal.privacy.sections.security.p2",
+    ],
+  },
+  {
+    id: "your-rights",
+    titleKey: "legal.privacy.sections.yourRights.title",
+    paragraphKeys: [
+      "legal.privacy.sections.yourRights.p1",
+      "legal.privacy.sections.yourRights.p2",
     ],
   },
   {

@@ -38,7 +38,6 @@ export default function PdfToPdfaPage() {
       description={t("pdfToPdfa.pageDescription")}
       icon="verified"
       iconClass="bg-slate-50 text-slate-600"
-      processingTier="limited"
     >
       {result ? (
         <ToolCard className="space-y-4">

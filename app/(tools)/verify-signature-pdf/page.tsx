@@ -5,7 +5,6 @@ import ToolLayout, { ToolCard, PrimaryButton } from "@/components/shared/ToolLay
 import FileDropzone from "@/components/shared/FileDropzone";
 import { verifyPdfSignatures, type SignatureInfo } from "@/lib/pdf/forms";
 import { useTranslation } from "@/lib/i18n";
-import ProcessingBadge from "@/components/shared/ProcessingBadge";
 
 export default function VerifySignaturePage() {
   const { t } = useTranslation();
@@ -38,7 +37,6 @@ export default function VerifySignaturePage() {
       description={t("verifySignature.pageDescription")}
       icon="verified_user"
       iconClass="bg-red-50 text-red-600"
-      processingTier="limited"
     >
       <div className="space-y-4">
         <ToolCard>
@@ -47,9 +45,6 @@ export default function VerifySignaturePage() {
 
         {file && !scanned && (
           <>
-            <div className="flex justify-center">
-              <ProcessingBadge tier="limited" />
-            </div>
             {error && <p className="text-sm text-red-600 bg-red-50 dark:bg-red-950/30 px-3 py-2 rounded">{error}</p>}
             <PrimaryButton onClick={handleScan} loading={processing}>
               <span className="material-symbols-outlined text-[18px]">verified_user</span>

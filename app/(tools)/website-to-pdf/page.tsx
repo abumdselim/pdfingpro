@@ -317,6 +317,7 @@ export default function WebsiteToPDFPage() {
       description={t("webToPdf.pageDescription")}
       icon="language"
       iconClass="bg-orange-50 text-orange-600"
+      processingTier={mode === "url" ? "server" : "local"}
     >
       <div className="space-y-4">
         <ToolCard>
@@ -499,6 +500,7 @@ export default function WebsiteToPDFPage() {
               onClick={mode === "url" ? convertUrlToPdf : printHtml}
               disabled={(mode === "url" && !normalizedUrl) || processing}
               loading={processing}
+              privacyBadge={mode === "url" ? "server" : "local"}
             >
               <span className="material-symbols-outlined text-[18px]">
                 {mode === "url" ? "download" : "print"}
@@ -537,7 +539,7 @@ export default function WebsiteToPDFPage() {
                         <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">{t("webToPdf.embedBlockedTitle")}</h3>
                         <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{t("webToPdf.embedBlockedBody")}</p>
                         <div className="mt-5">
-                          <PrimaryButton onClick={convertUrlToPdf} loading={processing} disabled={processing}>
+                          <PrimaryButton onClick={convertUrlToPdf} loading={processing} disabled={processing} privacyBadge="server">
                             <span className="material-symbols-outlined text-[18px]">download</span>
                             {t("webToPdf.downloadButton")}
                           </PrimaryButton>
