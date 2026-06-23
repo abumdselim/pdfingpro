@@ -9,7 +9,7 @@ interface ToolsComingSoonProps {
 const TEASERS = [
   { icon: "layers_clear", labelKey: "home.comingSoon.item.flatten" },
   { icon: "filter_none", labelKey: "home.comingSoon.item.blankPages" },
-  { icon: "bookmark_add", labelKey: "home.comingSoon.item.bookmarks" },
+  { icon: "view_agenda", labelKey: "home.comingSoon.item.headerFooter" },
   { icon: "account_tree", labelKey: "home.comingSoon.item.workflows" },
 ] as const;
 

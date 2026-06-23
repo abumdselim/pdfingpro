@@ -46,8 +46,12 @@ const nextConfig = {
         "vendor",
         "empty-node-fs-promises.mjs"
       );
+      const fsStub = path.join(__dirname, "lib", "vendor", "empty-node-fs.mjs");
+      const httpsStub = path.join(__dirname, "lib", "vendor", "empty-node-https.mjs");
       config.plugins.push(
-        new webpack.NormalModuleReplacementPlugin(/^node:fs\/promises$/, fsPromisesStub)
+        new webpack.NormalModuleReplacementPlugin(/^node:fs\/promises$/, fsPromisesStub),
+        new webpack.NormalModuleReplacementPlugin(/^node:fs$/, fsStub),
+        new webpack.NormalModuleReplacementPlugin(/^node:https$/, httpsStub)
       );
     }
     return config;

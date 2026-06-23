@@ -77,6 +77,11 @@ export const TOOL_CARD_THEMES: Record<string, CardTheme> = {
   "booklet-pdf": solid("bg-amber-600", "border-amber-700", ON_DARK),
   "sanitize-pdf": solid("bg-slate-600", "border-slate-700", ON_DARK),
   "compress-images-pdf": solid("bg-emerald-600", "border-emerald-700", ON_DARK),
+  "split-by-bookmarks": solid("bg-rose-600", "border-rose-700", ON_DARK),
+  "bookmarks-pdf": solid("bg-amber-600", "border-amber-700", ON_DARK),
+  "header-footer-pdf": solid("bg-sky-600", "border-sky-700", ON_DARK),
+  "pdf-to-powerpoint": solid("bg-orange-600", "border-orange-700", ON_DARK),
+  "webp-to-pdf": solid("bg-lime-600", "border-lime-700", ON_DARK),
 };
 
 export function getToolCardTheme(toolId: string): CardTheme {

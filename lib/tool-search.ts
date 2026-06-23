@@ -28,6 +28,11 @@ const TOOL_KEYWORDS: Partial<Record<string, string[]>> = {
   "extract-text-pdf": ["copy text", "text extract"],
   "extract-images-pdf": ["save images", "export images"],
   "sanitize-pdf": ["clean", "remove metadata", "metadata strip"],
+  "bookmarks-pdf": ["toc", "table of contents", "outline", "navigation"],
+  "split-by-bookmarks": ["bookmark split", "section split", "chapters"],
+  "header-footer-pdf": ["header", "footer", "letterhead"],
+  "pdf-to-powerpoint": ["pptx", "ppt", "powerpoint", "slides"],
+  "webp-to-pdf": ["webp", "image"],
 };
 
 export const SUGGESTED_SEARCH_QUERIES = [

@@ -508,4 +508,9 @@ export const TOOL_MOTIONS: Record<string, ComponentType<CardMotionProps>> = {
   "booklet-pdf": OrganizeMotion,
   "sanitize-pdf": ProtectMotion,
   "compress-images-pdf": CompressMotion,
+  "split-by-bookmarks": SplitMotion,
+  "bookmarks-pdf": PageNumbersMotion,
+  "header-footer-pdf": PageNumbersMotion,
+  "pdf-to-powerpoint": PdfToWordMotion,
+  "webp-to-pdf": JpgToPdfMotion,
 };

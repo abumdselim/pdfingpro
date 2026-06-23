@@ -37,6 +37,15 @@ export const TOOLS: Tool[] = [
     color: icon("bg-rose-50 text-rose-600"),
   },
   {
+    id: "split-by-bookmarks",
+    titleKey: "tools.splitByBookmarks.title",
+    descriptionKey: "tools.splitByBookmarks.description",
+    icon: "bookmark_manager",
+    href: "/split-by-bookmarks",
+    category: "organize",
+    color: icon("bg-rose-50 text-rose-700"),
+  },
+  {
     id: "organize-pdf",
     titleKey: "tools.organizePdf.title",
     descriptionKey: "tools.organizePdf.description",
@@ -53,6 +62,15 @@ export const TOOLS: Tool[] = [
     href: "/add-page-numbers",
     category: "organize",
     color: icon("bg-sky-50 text-sky-600"),
+  },
+  {
+    id: "header-footer-pdf",
+    titleKey: "tools.headerFooterPdf.title",
+    descriptionKey: "tools.headerFooterPdf.description",
+    icon: "view_agenda",
+    href: "/header-footer-pdf",
+    category: "edit",
+    color: icon("bg-sky-50 text-sky-700"),
   },
   {
     id: "pdf-workflow",
@@ -117,6 +135,15 @@ export const TOOLS: Tool[] = [
     category: "organize",
     color: icon("bg-emerald-50 text-emerald-600"),
   },
+  {
+    id: "bookmarks-pdf",
+    titleKey: "tools.bookmarksPdf.title",
+    descriptionKey: "tools.bookmarksPdf.description",
+    icon: "bookmark_add",
+    href: "/bookmarks-pdf",
+    category: "organize",
+    color: icon("bg-amber-50 text-amber-600"),
+  },
   // Convert
   {
     id: "pdf-to-jpg",
@@ -144,6 +171,15 @@ export const TOOLS: Tool[] = [
     href: "/pdf-to-word",
     category: "convert",
     color: icon("bg-blue-50 text-blue-600"),
+  },
+  {
+    id: "pdf-to-powerpoint",
+    titleKey: "tools.pdfToPowerpoint.title",
+    descriptionKey: "tools.pdfToPowerpoint.description",
+    icon: "slideshow",
+    href: "/pdf-to-powerpoint",
+    category: "convert",
+    color: icon("bg-orange-50 text-orange-700"),
   },
   {
     id: "website-to-pdf",
@@ -198,6 +234,15 @@ export const TOOLS: Tool[] = [
     href: "/png-to-pdf",
     category: "convert",
     color: icon("bg-indigo-50 text-indigo-600"),
+  },
+  {
+    id: "webp-to-pdf",
+    titleKey: "tools.webpToPdf.title",
+    descriptionKey: "tools.webpToPdf.description",
+    icon: "image",
+    href: "/webp-to-pdf",
+    category: "convert",
+    color: icon("bg-lime-50 text-lime-600"),
   },
   {
     id: "extract-text-pdf",
