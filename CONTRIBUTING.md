@@ -46,7 +46,7 @@ Before you begin, ensure you have:
 1. Fork the repository on GitHub
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/inievolabs/pdfingpro.git
+   git clone https://github.com/abumdselim/pdfingpro.git
    cd pdfingpro
    ```
 ---

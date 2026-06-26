@@ -245,7 +245,7 @@ We welcome bug reports, feature ideas, and pull requests. Please read **[CONTRIB
 
 ## License
 
-[MIT License](LICENSE) — Copyright © 2026 [Inievo Technologies](https://inievo.com)
+[MIT License](LICENSE) — Copyright © 2026 [Intactic Innovations](https://intactic.tech)
 
 ---
 
@@ -257,5 +257,5 @@ Built with outstanding open-source projects: Mozilla PDF.js, pdf-lib, Tesseract.
 
 <p align="center">
   <strong>Pdfing Pro</strong> — powerful PDF tools that respect your privacy.<br />
-  An initiative by <a href="https://inievo.com">Inievo Technologies</a>
+  An initiative by <a href="https://intactic.tech">Intactic Innovations</a>
 </p>

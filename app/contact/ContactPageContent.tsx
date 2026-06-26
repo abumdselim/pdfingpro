@@ -10,7 +10,7 @@ const CONTACT_CHANNELS = [
     icon: "mail",
     titleKey: "legal.contact.channels.email.title",
     bodyKey: "legal.contact.channels.email.body",
-    href: "mailto:contact@inievo.com",
+    href: "mailto:contact@intactic.tech",
     linkLabelKey: "legal.contact.channels.email.link",
     external: false,
   },
@@ -18,7 +18,7 @@ const CONTACT_CHANNELS = [
     icon: "language",
     titleKey: "legal.contact.channels.website.title",
     bodyKey: "legal.contact.channels.website.body",
-    href: "https://inievo.com",
+    href: "https://intactic.tech",
     linkLabelKey: "legal.contact.channels.website.link",
     external: true,
   },
@@ -26,7 +26,7 @@ const CONTACT_CHANNELS = [
     icon: "bug_report",
     titleKey: "legal.contact.channels.bugs.title",
     bodyKey: "legal.contact.channels.bugs.body",
-    href: "mailto:contact@inievo.com?subject=Pdfing%20Pro%20bug%20report",
+    href: "mailto:contact@intactic.tech?subject=Pdfing%20Pro%20bug%20report",
     linkLabelKey: "legal.contact.channels.bugs.link",
     external: false,
   },
@@ -132,15 +132,15 @@ export default function ContactPageContent() {
             {t("legal.contact.maintainedBy")}
           </p>
           <a
-            href="https://inievo.com"
+            href="https://intactic.tech"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center mt-4 hover:opacity-85 transition-opacity"
-            aria-label="Inievo Technologies"
+            aria-label="Intactic Innovations"
           >
             <img
-              src="https://res.cloudinary.com/dgcnhseqm/image/upload/q_auto/f_auto/v1781425405/Inievo_ujfqno.png"
-              alt="Inievo Technologies"
+              src="https://res.cloudinary.com/det1qnlrh/image/upload/v1782432654/Intactic_ltgcnt.png"
+              alt="Intactic Innovations"
               className="h-8 sm:h-10 w-auto max-w-[220px] object-contain dark:brightness-110"
             />
           </a>
