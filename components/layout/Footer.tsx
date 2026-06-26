@@ -39,14 +39,14 @@ export default function Footer() {
           <div className="flex items-center justify-center gap-2 mt-4 pt-8 border-t border-white/20 w-full max-w-sm">
             <span className="text-[13px] font-medium text-white/80">{t("footer.initiativeBy")}</span>
             <a
-              href="https://inievo.com"
+              href="https://intactic.tech"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center hover:opacity-80 transition-opacity"
             >
               <img
-                src="https://res.cloudinary.com/dgcnhseqm/image/upload/q_auto/f_auto/v1781425380/inievo_full_logo_png_pfkkmi.png"
-                alt="Inievo Technologies"
+                src="https://res.cloudinary.com/det1qnlrh/image/upload/v1782432654/Intactic-white_vmyikx.png"
+                alt="Intactic Innovations"
                 className="h-4 w-auto object-contain drop-shadow-sm transition-all duration-300 hover:scale-105"
               />
             </a>
