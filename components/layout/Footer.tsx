@@ -37,8 +37,10 @@ export default function Footer() {
             </Link>
           </div>
 
-          <div className="flex items-center justify-center gap-2 mt-4 pt-8 border-t border-white/20 w-full max-w-sm">
-            <span className="text-[13px] font-medium text-white/80">{t("footer.initiativeBy")}</span>
+          <div className="flex items-center justify-center gap-2.5 mt-4 pt-8 border-t border-white/20 w-full max-w-sm">
+            <span className="text-[11px] font-bold tracking-wider uppercase text-white/80 select-none">
+              {t("footer.initiativeBy")}
+            </span>
             <a
               href={INTACTIC.website}
               target="_blank"
@@ -46,9 +48,9 @@ export default function Footer() {
               className="flex items-center justify-center hover:opacity-80 transition-opacity"
             >
               <img
-                src={INTACTIC.logoUrl}
+                src={INTACTIC.logoWhiteUrl}
                 alt={INTACTIC.name}
-                className="h-6 w-auto object-contain drop-shadow-sm transition-all duration-300 hover:scale-105"
+                className="h-[18px] w-auto object-contain drop-shadow-sm transition-all duration-300 hover:scale-105 relative -top-[0.5px]"
               />
             </a>
           </div>
