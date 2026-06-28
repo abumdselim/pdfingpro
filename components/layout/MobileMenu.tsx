@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { INTACTIC } from "@/lib/branding";
 import { cn } from "@/lib/utils";
 
 interface MobileMenuProps {
@@ -205,20 +206,20 @@ export default function MobileMenu({ open, onClose, onOpenSearch, t }: MobileMen
           style={visible ? { animationDelay: "280ms" } : undefined}
         >
           <a
-            href="https://inievo.com"
+            href={INTACTIC.website}
             target="_blank"
             rel="noopener noreferrer"
             onClick={onClose}
             className="flex flex-col items-center justify-center gap-2 rounded-xl border border-slate-200/80 dark:border-slate-700/80 bg-slate-50/80 dark:bg-slate-800/50 px-4 py-4 transition-colors hover:bg-white dark:hover:bg-slate-800 group"
-            aria-label={t("header.aboutInievo")}
+            aria-label={t("header.aboutIntactic")}
           >
             <img
-              src="https://res.cloudinary.com/dgcnhseqm/image/upload/q_auto/f_auto/v1781425405/Inievo_ujfqno.png"
-              alt="Inievo Technologies"
+              src={INTACTIC.logoUrl}
+              alt={INTACTIC.name}
               className="h-6 w-auto max-w-[200px] object-contain"
             />
             <span className="inline-flex items-center gap-1 text-xs font-medium text-slate-500 dark:text-slate-400 group-hover:text-[#1461bd] dark:group-hover:text-teal-400 transition-colors">
-              {t("header.aboutInievo")}
+              {t("header.aboutIntactic")}
               <span className="material-symbols-outlined !text-[14px]">open_in_new</span>
             </span>
           </a>

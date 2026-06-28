@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useTranslation } from "@/lib/i18n";
+import { INTACTIC } from "@/lib/branding";
 
 export default function Footer() {
   const { t } = useTranslation();
@@ -39,15 +40,15 @@ export default function Footer() {
           <div className="flex items-center justify-center gap-2 mt-4 pt-8 border-t border-white/20 w-full max-w-sm">
             <span className="text-[13px] font-medium text-white/80">{t("footer.initiativeBy")}</span>
             <a
-              href="https://inievo.com"
+              href={INTACTIC.website}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center hover:opacity-80 transition-opacity"
             >
               <img
-                src="https://res.cloudinary.com/dgcnhseqm/image/upload/q_auto/f_auto/v1781425380/inievo_full_logo_png_pfkkmi.png"
-                alt="Inievo Technologies"
-                className="h-4 w-auto object-contain drop-shadow-sm transition-all duration-300 hover:scale-105"
+                src={INTACTIC.logoUrl}
+                alt={INTACTIC.name}
+                className="h-6 w-auto object-contain drop-shadow-sm transition-all duration-300 hover:scale-105"
               />
             </a>
           </div>

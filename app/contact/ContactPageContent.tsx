@@ -1,5 +1,6 @@
 "use client";
 
+import { INTACTIC } from "@/lib/branding";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n";
@@ -10,7 +11,7 @@ const CONTACT_CHANNELS = [
     icon: "mail",
     titleKey: "legal.contact.channels.email.title",
     bodyKey: "legal.contact.channels.email.body",
-    href: "mailto:contact@inievo.com",
+    href: `mailto:${INTACTIC.email}`,
     linkLabelKey: "legal.contact.channels.email.link",
     external: false,
   },
@@ -18,7 +19,7 @@ const CONTACT_CHANNELS = [
     icon: "language",
     titleKey: "legal.contact.channels.website.title",
     bodyKey: "legal.contact.channels.website.body",
-    href: "https://inievo.com",
+    href: INTACTIC.website,
     linkLabelKey: "legal.contact.channels.website.link",
     external: true,
   },
@@ -26,7 +27,7 @@ const CONTACT_CHANNELS = [
     icon: "bug_report",
     titleKey: "legal.contact.channels.bugs.title",
     bodyKey: "legal.contact.channels.bugs.body",
-    href: "mailto:contact@inievo.com?subject=Pdfing%20Pro%20bug%20report",
+    href: `mailto:${INTACTIC.email}?subject=Pdfing%20Pro%20bug%20report`,
     linkLabelKey: "legal.contact.channels.bugs.link",
     external: false,
   },
@@ -132,15 +133,15 @@ export default function ContactPageContent() {
             {t("legal.contact.maintainedBy")}
           </p>
           <a
-            href="https://inievo.com"
+            href={INTACTIC.website}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center mt-4 hover:opacity-85 transition-opacity"
-            aria-label="Inievo Technologies"
+            aria-label={INTACTIC.name}
           >
             <img
-              src="https://res.cloudinary.com/dgcnhseqm/image/upload/q_auto/f_auto/v1781425405/Inievo_ujfqno.png"
-              alt="Inievo Technologies"
+              src={INTACTIC.logoUrl}
+              alt={INTACTIC.name}
               className="h-8 sm:h-10 w-auto max-w-[220px] object-contain dark:brightness-110"
             />
           </a>
