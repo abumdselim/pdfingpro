@@ -198,70 +198,76 @@ export default function PWAInstallPrompt() {
           {/* Divider */}
           <div className="my-4 h-px bg-slate-100 dark:bg-slate-800" />
 
-          {/* ── Row 3: Actions ── */}
-          <div className="flex items-center gap-2.5">
-            <button
-              onClick={handleDismissClick}
-              className="shrink-0 text-[12px] font-semibold text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 px-3 py-2.5 rounded-xl hover:bg-slate-100/80 dark:hover:bg-slate-800/80 transition-all duration-200"
-            >
-              Not now
-            </button>
+          {/* ── Install CTA ── */}
+          <button
+            onClick={handleInstallClick}
+            disabled={promptState !== "idle"}
+            aria-live="polite"
+            className={`
+              relative w-full flex items-center justify-between
+              px-5 py-3.5 rounded-2xl overflow-hidden
+              transition-all duration-300
+              hover:scale-[1.012] active:scale-[0.988]
+              disabled:cursor-not-allowed
+              ${promptState === "success"
+                ? "bg-gradient-to-r from-emerald-500 to-teal-500 shadow-[0_6px_20px_rgba(16,185,129,0.30)]"
+                : "bg-gradient-to-r from-[#1461bd] to-[#0b3e7b] hover:from-[#1a6fd4] hover:to-[#0e4b96] shadow-[0_6px_20px_rgba(20,97,189,0.28)] hover:shadow-[0_8px_28px_rgba(20,97,189,0.40)]"
+              }
+            `}
+          >
+            {/* Shimmer sweep (idle only) */}
+            {promptState === "idle" && (
+              <span
+                aria-hidden
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.14) 50%, transparent 70%)",
+                  backgroundSize: "200% 100%",
+                  animation: "pwa-shimmer-btn 2.8s linear infinite",
+                }}
+              />
+            )}
 
-            <button
-              onClick={handleInstallClick}
-              disabled={promptState !== "idle"}
-              aria-live="polite"
-              className={`relative flex-1 flex items-center justify-center gap-2 text-[13px] font-bold text-white py-3 rounded-2xl overflow-hidden
-                transition-all duration-300
-                hover:scale-[1.015] active:scale-[0.98]
-                disabled:cursor-not-allowed disabled:opacity-90
-                ${promptState === "success"
-                  ? "bg-gradient-to-r from-emerald-500 to-teal-500 shadow-[0_4px_16px_rgba(16,185,129,0.35)]"
-                  : "bg-gradient-to-r from-[#1461bd] to-[#0b3e7b] hover:from-[#1e76e5] hover:to-[#1251a0] shadow-[0_4px_16px_rgba(20,97,189,0.30)] hover:shadow-[0_8px_24px_rgba(20,97,189,0.42)]"
-                }
-              `}
-            >
-              {/* Shimmer sweep (idle only) */}
-              {promptState === "idle" && (
-                <span
-                  aria-hidden
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background:
-                      "linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.20) 50%, transparent 65%)",
-                    backgroundSize: "200% 100%",
-                    animation: "pwa-shimmer-btn 2.6s linear infinite",
-                  }}
-                />
-              )}
+            {/* Left: icon orb + label stack */}
+            <div className="flex items-center gap-3">
+              <div className={`flex items-center justify-center w-9 h-9 rounded-xl shrink-0 ${
+                promptState === "success"
+                  ? "bg-white/20"
+                  : "bg-white/15 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.20)]"
+              }`}>
+                {promptState === "installing" && (
+                  <span className="material-symbols-outlined !text-[18px] text-white animate-spin">progress_activity</span>
+                )}
+                {promptState === "success" && (
+                  <span className="material-symbols-outlined !text-[18px] text-white icon-filled">check_circle</span>
+                )}
+                {promptState === "idle" && (
+                  <span className="material-symbols-outlined !text-[18px] text-white">download</span>
+                )}
+              </div>
+              <div className="text-left">
+                <div className="text-[14px] font-bold text-white leading-tight">
+                  {promptState === "installing" ? "Installing…" : promptState === "success" ? "Installed!" : "Install App"}
+                </div>
+                <div className="text-[11px] text-white/70 font-medium leading-tight">
+                  {promptState === "success" ? "Enjoy Pdfing Pro 🎉" : "Free · No sign-up required"}
+                </div>
+              </div>
+            </div>
 
-              {promptState === "installing" && (
-                <>
-                  <span className="material-symbols-outlined !text-[17px] animate-spin">progress_activity</span>
-                  Installing…
-                </>
-              )}
+            {/* Right: chevron (idle only) */}
+            {promptState === "idle" && (
+              <span className="material-symbols-outlined !text-[20px] text-white/60 shrink-0">chevron_right</span>
+            )}
+          </button>
 
-              {promptState === "success" && (
-                <>
-                  <span className="material-symbols-outlined !text-[17px] icon-filled">check_circle</span>
-                  Installed! Enjoy 🎉
-                </>
-              )}
-
-              {promptState === "idle" && (
-                <>
-                  <span className="material-symbols-outlined !text-[17px]">download</span>
-                  Install — It&apos;s Free
-                </>
-              )}
-            </button>
-          </div>
-
-          {/* Fine print */}
-          <p className="text-center text-[10px] text-slate-400 dark:text-slate-600 mt-3 leading-relaxed">
-            No app store needed · No sign-up · Works on Windows, Mac &amp; Android
-          </p>
+          {/* Dismiss link */}
+          <button
+            onClick={handleDismissClick}
+            className="w-full mt-2.5 text-center text-[12px] font-medium text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 py-1.5 transition-colors duration-200"
+          >
+            Not now
+          </button>
         </div>
       </div>
 
