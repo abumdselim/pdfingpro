@@ -10,6 +10,7 @@ import ThemeScript from "@/components/layout/ThemeScript";
 import { materialSymbols } from "@/lib/fonts/material-symbols";
 import { ThemeProvider } from "@/lib/theme/ThemeProvider";
 import { I18nProvider } from "@/lib/i18n";
+import PWAInstallPrompt from "@/components/layout/PWAInstallPrompt";
 
 export const metadata: Metadata = {
   title: "Pdfing Pro - Free Online PDF Tools",
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Header />
             <div className="flex-1">{children}</div>
             <Footer />
+            <PWAInstallPrompt />
           </I18nProvider>
         </ThemeProvider>
       </body>
