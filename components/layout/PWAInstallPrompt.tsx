@@ -211,7 +211,7 @@ export default function PWAInstallPrompt() {
                   <span className="text-[13px] font-black text-[#1461bd]">2</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[12px] font-semibold text-slate-800 dark:text-slate-100">Tap "Add to Home Screen"</p>
+                  <p className="text-[12px] font-semibold text-slate-800 dark:text-slate-100">Tap &ldquo;Add to Home Screen&rdquo;</p>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Scroll down in the share sheet and tap this option</p>
                 </div>
                 <div className="shrink-0 w-8 h-8 rounded-xl bg-slate-200/80 dark:bg-slate-700/60 flex items-center justify-center">
@@ -225,7 +225,7 @@ export default function PWAInstallPrompt() {
                   <span className="text-[13px] font-black text-[#1461bd]">3</span>
                 </div>
                 <div>
-                  <p className="text-[12px] font-semibold text-slate-800 dark:text-slate-100">Tap "Add" to confirm</p>
+                  <p className="text-[12px] font-semibold text-slate-800 dark:text-slate-100">Tap &ldquo;Add&rdquo; to confirm</p>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">The app will appear on your Home Screen ✓</p>
                 </div>
               </div>
@@ -236,7 +236,7 @@ export default function PWAInstallPrompt() {
               onClick={handleDismissClick}
               className="w-full mt-4 text-center text-[12px] font-medium text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 py-1.5 transition-colors duration-200"
             >
-              I'll do it later
+              I&rsquo;ll do it later
             </button>
           </div>
         </div>
