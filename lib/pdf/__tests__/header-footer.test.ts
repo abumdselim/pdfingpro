@@ -8,7 +8,10 @@ describe("addHeaderFooter", () => {
     doc.addPage([400, 500]);
     doc.addPage([400, 500]);
     const input = await doc.save();
-    const buffer = input.buffer.slice(input.byteOffset, input.byteOffset + input.byteLength);
+    // Copy into a fresh ArrayBuffer so the type narrows from
+    // `ArrayBufferLike` (ArrayBuffer | SharedArrayBuffer) to ArrayBuffer.
+    const buffer = new ArrayBuffer(input.byteLength);
+    new Uint8Array(buffer).set(input);
 
     const output = await addHeaderFooter(buffer, {
       header: { center: "Header Title" },
