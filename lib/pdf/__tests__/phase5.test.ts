@@ -7,11 +7,7 @@ import { mergeAlternatePages } from "@/lib/pdf/merge-alternate";
 import { textToPDF } from "@/lib/pdf/text-to-pdf";
 
 async function toBuffer(bytes: Uint8Array): Promise<ArrayBuffer> {
-  // Copy into a fresh ArrayBuffer so the return type narrows from
-  // `ArrayBufferLike` (ArrayBuffer | SharedArrayBuffer) to ArrayBuffer.
-  const out = new ArrayBuffer(bytes.byteLength);
-  new Uint8Array(out).set(bytes);
-  return out;
+  return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
 }
 
 async function makeLabeledPdf(label: string, pages = 1, filler = ""): Promise<ArrayBuffer> {

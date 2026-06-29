@@ -11,11 +11,7 @@ async function makePdf(pages = 1): Promise<ArrayBuffer> {
     page.drawText(`Page ${i + 1}`, { x: 50, y: 450, size: 14, font, color: rgb(0, 0, 0) });
   }
   const bytes = await doc.save();
-  // Copy into a fresh ArrayBuffer so the return type narrows from
-  // `ArrayBufferLike` (ArrayBuffer | SharedArrayBuffer) to ArrayBuffer.
-  const out = new ArrayBuffer(bytes.byteLength);
-  new Uint8Array(out).set(bytes);
-  return out;
+  return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
 }
 
 describe("addAttachmentsToPdf", () => {

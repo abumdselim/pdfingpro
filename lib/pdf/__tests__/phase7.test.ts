@@ -17,10 +17,7 @@ describe("addBatesNumbers", () => {
     doc.addPage([400, 500]);
     doc.getPage(0).drawText("A", { x: 50, y: 400, size: 12, font, color: rgb(0, 0, 0) });
     const input = await doc.save();
-    // Copy into a fresh ArrayBuffer so the type narrows from
-    // `ArrayBufferLike` (ArrayBuffer | SharedArrayBuffer) to ArrayBuffer.
-    const buffer = new ArrayBuffer(input.byteLength);
-    new Uint8Array(buffer).set(input);
+    const buffer = input.buffer.slice(input.byteOffset, input.byteOffset + input.byteLength);
 
     const output = await addBatesNumbers(buffer, { prefix: "DOC-", digits: 5, startAt: 10 });
     const saved = await PDFDocument.load(output);
@@ -35,10 +32,7 @@ describe("pdfToHtml", () => {
     const page = doc.addPage([400, 500]);
     page.drawText("Hello HTML", { x: 50, y: 400, size: 12, font, color: rgb(0, 0, 0) });
     const bytes = await doc.save();
-    // Copy into a fresh ArrayBuffer so the type narrows from
-    // `ArrayBufferLike` (ArrayBuffer | SharedArrayBuffer) to ArrayBuffer.
-    const buffer = new ArrayBuffer(bytes.byteLength);
-    new Uint8Array(buffer).set(bytes);
+    const buffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
 
     const html = await pdfToHtml(buffer);
     expect(html).toContain("<!DOCTYPE html>");
