@@ -123,6 +123,49 @@
   .animate-scale-in   { animation: scale-in   0.30s var(--ease-spring) both; }
   .animate-slide-up   { animation: slide-up   0.32s var(--ease-spring) both; }
   .animate-float      { animation: float 5s ease-in-out infinite; }
+
+  @keyframes aurora-pan {
+    0%   { transform: translate3d(-10%, -5%, 0) scale(1);   opacity: 0.85; }
+    50%  { transform: translate3d(10%, 8%, 0)   scale(1.08); opacity: 1;    }
+    100% { transform: translate3d(-10%, -5%, 0) scale(1);   opacity: 0.85; }
+  }
+
+  @keyframes blob-drift {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50%      { transform: translate3d(24px, -18px, 0); }
+  }
+
+  @keyframes underline-grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  .animate-aurora {
+    animation: aurora-pan 18s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  .animate-aurora-slow {
+    animation: aurora-pan 26s ease-in-out infinite reverse;
+    will-change: transform, opacity;
+  }
+
+  .animate-blob-drift {
+    animation: blob-drift 14s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  /* Staggered hero entrance — paired with inline animation-delay */
+  .hero-rise-1 { animation: fade-in-up 0.55s var(--ease-smooth) both; animation-delay: 0.05s; }
+  .hero-rise-2 { animation: fade-in-up 0.55s var(--ease-smooth) both; animation-delay: 0.18s; }
+  .hero-rise-3 { animation: fade-in-up 0.55s var(--ease-smooth) both; animation-delay: 0.30s; }
+  .hero-rise-4 { animation: fade-in-up 0.55s var(--ease-smooth) both; animation-delay: 0.42s; }
+  .hero-rise-5 { animation: fade-in-up 0.55s var(--ease-smooth) both; animation-delay: 0.55s; }
+
+  .hero-underline {
+    transform-origin: center;
+    animation: underline-grow 0.9s var(--ease-smooth) 0.55s both;
+  }
   .animate-shimmer {
     background: linear-gradient(90deg, var(--ds-bg) 25%, color-mix(in srgb, var(--ds-bg-dot) 40%, var(--ds-bg)) 50%, var(--ds-bg) 75%);
     background-size: 200% auto;
@@ -143,6 +186,20 @@
     }
     .animate-mobile-menu-item {
       animation: none !important;
+    }
+    .animate-aurora,
+    .animate-aurora-slow,
+    .animate-blob-drift {
+      animation: none !important;
+    }
+    .hero-rise-1, .hero-rise-2, .hero-rise-3, .hero-rise-4, .hero-rise-5 {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .hero-underline {
+      animation: none !important;
+      transform: scaleX(1) !important;
     }
   }
 
